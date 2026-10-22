@@ -1,0 +1,3556 @@
+{
+  "sqlmap": [
+    {
+      "flag": "--hh",
+      "aliases": [
+        "--hh"
+      ],
+      "name": "Show advanced help message and exit",
+      "description": "Show advanced help message and exit",
+      "kind": "flag",
+      "hint": "HH",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--version",
+      "aliases": [
+        "--version"
+      ],
+      "name": "Show program's version number and exit",
+      "description": "Show program's version number and exit",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "-v",
+      "aliases": [
+        "-v"
+      ],
+      "name": "Verbosity level: 0-6",
+      "description": "Verbosity level: 0-6 (default (tool default))",
+      "kind": "value",
+      "hint": "V",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--url",
+      "aliases": [
+        "-u",
+        "--url"
+      ],
+      "name": "Target URL",
+      "description": "Target URL (e.g. \"http://www.site.com/vuln.php?id=1\")",
+      "kind": "value",
+      "hint": "URL",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-d",
+      "aliases": [
+        "-d"
+      ],
+      "name": "Connection string for direct database connection",
+      "description": "Connection string for direct database connection",
+      "kind": "value",
+      "hint": "D",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-l",
+      "aliases": [
+        "-l"
+      ],
+      "name": "Parse target(s) from Burp or WebScarab proxy log file",
+      "description": "Parse target(s) from Burp or WebScarab proxy log file",
+      "kind": "file",
+      "hint": "L",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-m",
+      "aliases": [
+        "-m"
+      ],
+      "name": "Scan multiple targets given in a textual file",
+      "description": "Scan multiple targets given in a textual file",
+      "kind": "file",
+      "hint": "M",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r"
+      ],
+      "name": "Load HTTP request from a file",
+      "description": "Load HTTP request from a file",
+      "kind": "file",
+      "hint": "R",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "--dork",
+      "aliases": [
+        "-g",
+        "--dork"
+      ],
+      "name": "Process search engine dork results as target URLs",
+      "description": "Process search engine dork results as target URLs",
+      "kind": "value",
+      "hint": "DORK",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c"
+      ],
+      "name": "Load options from a configuration INI file",
+      "description": "Load options from a configuration INI file",
+      "kind": "file",
+      "hint": "C",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "--openapi",
+      "aliases": [
+        "--openapi"
+      ],
+      "name": "Derive targets from OpenAPI/Swagger",
+      "description": "Derive targets from OpenAPI/Swagger (file/URL)",
+      "kind": "file-or-value",
+      "hint": "OPENAPI",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "--openapi-base",
+      "aliases": [
+        "--openapi-base"
+      ],
+      "name": "Base URL for a host-less OpenAPI/Swagger spec",
+      "description": "Base URL for a host-less OpenAPI/Swagger spec",
+      "kind": "value",
+      "hint": "OPENAPI-BASE",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "--openapi-tags",
+      "aliases": [
+        "--openapi-tags"
+      ],
+      "name": "Only derive targets from operations with these tag(s)",
+      "description": "Only derive targets from operations with these tag(s)",
+      "kind": "value",
+      "hint": "OPENAPI-TAGS",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "--user-agent",
+      "aliases": [
+        "-A",
+        "--user-agent"
+      ],
+      "name": "HTTP User-Agent header value",
+      "description": "HTTP User-Agent header value",
+      "kind": "value",
+      "hint": "USER-AGENT",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--header",
+      "aliases": [
+        "-H",
+        "--header"
+      ],
+      "name": "Extra header",
+      "description": "Extra header (e.g. \"X-Forwarded-For: 127.0.0.1\")",
+      "kind": "value",
+      "hint": "HEADER",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--method",
+      "aliases": [
+        "-X",
+        "--method"
+      ],
+      "name": "Force usage of given HTTP method",
+      "description": "Force usage of given HTTP method (e.g. PUT)",
+      "kind": "value",
+      "hint": "METHOD",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--data",
+      "aliases": [
+        "--data"
+      ],
+      "name": "Data string to be sent through POST",
+      "description": "Data string to be sent through POST (e.g. \"id=1\")",
+      "kind": "value",
+      "hint": "DATA",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--param-del",
+      "aliases": [
+        "--param-del"
+      ],
+      "name": "Character used for splitting parameter values",
+      "description": "Character used for splitting parameter values (e.g. &)",
+      "kind": "value",
+      "hint": "PARAM-DEL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--cookie",
+      "aliases": [
+        "--cookie"
+      ],
+      "name": "HTTP Cookie header value",
+      "description": "HTTP Cookie header value (e.g. \"PHPSESSID=a8d127e..\")",
+      "kind": "value",
+      "hint": "COOKIE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--cookie-del",
+      "aliases": [
+        "--cookie-del"
+      ],
+      "name": "Character used for splitting cookie values",
+      "description": "Character used for splitting cookie values (e.g. ;)",
+      "kind": "value",
+      "hint": "COOKIE-DEL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--live-cookies",
+      "aliases": [
+        "--live-cookies"
+      ],
+      "name": "Live cookies file used for loading up-to-date values",
+      "description": "Live cookies file used for loading up-to-date values",
+      "kind": "file",
+      "hint": "LIVE-COOKIES",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--load-cookies",
+      "aliases": [
+        "--load-cookies"
+      ],
+      "name": "File containing cookies in Netscape/wget format",
+      "description": "File containing cookies in Netscape/wget format",
+      "kind": "file",
+      "hint": "LOAD-COOKIES",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--drop-set-cookie",
+      "aliases": [
+        "--drop-set-cookie"
+      ],
+      "name": "Ignore Set-Cookie header from response",
+      "description": "Ignore Set-Cookie header from response",
+      "kind": "flag",
+      "hint": "DROP-SET-COOKIE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--http1.0",
+      "aliases": [
+        "--http1.0"
+      ],
+      "name": "Use HTTP version 1.0",
+      "description": "Use HTTP version 1.0 (old)",
+      "kind": "flag",
+      "hint": "HTTP1.0",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--http2",
+      "aliases": [
+        "--http2"
+      ],
+      "name": "Use HTTP version 2",
+      "description": "Use HTTP version 2 (experimental)",
+      "kind": "flag",
+      "hint": "HTTP2",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--mobile",
+      "aliases": [
+        "--mobile"
+      ],
+      "name": "Imitate smartphone through HTTP User-Agent header",
+      "description": "Imitate smartphone through HTTP User-Agent header",
+      "kind": "flag",
+      "hint": "MOBILE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--random-agent",
+      "aliases": [
+        "--random-agent"
+      ],
+      "name": "Use randomly selected HTTP User-Agent header value",
+      "description": "Use randomly selected HTTP User-Agent header value",
+      "kind": "flag",
+      "hint": "RANDOM-AGENT",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--host",
+      "aliases": [
+        "--host"
+      ],
+      "name": "HTTP Host header value",
+      "description": "HTTP Host header value",
+      "kind": "value",
+      "hint": "HOST",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--referer",
+      "aliases": [
+        "--referer"
+      ],
+      "name": "HTTP Referer header value",
+      "description": "HTTP Referer header value",
+      "kind": "value",
+      "hint": "REFERER",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--headers",
+      "aliases": [
+        "--headers"
+      ],
+      "name": "Extra headers",
+      "description": "Extra headers (e.g. \"Accept-Language: fr\\nETag: 123\")",
+      "kind": "value",
+      "hint": "HEADERS",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--auth-type",
+      "aliases": [
+        "--auth-type"
+      ],
+      "name": "HTTP authentication type",
+      "description": "HTTP authentication type (Basic, Digest, Bearer, ...)",
+      "kind": "value",
+      "hint": "AUTH-TYPE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--auth-cred",
+      "aliases": [
+        "--auth-cred"
+      ],
+      "name": "HTTP authentication credentials",
+      "description": "HTTP authentication credentials (name:password)",
+      "kind": "value",
+      "hint": "AUTH-CRED",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--auth-file",
+      "aliases": [
+        "--auth-file"
+      ],
+      "name": "HTTP authentication PEM cert/private key file",
+      "description": "HTTP authentication PEM cert/private key file",
+      "kind": "file",
+      "hint": "AUTH-FILE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--abort-code",
+      "aliases": [
+        "--abort-code"
+      ],
+      "name": "Abort on",
+      "description": "Abort on (problematic) HTTP error code(s) (e.g. 401)",
+      "kind": "value",
+      "hint": "ABORT-CODE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--ignore-code",
+      "aliases": [
+        "--ignore-code"
+      ],
+      "name": "Ignore",
+      "description": "Ignore (problematic) HTTP error code(s) (e.g. 401)",
+      "kind": "value",
+      "hint": "IGNORE-CODE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--ignore-proxy",
+      "aliases": [
+        "--ignore-proxy"
+      ],
+      "name": "Ignore system default proxy settings",
+      "description": "Ignore system default proxy settings",
+      "kind": "flag",
+      "hint": "IGNORE-PROXY",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--ignore-redirects",
+      "aliases": [
+        "--ignore-redirects"
+      ],
+      "name": "Ignore redirection attempts",
+      "description": "Ignore redirection attempts",
+      "kind": "flag",
+      "hint": "IGNORE-REDIRECTS",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--ignore-timeouts",
+      "aliases": [
+        "--ignore-timeouts"
+      ],
+      "name": "Ignore connection timeouts",
+      "description": "Ignore connection timeouts",
+      "kind": "flag",
+      "hint": "IGNORE-TIMEOUTS",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--proxy",
+      "aliases": [
+        "--proxy"
+      ],
+      "name": "Use a proxy to connect to the target URL",
+      "description": "Use a proxy to connect to the target URL",
+      "kind": "value",
+      "hint": "PROXY",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--proxy-cred",
+      "aliases": [
+        "--proxy-cred"
+      ],
+      "name": "Proxy authentication credentials",
+      "description": "Proxy authentication credentials (name:password)",
+      "kind": "value",
+      "hint": "PROXY-CRED",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--proxy-file",
+      "aliases": [
+        "--proxy-file"
+      ],
+      "name": "Load proxy list from a file",
+      "description": "Load proxy list from a file",
+      "kind": "file",
+      "hint": "PROXY-FILE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--proxy-freq",
+      "aliases": [
+        "--proxy-freq"
+      ],
+      "name": "Requests between change of proxy from a given list",
+      "description": "Requests between change of proxy from a given list",
+      "kind": "value",
+      "hint": "PROXY-FREQ",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--tor",
+      "aliases": [
+        "--tor"
+      ],
+      "name": "Use Tor anonymity network",
+      "description": "Use Tor anonymity network",
+      "kind": "flag",
+      "hint": "TOR",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--tor-port",
+      "aliases": [
+        "--tor-port"
+      ],
+      "name": "Set Tor proxy port other than default",
+      "description": "Set Tor proxy port other than default",
+      "kind": "value",
+      "hint": "TOR-PORT",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--tor-type",
+      "aliases": [
+        "--tor-type"
+      ],
+      "name": "Set Tor proxy type",
+      "description": "Set Tor proxy type (HTTP, SOCKS4 or SOCKS5 (default))",
+      "kind": "value",
+      "hint": "TOR-TYPE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--check-tor",
+      "aliases": [
+        "--check-tor"
+      ],
+      "name": "Check to see if Tor is used properly",
+      "description": "Check to see if Tor is used properly",
+      "kind": "flag",
+      "hint": "CHECK-TOR",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--delay",
+      "aliases": [
+        "--delay"
+      ],
+      "name": "Delay in seconds between each HTTP request",
+      "description": "Delay in seconds between each HTTP request",
+      "kind": "value",
+      "hint": "DELAY",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--timeout",
+      "aliases": [
+        "--timeout"
+      ],
+      "name": "Seconds to wait before timeout connection",
+      "description": "Seconds to wait before timeout connection (default (tool default))",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--retries",
+      "aliases": [
+        "--retries"
+      ],
+      "name": "Retries when the connection timeouts",
+      "description": "Retries when the connection timeouts (default (tool default))",
+      "kind": "value",
+      "hint": "RETRIES",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--retry-on",
+      "aliases": [
+        "--retry-on"
+      ],
+      "name": "Retry request on regexp matching content",
+      "description": "Retry request on regexp matching content (e.g. \"drop\")",
+      "kind": "value",
+      "hint": "RETRY-ON",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--randomize",
+      "aliases": [
+        "--randomize"
+      ],
+      "name": "Randomly change value for given parameter(s)",
+      "description": "Randomly change value for given parameter(s)",
+      "kind": "value",
+      "hint": "RANDOMIZE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--safe-url",
+      "aliases": [
+        "--safe-url"
+      ],
+      "name": "URL address to visit frequently during testing",
+      "description": "URL address to visit frequently during testing",
+      "kind": "value",
+      "hint": "SAFE-URL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--safe-post",
+      "aliases": [
+        "--safe-post"
+      ],
+      "name": "POST data to send to a safe URL",
+      "description": "POST data to send to a safe URL",
+      "kind": "value",
+      "hint": "SAFE-POST",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--safe-req",
+      "aliases": [
+        "--safe-req"
+      ],
+      "name": "Load safe HTTP request from a file",
+      "description": "Load safe HTTP request from a file",
+      "kind": "file",
+      "hint": "SAFE-REQ",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--safe-freq",
+      "aliases": [
+        "--safe-freq"
+      ],
+      "name": "Regular requests between visits to a safe URL",
+      "description": "Regular requests between visits to a safe URL",
+      "kind": "value",
+      "hint": "SAFE-FREQ",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-urlencode",
+      "aliases": [
+        "--skip-urlencode"
+      ],
+      "name": "Skip URL encoding of payload data",
+      "description": "Skip URL encoding of payload data",
+      "kind": "flag",
+      "hint": "SKIP-URLENCODE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-xmlencode",
+      "aliases": [
+        "--skip-xmlencode"
+      ],
+      "name": "Skip safe encoding of payload data for SOAP/XML",
+      "description": "Skip safe encoding of payload data for SOAP/XML",
+      "kind": "flag",
+      "hint": "SKIP-XMLENCODE",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--csrf-token",
+      "aliases": [
+        "--csrf-token"
+      ],
+      "name": "Parameter used to hold anti-CSRF token",
+      "description": "Parameter used to hold anti-CSRF token",
+      "kind": "value",
+      "hint": "CSRF-TOKEN",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--csrf-url",
+      "aliases": [
+        "--csrf-url"
+      ],
+      "name": "URL address to visit for extraction of anti-CSRF token",
+      "description": "URL address to visit for extraction of anti-CSRF token",
+      "kind": "value",
+      "hint": "CSRF-URL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--csrf-method",
+      "aliases": [
+        "--csrf-method"
+      ],
+      "name": "HTTP method to use during anti-CSRF token page visit",
+      "description": "HTTP method to use during anti-CSRF token page visit",
+      "kind": "value",
+      "hint": "CSRF-METHOD",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--csrf-data",
+      "aliases": [
+        "--csrf-data"
+      ],
+      "name": "POST data to send during anti-CSRF token page visit",
+      "description": "POST data to send during anti-CSRF token page visit",
+      "kind": "value",
+      "hint": "CSRF-DATA",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--csrf-retries",
+      "aliases": [
+        "--csrf-retries"
+      ],
+      "name": "Retries for anti-CSRF token retrieval",
+      "description": "Retries for anti-CSRF token retrieval (default (tool default))",
+      "kind": "value",
+      "hint": "CSRF-RETRIES",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--force-ssl",
+      "aliases": [
+        "--force-ssl"
+      ],
+      "name": "Force usage of SSL/HTTPS",
+      "description": "Force usage of SSL/HTTPS",
+      "kind": "flag",
+      "hint": "FORCE-SSL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--chunked",
+      "aliases": [
+        "--chunked"
+      ],
+      "name": "Use HTTP chunked transfer encoded",
+      "description": "Use HTTP chunked transfer encoded (POST) requests",
+      "kind": "flag",
+      "hint": "CHUNKED",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--hpp",
+      "aliases": [
+        "--hpp"
+      ],
+      "name": "Use HTTP parameter pollution method",
+      "description": "Use HTTP parameter pollution method",
+      "kind": "flag",
+      "hint": "HPP",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "--eval",
+      "aliases": [
+        "--eval"
+      ],
+      "name": "Evaluate provided Python code before the request",
+      "description": "Evaluate provided Python code before the request (e.g. \"import hashlib;id2=hashlib.md5(id).hexdigest()\")",
+      "kind": "value",
+      "hint": "EVAL",
+      "group": "Request",
+      "repeat": false
+    },
+    {
+      "flag": "-o",
+      "aliases": [
+        "-o"
+      ],
+      "name": "Turn on all optimization switches",
+      "description": "Turn on all optimization switches",
+      "kind": "flag",
+      "hint": "O",
+      "group": "Optimization",
+      "repeat": false
+    },
+    {
+      "flag": "--no-keep-alive",
+      "aliases": [
+        "--no-keep-alive"
+      ],
+      "name": "Disable persistent HTTP(s) connections",
+      "description": "Disable persistent HTTP(s) connections (Keep-Alive)",
+      "kind": "flag",
+      "hint": "NO-KEEP-ALIVE",
+      "group": "Optimization",
+      "repeat": false
+    },
+    {
+      "flag": "--null-connection",
+      "aliases": [
+        "--null-connection"
+      ],
+      "name": "Retrieve page length without actual HTTP response body",
+      "description": "Retrieve page length without actual HTTP response body",
+      "kind": "flag",
+      "hint": "NULL-CONNECTION",
+      "group": "Optimization",
+      "repeat": false
+    },
+    {
+      "flag": "--threads",
+      "aliases": [
+        "--threads"
+      ],
+      "name": "Max number of concurrent HTTP(s) requests",
+      "description": "Max number of concurrent HTTP(s) requests (default (tool default))",
+      "kind": "value",
+      "hint": "THREADS",
+      "group": "Optimization",
+      "repeat": false
+    },
+    {
+      "flag": "-p",
+      "aliases": [
+        "-p"
+      ],
+      "name": "Testable parameter(s)",
+      "description": "Testable parameter(s)",
+      "kind": "value",
+      "hint": "P",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--skip",
+      "aliases": [
+        "--skip"
+      ],
+      "name": "Skip testing for given parameter(s)",
+      "description": "Skip testing for given parameter(s)",
+      "kind": "value",
+      "hint": "SKIP",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-static",
+      "aliases": [
+        "--skip-static"
+      ],
+      "name": "Skip testing parameters that do not appear to be dynamic",
+      "description": "Skip testing parameters that do not appear to be dynamic",
+      "kind": "flag",
+      "hint": "SKIP-STATIC",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--param-exclude",
+      "aliases": [
+        "--param-exclude"
+      ],
+      "name": "Regexp to exclude parameters from testing",
+      "description": "Regexp to exclude parameters from testing (e.g. \"ses\")",
+      "kind": "value",
+      "hint": "PARAM-EXCLUDE",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--param-filter",
+      "aliases": [
+        "--param-filter"
+      ],
+      "name": "Select testable parameter(s) by place",
+      "description": "Select testable parameter(s) by place (e.g. \"POST\")",
+      "kind": "value",
+      "hint": "PARAM-FILTER",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--dbms",
+      "aliases": [
+        "--dbms"
+      ],
+      "name": "Force back-end DBMS to provided value",
+      "description": "Force back-end DBMS to provided value",
+      "kind": "value",
+      "hint": "DBMS",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--dbms-cred",
+      "aliases": [
+        "--dbms-cred"
+      ],
+      "name": "DBMS authentication credentials",
+      "description": "DBMS authentication credentials (user:password)",
+      "kind": "value",
+      "hint": "DBMS-CRED",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--esperanto",
+      "aliases": [
+        "--esperanto"
+      ],
+      "name": "Use the DBMS-agnostic enumeration engine",
+      "description": "Use the DBMS-agnostic enumeration engine",
+      "kind": "flag",
+      "hint": "ESPERANTO",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--os",
+      "aliases": [
+        "--os"
+      ],
+      "name": "Force back-end DBMS operating system to provided value",
+      "description": "Force back-end DBMS operating system to provided value",
+      "kind": "value",
+      "hint": "OS",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--invalid-bignum",
+      "aliases": [
+        "--invalid-bignum"
+      ],
+      "name": "Use big numbers for invalidating values",
+      "description": "Use big numbers for invalidating values",
+      "kind": "flag",
+      "hint": "INVALID-BIGNUM",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--invalid-logical",
+      "aliases": [
+        "--invalid-logical"
+      ],
+      "name": "Use logical operations for invalidating values",
+      "description": "Use logical operations for invalidating values",
+      "kind": "flag",
+      "hint": "INVALID-LOGICAL",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--invalid-string",
+      "aliases": [
+        "--invalid-string"
+      ],
+      "name": "Use random strings for invalidating values",
+      "description": "Use random strings for invalidating values",
+      "kind": "flag",
+      "hint": "INVALID-STRING",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--no-cast",
+      "aliases": [
+        "--no-cast"
+      ],
+      "name": "Turn off payload casting mechanism",
+      "description": "Turn off payload casting mechanism",
+      "kind": "flag",
+      "hint": "NO-CAST",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--no-escape",
+      "aliases": [
+        "--no-escape"
+      ],
+      "name": "Turn off string escaping mechanism",
+      "description": "Turn off string escaping mechanism",
+      "kind": "flag",
+      "hint": "NO-ESCAPE",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--prefix",
+      "aliases": [
+        "--prefix"
+      ],
+      "name": "Injection payload prefix string",
+      "description": "Injection payload prefix string",
+      "kind": "value",
+      "hint": "PREFIX",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--suffix",
+      "aliases": [
+        "--suffix"
+      ],
+      "name": "Injection payload suffix string",
+      "description": "Injection payload suffix string",
+      "kind": "value",
+      "hint": "SUFFIX",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--tamper",
+      "aliases": [
+        "--tamper"
+      ],
+      "name": "Use given script(s) for tampering injection data",
+      "description": "Use given script(s) for tampering injection data",
+      "kind": "file-or-value",
+      "hint": "TAMPER",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--proof",
+      "aliases": [
+        "--proof"
+      ],
+      "name": "Prove exploitation of the detected injection point(s)",
+      "description": "Prove exploitation of the detected injection point(s)",
+      "kind": "flag",
+      "hint": "PROOF",
+      "group": "Injection",
+      "repeat": false
+    },
+    {
+      "flag": "--level",
+      "aliases": [
+        "--level"
+      ],
+      "name": "Level of tests to perform",
+      "description": "Level of tests to perform (1-5, default (tool default))",
+      "kind": "value",
+      "hint": "LEVEL",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--risk",
+      "aliases": [
+        "--risk"
+      ],
+      "name": "Risk of tests to perform",
+      "description": "Risk of tests to perform (1-3, default (tool default))",
+      "kind": "value",
+      "hint": "RISK",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--string",
+      "aliases": [
+        "--string"
+      ],
+      "name": "String to match when query is evaluated to True",
+      "description": "String to match when query is evaluated to True",
+      "kind": "value",
+      "hint": "STRING",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--not-string",
+      "aliases": [
+        "--not-string"
+      ],
+      "name": "String to match when query is evaluated to False",
+      "description": "String to match when query is evaluated to False",
+      "kind": "value",
+      "hint": "NOT-STRING",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--regexp",
+      "aliases": [
+        "--regexp"
+      ],
+      "name": "Regexp to match when query is evaluated to True",
+      "description": "Regexp to match when query is evaluated to True",
+      "kind": "value",
+      "hint": "REGEXP",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--code",
+      "aliases": [
+        "--code"
+      ],
+      "name": "HTTP code to match when query is evaluated to True",
+      "description": "HTTP code to match when query is evaluated to True",
+      "kind": "value",
+      "hint": "CODE",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--lengths",
+      "aliases": [
+        "--lengths"
+      ],
+      "name": "Compare pages based only on their content length",
+      "description": "Compare pages based only on their content length",
+      "kind": "flag",
+      "hint": "LENGTHS",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--smart",
+      "aliases": [
+        "--smart"
+      ],
+      "name": "Perform thorough tests only if positive heuristic(s)",
+      "description": "Perform thorough tests only if positive heuristic(s)",
+      "kind": "flag",
+      "hint": "SMART",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--text-only",
+      "aliases": [
+        "--text-only"
+      ],
+      "name": "Compare pages based only on the textual content",
+      "description": "Compare pages based only on the textual content",
+      "kind": "flag",
+      "hint": "TEXT-ONLY",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--titles",
+      "aliases": [
+        "--titles"
+      ],
+      "name": "Compare pages based only on their titles",
+      "description": "Compare pages based only on their titles",
+      "kind": "flag",
+      "hint": "TITLES",
+      "group": "Detection",
+      "repeat": false
+    },
+    {
+      "flag": "--technique",
+      "aliases": [
+        "--technique"
+      ],
+      "name": "SQL injection techniques to use",
+      "description": "SQL injection techniques to use (default \"(tool default)\")",
+      "kind": "value",
+      "hint": "TECHNIQUE",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--time-sec",
+      "aliases": [
+        "--time-sec"
+      ],
+      "name": "Seconds to delay the DBMS response",
+      "description": "Seconds to delay the DBMS response (default (tool default))",
+      "kind": "value",
+      "hint": "TIME-SEC",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--disable-stats",
+      "aliases": [
+        "--disable-stats"
+      ],
+      "name": "Disable the statistical model for detecting the delay",
+      "description": "Disable the statistical model for detecting the delay",
+      "kind": "flag",
+      "hint": "DISABLE-STATS",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--timeless",
+      "aliases": [
+        "--timeless"
+      ],
+      "name": "Use HTTP/2 timeless timing",
+      "description": "Use HTTP/2 timeless timing (faster, no delay)",
+      "kind": "flag",
+      "hint": "TIMELESS",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--multi-bit",
+      "aliases": [
+        "--multi-bit"
+      ],
+      "name": "Use rendered rows to read several bits per request",
+      "description": "Use rendered rows to read several bits per request",
+      "kind": "flag",
+      "hint": "MULTI-BIT",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--union-cols",
+      "aliases": [
+        "--union-cols"
+      ],
+      "name": "Range of columns to test for UNION query SQL injection",
+      "description": "Range of columns to test for UNION query SQL injection",
+      "kind": "value",
+      "hint": "UNION-COLS",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--union-char",
+      "aliases": [
+        "--union-char"
+      ],
+      "name": "Character to use for bruteforcing number of columns",
+      "description": "Character to use for bruteforcing number of columns",
+      "kind": "value",
+      "hint": "UNION-CHAR",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--union-from",
+      "aliases": [
+        "--union-from"
+      ],
+      "name": "Table to use in FROM part of UNION query SQL injection",
+      "description": "Table to use in FROM part of UNION query SQL injection",
+      "kind": "value",
+      "hint": "UNION-FROM",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--union-values",
+      "aliases": [
+        "--union-values"
+      ],
+      "name": "Column values to use for UNION query SQL injection",
+      "description": "Column values to use for UNION query SQL injection",
+      "kind": "value",
+      "hint": "UNION-VALUES",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--dns-domain",
+      "aliases": [
+        "--dns-domain"
+      ],
+      "name": "Domain name used for DNS exfiltration attack",
+      "description": "Domain name used for DNS exfiltration attack (or 'interactsh' for zero-setup OOB)",
+      "kind": "value",
+      "hint": "DNS-DOMAIN",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--second-url",
+      "aliases": [
+        "--second-url"
+      ],
+      "name": "Resulting page URL searched for second-order response",
+      "description": "Resulting page URL searched for second-order response",
+      "kind": "value",
+      "hint": "SECOND-URL",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--second-req",
+      "aliases": [
+        "--second-req"
+      ],
+      "name": "Load second-order HTTP request from file",
+      "description": "Load second-order HTTP request from file",
+      "kind": "file",
+      "hint": "SECOND-REQ",
+      "group": "Techniques",
+      "repeat": false
+    },
+    {
+      "flag": "--fingerprint",
+      "aliases": [
+        "-f",
+        "--fingerprint"
+      ],
+      "name": "Perform an extensive DBMS version fingerprint",
+      "description": "Perform an extensive DBMS version fingerprint",
+      "kind": "flag",
+      "hint": "FINGERPRINT",
+      "group": "Fingerprint",
+      "repeat": false
+    },
+    {
+      "flag": "--all",
+      "aliases": [
+        "-a",
+        "--all"
+      ],
+      "name": "Retrieve everything",
+      "description": "Retrieve everything",
+      "kind": "flag",
+      "hint": "ALL",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--banner",
+      "aliases": [
+        "-b",
+        "--banner"
+      ],
+      "name": "Retrieve DBMS banner",
+      "description": "Retrieve DBMS banner",
+      "kind": "flag",
+      "hint": "BANNER",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--current-user",
+      "aliases": [
+        "--current-user"
+      ],
+      "name": "Retrieve DBMS current user",
+      "description": "Retrieve DBMS current user",
+      "kind": "flag",
+      "hint": "CURRENT-USER",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--current-db",
+      "aliases": [
+        "--current-db"
+      ],
+      "name": "Retrieve DBMS current database",
+      "description": "Retrieve DBMS current database",
+      "kind": "flag",
+      "hint": "CURRENT-DB",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--hostname",
+      "aliases": [
+        "--hostname"
+      ],
+      "name": "Retrieve DBMS server hostname",
+      "description": "Retrieve DBMS server hostname",
+      "kind": "flag",
+      "hint": "HOSTNAME",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--audit",
+      "aliases": [
+        "--audit"
+      ],
+      "name": "Audit DBMS security configuration and capabilities",
+      "description": "Audit DBMS security configuration and capabilities",
+      "kind": "flag",
+      "hint": "AUDIT",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--is-dba",
+      "aliases": [
+        "--is-dba"
+      ],
+      "name": "Detect if the DBMS current user is DBA",
+      "description": "Detect if the DBMS current user is DBA",
+      "kind": "flag",
+      "hint": "IS-DBA",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--users",
+      "aliases": [
+        "--users"
+      ],
+      "name": "Enumerate DBMS users",
+      "description": "Enumerate DBMS users",
+      "kind": "flag",
+      "hint": "USERS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--passwords",
+      "aliases": [
+        "--passwords"
+      ],
+      "name": "Enumerate DBMS users password hashes",
+      "description": "Enumerate DBMS users password hashes",
+      "kind": "flag",
+      "hint": "PASSWORDS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--privileges",
+      "aliases": [
+        "--privileges"
+      ],
+      "name": "Enumerate DBMS users privileges",
+      "description": "Enumerate DBMS users privileges",
+      "kind": "flag",
+      "hint": "PRIVILEGES",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--roles",
+      "aliases": [
+        "--roles"
+      ],
+      "name": "Enumerate DBMS users roles",
+      "description": "Enumerate DBMS users roles",
+      "kind": "flag",
+      "hint": "ROLES",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--links",
+      "aliases": [
+        "--links"
+      ],
+      "name": "Enumerate DBMS links",
+      "description": "Enumerate DBMS links",
+      "kind": "flag",
+      "hint": "LINKS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--dbs",
+      "aliases": [
+        "--dbs"
+      ],
+      "name": "Enumerate DBMS databases",
+      "description": "Enumerate DBMS databases",
+      "kind": "flag",
+      "hint": "DBS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--tables",
+      "aliases": [
+        "--tables"
+      ],
+      "name": "Enumerate DBMS database tables",
+      "description": "Enumerate DBMS database tables",
+      "kind": "flag",
+      "hint": "TABLES",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--columns",
+      "aliases": [
+        "--columns"
+      ],
+      "name": "Enumerate DBMS database table columns",
+      "description": "Enumerate DBMS database table columns",
+      "kind": "flag",
+      "hint": "COLUMNS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--schema",
+      "aliases": [
+        "--schema"
+      ],
+      "name": "Enumerate DBMS schema",
+      "description": "Enumerate DBMS schema",
+      "kind": "flag",
+      "hint": "SCHEMA",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--count",
+      "aliases": [
+        "--count"
+      ],
+      "name": "Retrieve number of entries for table(s)",
+      "description": "Retrieve number of entries for table(s)",
+      "kind": "flag",
+      "hint": "COUNT",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--dump",
+      "aliases": [
+        "--dump"
+      ],
+      "name": "Dump DBMS database table entries",
+      "description": "Dump DBMS database table entries",
+      "kind": "flag",
+      "hint": "DUMP",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--dump-all",
+      "aliases": [
+        "--dump-all"
+      ],
+      "name": "Dump entries of all DBMS database tables",
+      "description": "Dump entries of all DBMS database tables",
+      "kind": "flag",
+      "hint": "DUMP-ALL",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--search",
+      "aliases": [
+        "--search"
+      ],
+      "name": "Search column(s), table(s) and/or database name(s)",
+      "description": "Search column(s), table(s) and/or database name(s)",
+      "kind": "flag",
+      "hint": "SEARCH",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--comments",
+      "aliases": [
+        "--comments"
+      ],
+      "name": "Check for DBMS comments during enumeration",
+      "description": "Check for DBMS comments during enumeration",
+      "kind": "flag",
+      "hint": "COMMENTS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--statements",
+      "aliases": [
+        "--statements"
+      ],
+      "name": "Retrieve SQL statements being run on DBMS",
+      "description": "Retrieve SQL statements being run on DBMS",
+      "kind": "flag",
+      "hint": "STATEMENTS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--procs",
+      "aliases": [
+        "--procs"
+      ],
+      "name": "Retrieve stored procedures/functions and their source",
+      "description": "Retrieve stored procedures/functions and their source",
+      "kind": "flag",
+      "hint": "PROCS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "-D",
+      "aliases": [
+        "-D"
+      ],
+      "name": "DBMS database to enumerate",
+      "description": "DBMS database to enumerate",
+      "kind": "value",
+      "hint": "D",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "-T",
+      "aliases": [
+        "-T"
+      ],
+      "name": "DBMS database table(s) to enumerate",
+      "description": "DBMS database table(s) to enumerate",
+      "kind": "value",
+      "hint": "T",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "-C",
+      "aliases": [
+        "-C"
+      ],
+      "name": "DBMS database table column(s) to enumerate",
+      "description": "DBMS database table column(s) to enumerate",
+      "kind": "value",
+      "hint": "C",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--exclude",
+      "aliases": [
+        "--exclude"
+      ],
+      "name": "DBMS database identifier(s) to not enumerate",
+      "description": "DBMS database identifier(s) to not enumerate",
+      "kind": "value",
+      "hint": "EXCLUDE",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "-U",
+      "aliases": [
+        "-U"
+      ],
+      "name": "DBMS user to enumerate",
+      "description": "DBMS user to enumerate",
+      "kind": "value",
+      "hint": "U",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--exclude-sysdbs",
+      "aliases": [
+        "--exclude-sysdbs"
+      ],
+      "name": "Exclude DBMS system databases when enumerating tables",
+      "description": "Exclude DBMS system databases when enumerating tables",
+      "kind": "flag",
+      "hint": "EXCLUDE-SYSDBS",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--pivot-column",
+      "aliases": [
+        "--pivot-column"
+      ],
+      "name": "Pivot column name",
+      "description": "Pivot column name",
+      "kind": "value",
+      "hint": "PIVOT-COLUMN",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--where",
+      "aliases": [
+        "--where"
+      ],
+      "name": "Use WHERE condition while table dumping",
+      "description": "Use WHERE condition while table dumping",
+      "kind": "value",
+      "hint": "WHERE",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--start",
+      "aliases": [
+        "--start"
+      ],
+      "name": "First dump table entry to retrieve",
+      "description": "First dump table entry to retrieve",
+      "kind": "value",
+      "hint": "START",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--stop",
+      "aliases": [
+        "--stop"
+      ],
+      "name": "Last dump table entry to retrieve",
+      "description": "Last dump table entry to retrieve",
+      "kind": "value",
+      "hint": "STOP",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--first",
+      "aliases": [
+        "--first"
+      ],
+      "name": "First query output word character to retrieve",
+      "description": "First query output word character to retrieve",
+      "kind": "value",
+      "hint": "FIRST",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--last",
+      "aliases": [
+        "--last"
+      ],
+      "name": "Last query output word character to retrieve",
+      "description": "Last query output word character to retrieve",
+      "kind": "value",
+      "hint": "LAST",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--sql-query",
+      "aliases": [
+        "--sql-query"
+      ],
+      "name": "SQL statement to be executed",
+      "description": "SQL statement to be executed",
+      "kind": "value",
+      "hint": "SQL-QUERY",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--sql-shell",
+      "aliases": [
+        "--sql-shell"
+      ],
+      "name": "Prompt for an interactive SQL shell",
+      "description": "Prompt for an interactive SQL shell",
+      "kind": "flag",
+      "hint": "SQL-SHELL",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--sql-file",
+      "aliases": [
+        "--sql-file"
+      ],
+      "name": "Execute SQL statements from given file(s)",
+      "description": "Execute SQL statements from given file(s)",
+      "kind": "file",
+      "hint": "SQL-FILE",
+      "group": "Enumeration",
+      "repeat": false
+    },
+    {
+      "flag": "--common-tables",
+      "aliases": [
+        "--common-tables"
+      ],
+      "name": "Check existence of common tables",
+      "description": "Check existence of common tables",
+      "kind": "flag",
+      "hint": "COMMON-TABLES",
+      "group": "Brute force",
+      "repeat": false
+    },
+    {
+      "flag": "--common-columns",
+      "aliases": [
+        "--common-columns"
+      ],
+      "name": "Check existence of common columns",
+      "description": "Check existence of common columns",
+      "kind": "flag",
+      "hint": "COMMON-COLUMNS",
+      "group": "Brute force",
+      "repeat": false
+    },
+    {
+      "flag": "--common-files",
+      "aliases": [
+        "--common-files"
+      ],
+      "name": "Check existence of common files",
+      "description": "Check existence of common files",
+      "kind": "flag",
+      "hint": "COMMON-FILES",
+      "group": "Brute force",
+      "repeat": false
+    },
+    {
+      "flag": "--udf-inject",
+      "aliases": [
+        "--udf-inject"
+      ],
+      "name": "Inject custom user-defined functions",
+      "description": "Inject custom user-defined functions",
+      "kind": "flag",
+      "hint": "UDF-INJECT",
+      "group": "User-defined function injection",
+      "repeat": false
+    },
+    {
+      "flag": "--shared-lib",
+      "aliases": [
+        "--shared-lib"
+      ],
+      "name": "Local path of the shared library",
+      "description": "Local path of the shared library",
+      "kind": "file",
+      "hint": "SHARED-LIB",
+      "group": "User-defined function injection",
+      "repeat": false
+    },
+    {
+      "flag": "--file-read",
+      "aliases": [
+        "--file-read"
+      ],
+      "name": "Read a file from the back-end DBMS file system",
+      "description": "Read a file from the back-end DBMS file system",
+      "kind": "value",
+      "hint": "FILE-READ",
+      "group": "File system access",
+      "repeat": false
+    },
+    {
+      "flag": "--file-write",
+      "aliases": [
+        "--file-write"
+      ],
+      "name": "Write a local file on the back-end DBMS file system",
+      "description": "Write a local file on the back-end DBMS file system",
+      "kind": "file",
+      "hint": "FILE-WRITE",
+      "group": "File system access",
+      "repeat": false
+    },
+    {
+      "flag": "--file-dest",
+      "aliases": [
+        "--file-dest"
+      ],
+      "name": "Back-end DBMS absolute filepath to write to",
+      "description": "Back-end DBMS absolute filepath to write to",
+      "kind": "value",
+      "hint": "FILE-DEST",
+      "group": "File system access",
+      "repeat": false
+    },
+    {
+      "flag": "--os-cmd",
+      "aliases": [
+        "--os-cmd"
+      ],
+      "name": "Execute an operating system command",
+      "description": "Execute an operating system command",
+      "kind": "value",
+      "hint": "OS-CMD",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--os-shell",
+      "aliases": [
+        "--os-shell"
+      ],
+      "name": "Prompt for an interactive operating system shell",
+      "description": "Prompt for an interactive operating system shell",
+      "kind": "flag",
+      "hint": "OS-SHELL",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--os-pwn",
+      "aliases": [
+        "--os-pwn"
+      ],
+      "name": "Prompt for an OOB shell, Meterpreter or VNC",
+      "description": "Prompt for an OOB shell, Meterpreter or VNC",
+      "kind": "flag",
+      "hint": "OS-PWN",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--os-smbrelay",
+      "aliases": [
+        "--os-smbrelay"
+      ],
+      "name": "One-click prompt for an OOB shell, Meterpreter or VNC",
+      "description": "One-click prompt for an OOB shell, Meterpreter or VNC",
+      "kind": "flag",
+      "hint": "OS-SMBRELAY",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--os-bof",
+      "aliases": [
+        "--os-bof"
+      ],
+      "name": "Stored procedure buffer overflow exploitation",
+      "description": "Stored procedure buffer overflow exploitation",
+      "kind": "flag",
+      "hint": "OS-BOF",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--priv-esc",
+      "aliases": [
+        "--priv-esc"
+      ],
+      "name": "Database process user privilege escalation",
+      "description": "Database process user privilege escalation",
+      "kind": "flag",
+      "hint": "PRIV-ESC",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--msf-path",
+      "aliases": [
+        "--msf-path"
+      ],
+      "name": "Local path where Metasploit Framework is installed",
+      "description": "Local path where Metasploit Framework is installed",
+      "kind": "directory",
+      "hint": "MSF-PATH",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--tmp-path",
+      "aliases": [
+        "--tmp-path"
+      ],
+      "name": "Remote absolute path of temporary files directory",
+      "description": "Remote absolute path of temporary files directory",
+      "kind": "value",
+      "hint": "TMP-PATH",
+      "group": "Operating system access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-read",
+      "aliases": [
+        "--reg-read"
+      ],
+      "name": "Read a Windows registry key value",
+      "description": "Read a Windows registry key value",
+      "kind": "flag",
+      "hint": "REG-READ",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-add",
+      "aliases": [
+        "--reg-add"
+      ],
+      "name": "Write a Windows registry key value data",
+      "description": "Write a Windows registry key value data",
+      "kind": "flag",
+      "hint": "REG-ADD",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-del",
+      "aliases": [
+        "--reg-del"
+      ],
+      "name": "Delete a Windows registry key value",
+      "description": "Delete a Windows registry key value",
+      "kind": "flag",
+      "hint": "REG-DEL",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-key",
+      "aliases": [
+        "--reg-key"
+      ],
+      "name": "Windows registry key",
+      "description": "Windows registry key",
+      "kind": "value",
+      "hint": "REG-KEY",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-value",
+      "aliases": [
+        "--reg-value"
+      ],
+      "name": "Windows registry key value",
+      "description": "Windows registry key value",
+      "kind": "value",
+      "hint": "REG-VALUE",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-data",
+      "aliases": [
+        "--reg-data"
+      ],
+      "name": "Windows registry key value data",
+      "description": "Windows registry key value data",
+      "kind": "value",
+      "hint": "REG-DATA",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "--reg-type",
+      "aliases": [
+        "--reg-type"
+      ],
+      "name": "Windows registry key value type",
+      "description": "Windows registry key value type",
+      "kind": "value",
+      "hint": "REG-TYPE",
+      "group": "Windows registry access",
+      "repeat": false
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s"
+      ],
+      "name": "Load session from a stored",
+      "description": "Load session from a stored (.sqlite) file",
+      "kind": "file",
+      "hint": "S",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t"
+      ],
+      "name": "Log all HTTP traffic into a textual file",
+      "description": "Log all HTTP traffic into a textual file",
+      "kind": "output",
+      "hint": "T",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--abort-on-empty",
+      "aliases": [
+        "--abort-on-empty"
+      ],
+      "name": "Abort data retrieval on empty results",
+      "description": "Abort data retrieval on empty results",
+      "kind": "flag",
+      "hint": "ABORT-ON-EMPTY",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--answers",
+      "aliases": [
+        "--answers"
+      ],
+      "name": "Set predefined answers",
+      "description": "Set predefined answers (e.g. \"quit=N,follow=N\")",
+      "kind": "value",
+      "hint": "ANSWERS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--base64",
+      "aliases": [
+        "--base64"
+      ],
+      "name": "Parameter(s) containing Base64 encoded data",
+      "description": "Parameter(s) containing Base64 encoded data",
+      "kind": "value",
+      "hint": "BASE64",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--base64-safe",
+      "aliases": [
+        "--base64-safe"
+      ],
+      "name": "Use URL and filename safe Base64 alphabet",
+      "description": "Use URL and filename safe Base64 alphabet (RFC 4648)",
+      "kind": "flag",
+      "hint": "BASE64-SAFE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--batch",
+      "aliases": [
+        "--batch"
+      ],
+      "name": "Never ask for user input, use the default behavior",
+      "description": "Never ask for user input, use the default behavior",
+      "kind": "flag",
+      "hint": "BATCH",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--binary-fields",
+      "aliases": [
+        "--binary-fields"
+      ],
+      "name": "Result fields having binary values",
+      "description": "Result fields having binary values (e.g. \"digest\")",
+      "kind": "value",
+      "hint": "BINARY-FIELDS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--check-internet",
+      "aliases": [
+        "--check-internet"
+      ],
+      "name": "Check Internet connection before assessing the target",
+      "description": "Check Internet connection before assessing the target",
+      "kind": "flag",
+      "hint": "CHECK-INTERNET",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--cleanup",
+      "aliases": [
+        "--cleanup"
+      ],
+      "name": "Clean up the DBMS from sqlmap specific UDF and tables",
+      "description": "Clean up the DBMS from sqlmap specific UDF and tables",
+      "kind": "flag",
+      "hint": "CLEANUP",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--crawl",
+      "aliases": [
+        "--crawl"
+      ],
+      "name": "Crawl the website starting from the target URL",
+      "description": "Crawl the website starting from the target URL",
+      "kind": "value",
+      "hint": "CRAWL",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--crawl-exclude",
+      "aliases": [
+        "--crawl-exclude"
+      ],
+      "name": "Regexp to exclude pages from crawling",
+      "description": "Regexp to exclude pages from crawling (e.g. \"logout\")",
+      "kind": "value",
+      "hint": "CRAWL-EXCLUDE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--csv-del",
+      "aliases": [
+        "--csv-del"
+      ],
+      "name": "Delimiting character used in CSV output",
+      "description": "Delimiting character used in CSV output (default \"(tool default)\")",
+      "kind": "value",
+      "hint": "CSV-DEL",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--charset",
+      "aliases": [
+        "--charset"
+      ],
+      "name": "Blind SQL injection charset",
+      "description": "Blind SQL injection charset (e.g. \"0123456789abcdef\")",
+      "kind": "value",
+      "hint": "CHARSET",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--dump-file",
+      "aliases": [
+        "--dump-file"
+      ],
+      "name": "Store dumped data to a custom file",
+      "description": "Store dumped data to a custom file",
+      "kind": "output",
+      "hint": "DUMP-FILE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--dump-format",
+      "aliases": [
+        "--dump-format"
+      ],
+      "name": "Dump data format",
+      "description": "Dump data format (CSV (default), HTML, SQLITE, JSONL)",
+      "kind": "value",
+      "hint": "DUMP-FORMAT",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--encoding",
+      "aliases": [
+        "--encoding"
+      ],
+      "name": "Character encoding used for data retrieval",
+      "description": "Character encoding used for data retrieval (e.g. GBK)",
+      "kind": "value",
+      "hint": "ENCODING",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--eta",
+      "aliases": [
+        "--eta"
+      ],
+      "name": "Display for each output the estimated time of arrival",
+      "description": "Display for each output the estimated time of arrival",
+      "kind": "flag",
+      "hint": "ETA",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--flush-session",
+      "aliases": [
+        "--flush-session"
+      ],
+      "name": "Flush session files for current target",
+      "description": "Flush session files for current target",
+      "kind": "flag",
+      "hint": "FLUSH-SESSION",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--forms",
+      "aliases": [
+        "--forms"
+      ],
+      "name": "Parse and test forms on target URL",
+      "description": "Parse and test forms on target URL",
+      "kind": "flag",
+      "hint": "FORMS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--mine-params",
+      "aliases": [
+        "--mine-params"
+      ],
+      "name": "Mine for hidden",
+      "description": "Mine for hidden (unlinked) GET parameters to test",
+      "kind": "flag",
+      "hint": "MINE-PARAMS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--fresh-queries",
+      "aliases": [
+        "--fresh-queries"
+      ],
+      "name": "Ignore query results stored in session file",
+      "description": "Ignore query results stored in session file",
+      "kind": "flag",
+      "hint": "FRESH-QUERIES",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--gpage",
+      "aliases": [
+        "--gpage"
+      ],
+      "name": "Use dork results from specified page number",
+      "description": "Use dork results from specified page number",
+      "kind": "value",
+      "hint": "GPAGE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--har",
+      "aliases": [
+        "--har"
+      ],
+      "name": "Log all HTTP traffic into a HAR file",
+      "description": "Log all HTTP traffic into a HAR file",
+      "kind": "output",
+      "hint": "HAR",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--hex",
+      "aliases": [
+        "--hex"
+      ],
+      "name": "Use hex conversion during data retrieval",
+      "description": "Use hex conversion during data retrieval",
+      "kind": "flag",
+      "hint": "HEX",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--output-dir",
+      "aliases": [
+        "--output-dir"
+      ],
+      "name": "Custom output directory path",
+      "description": "Custom output directory path",
+      "kind": "output-directory",
+      "hint": "OUTPUT-DIR",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--parse-errors",
+      "aliases": [
+        "--parse-errors"
+      ],
+      "name": "Parse and display DBMS error messages from responses",
+      "description": "Parse and display DBMS error messages from responses",
+      "kind": "flag",
+      "hint": "PARSE-ERRORS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--auth-refresh",
+      "aliases": [
+        "--auth-refresh"
+      ],
+      "name": "Run script to refresh auth on HTTP 401",
+      "description": "Run script to refresh auth on HTTP 401",
+      "kind": "file-or-value",
+      "hint": "AUTH-REFRESH",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--preprocess",
+      "aliases": [
+        "--preprocess"
+      ],
+      "name": "Use given script(s) for preprocessing",
+      "description": "Use given script(s) for preprocessing (request)",
+      "kind": "file",
+      "hint": "PREPROCESS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--postprocess",
+      "aliases": [
+        "--postprocess"
+      ],
+      "name": "Use given script(s) for postprocessing",
+      "description": "Use given script(s) for postprocessing (response)",
+      "kind": "file",
+      "hint": "POSTPROCESS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--repair",
+      "aliases": [
+        "--repair"
+      ],
+      "name": "Redump entries having unknown character marker",
+      "description": "Redump entries having unknown character marker ((tool default))",
+      "kind": "flag",
+      "hint": "REPAIR",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--report-json",
+      "aliases": [
+        "--report-json"
+      ],
+      "name": "Store run results to a JSON file",
+      "description": "Store run results to a JSON file",
+      "kind": "output",
+      "hint": "REPORT-JSON",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--save",
+      "aliases": [
+        "--save"
+      ],
+      "name": "Save options to a configuration INI file",
+      "description": "Save options to a configuration INI file",
+      "kind": "output",
+      "hint": "SAVE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--scope",
+      "aliases": [
+        "--scope"
+      ],
+      "name": "Regexp for filtering targets",
+      "description": "Regexp for filtering targets",
+      "kind": "value",
+      "hint": "SCOPE",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-heuristics",
+      "aliases": [
+        "--skip-heuristics"
+      ],
+      "name": "Skip heuristic detection of vulnerabilities",
+      "description": "Skip heuristic detection of vulnerabilities",
+      "kind": "flag",
+      "hint": "SKIP-HEURISTICS",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-waf",
+      "aliases": [
+        "--skip-waf"
+      ],
+      "name": "Skip heuristic detection of WAF/IPS protection",
+      "description": "Skip heuristic detection of WAF/IPS protection",
+      "kind": "flag",
+      "hint": "SKIP-WAF",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--table-prefix",
+      "aliases": [
+        "--table-prefix"
+      ],
+      "name": "Prefix used for temporary tables",
+      "description": "Prefix used for temporary tables (default: \"(tool default)\")",
+      "kind": "value",
+      "hint": "TABLE-PREFIX",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--test-filter",
+      "aliases": [
+        "--test-filter"
+      ],
+      "name": "Select tests by payloads and/or titles",
+      "description": "Select tests by payloads and/or titles (e.g. ROW)",
+      "kind": "value",
+      "hint": "TEST-FILTER",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--test-skip",
+      "aliases": [
+        "--test-skip"
+      ],
+      "name": "Skip tests by payloads and/or titles",
+      "description": "Skip tests by payloads and/or titles (e.g. BENCHMARK)",
+      "kind": "value",
+      "hint": "TEST-SKIP",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--time-limit",
+      "aliases": [
+        "--time-limit"
+      ],
+      "name": "Run with a time limit in seconds",
+      "description": "Run with a time limit in seconds (e.g. 3600)",
+      "kind": "value",
+      "hint": "TIME-LIMIT",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--unsafe-naming",
+      "aliases": [
+        "--unsafe-naming"
+      ],
+      "name": "Disable escaping of DBMS identifiers",
+      "description": "Disable escaping of DBMS identifiers (e.g. \"user\")",
+      "kind": "flag",
+      "hint": "UNSAFE-NAMING",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--web-root",
+      "aliases": [
+        "--web-root"
+      ],
+      "name": "Web server document root directory",
+      "description": "Web server document root directory (e.g. \"/var/www\")",
+      "kind": "directory",
+      "hint": "WEB-ROOT",
+      "group": "General",
+      "repeat": false
+    },
+    {
+      "flag": "--graphql",
+      "aliases": [
+        "--graphql"
+      ],
+      "name": "Test for GraphQL injection",
+      "description": "Test for GraphQL injection",
+      "kind": "flag",
+      "hint": "GRAPHQL",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--ldap",
+      "aliases": [
+        "--ldap"
+      ],
+      "name": "Test for LDAP injection",
+      "description": "Test for LDAP injection",
+      "kind": "flag",
+      "hint": "LDAP",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--nosql",
+      "aliases": [
+        "--nosql"
+      ],
+      "name": "Test for NoSQL injection",
+      "description": "Test for NoSQL injection",
+      "kind": "flag",
+      "hint": "NOSQL",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--xpath",
+      "aliases": [
+        "--xpath"
+      ],
+      "name": "Test for XPath injection",
+      "description": "Test for XPath injection",
+      "kind": "flag",
+      "hint": "XPATH",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--ssti",
+      "aliases": [
+        "--ssti"
+      ],
+      "name": "Test for server-side template injection",
+      "description": "Test for server-side template injection",
+      "kind": "flag",
+      "hint": "SSTI",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--xslt",
+      "aliases": [
+        "--xslt"
+      ],
+      "name": "Test for XSLT injection",
+      "description": "Test for XSLT injection",
+      "kind": "flag",
+      "hint": "XSLT",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--xxe",
+      "aliases": [
+        "--xxe"
+      ],
+      "name": "Test for XML External Entity",
+      "description": "Test for XML External Entity (XXE) injection",
+      "kind": "flag",
+      "hint": "XXE",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--hql",
+      "aliases": [
+        "--hql"
+      ],
+      "name": "Test for HQL/JPQL",
+      "description": "Test for HQL/JPQL (Hibernate ORM) injection",
+      "kind": "flag",
+      "hint": "HQL",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--sparql",
+      "aliases": [
+        "--sparql"
+      ],
+      "name": "Test for SPARQL injection",
+      "description": "Test for SPARQL injection",
+      "kind": "flag",
+      "hint": "SPARQL",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--odata",
+      "aliases": [
+        "--odata"
+      ],
+      "name": "Test for OData $filter injection",
+      "description": "Test for OData $filter injection",
+      "kind": "flag",
+      "hint": "ODATA",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--jwt",
+      "aliases": [
+        "--jwt"
+      ],
+      "name": "Audit JSON Web Tokens",
+      "description": "Audit JSON Web Tokens (JWT) for weaknesses",
+      "kind": "flag",
+      "hint": "JWT",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--oob-server",
+      "aliases": [
+        "--oob-server"
+      ],
+      "name": "Out-of-band server for blind '--xxe'",
+      "description": "Out-of-band server for blind '--xxe'",
+      "kind": "value",
+      "hint": "OOB-SERVER",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "--oob-token",
+      "aliases": [
+        "--oob-token"
+      ],
+      "name": "Authentication token for a self-hosted '--oob-server'",
+      "description": "Authentication token for a self-hosted '--oob-server'",
+      "kind": "value",
+      "hint": "OOB-TOKEN",
+      "group": "Non-SQL injection",
+      "repeat": false
+    },
+    {
+      "flag": "-z",
+      "aliases": [
+        "-z"
+      ],
+      "name": "Use short mnemonics",
+      "description": "Use short mnemonics (e.g. \"flu,bat,ban,tec=EU\")",
+      "kind": "value",
+      "hint": "Z",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--alert",
+      "aliases": [
+        "--alert"
+      ],
+      "name": "Run host OS command(s) when SQL injection is found",
+      "description": "Run host OS command(s) when SQL injection is found",
+      "kind": "value",
+      "hint": "ALERT",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--beep",
+      "aliases": [
+        "--beep"
+      ],
+      "name": "Beep on question and/or when vulnerability is found",
+      "description": "Beep on question and/or when vulnerability is found",
+      "kind": "flag",
+      "hint": "BEEP",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--dependencies",
+      "aliases": [
+        "--dependencies"
+      ],
+      "name": "Check for missing",
+      "description": "Check for missing (optional) sqlmap dependencies",
+      "kind": "flag",
+      "hint": "DEPENDENCIES",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--disable-coloring",
+      "aliases": [
+        "--disable-coloring"
+      ],
+      "name": "Disable console output coloring",
+      "description": "Disable console output coloring",
+      "kind": "flag",
+      "hint": "DISABLE-COLORING",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--disable-hashing",
+      "aliases": [
+        "--disable-hashing"
+      ],
+      "name": "Disable hash analysis on table dumps",
+      "description": "Disable hash analysis on table dumps",
+      "kind": "flag",
+      "hint": "DISABLE-HASHING",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--gui",
+      "aliases": [
+        "--gui"
+      ],
+      "name": "Graphical user interface",
+      "description": "Graphical user interface (Tkinter)",
+      "kind": "flag",
+      "hint": "GUI",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--list-tampers",
+      "aliases": [
+        "--list-tampers"
+      ],
+      "name": "Display list of available tamper scripts",
+      "description": "Display list of available tamper scripts",
+      "kind": "flag",
+      "hint": "LIST-TAMPERS",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--no-logging",
+      "aliases": [
+        "--no-logging"
+      ],
+      "name": "Disable logging to a file",
+      "description": "Disable logging to a file",
+      "kind": "flag",
+      "hint": "NO-LOGGING",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--no-truncate",
+      "aliases": [
+        "--no-truncate"
+      ],
+      "name": "Disable console output truncation",
+      "description": "Disable console output truncation (e.g. long entr...)",
+      "kind": "flag",
+      "hint": "NO-TRUNCATE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--offline",
+      "aliases": [
+        "--offline"
+      ],
+      "name": "Work in offline mode",
+      "description": "Work in offline mode (only use session data)",
+      "kind": "flag",
+      "hint": "OFFLINE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--purge",
+      "aliases": [
+        "--purge"
+      ],
+      "name": "Safely remove all content from sqlmap data directory",
+      "description": "Safely remove all content from sqlmap data directory",
+      "kind": "flag",
+      "hint": "PURGE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--results-file",
+      "aliases": [
+        "--results-file"
+      ],
+      "name": "Location of CSV results file in multiple targets mode",
+      "description": "Location of CSV results file in multiple targets mode",
+      "kind": "output",
+      "hint": "RESULTS-FILE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--shell",
+      "aliases": [
+        "--shell"
+      ],
+      "name": "Prompt for an interactive sqlmap shell",
+      "description": "Prompt for an interactive sqlmap shell",
+      "kind": "flag",
+      "hint": "SHELL",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--tmp-dir",
+      "aliases": [
+        "--tmp-dir"
+      ],
+      "name": "Local directory for storing temporary files",
+      "description": "Local directory for storing temporary files",
+      "kind": "output-directory",
+      "hint": "TMP-DIR",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--tui",
+      "aliases": [
+        "--tui"
+      ],
+      "name": "Textual user interface",
+      "description": "Textual user interface (ncurses)",
+      "kind": "flag",
+      "hint": "TUI",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--unstable",
+      "aliases": [
+        "--unstable"
+      ],
+      "name": "Adjust options for unstable connections",
+      "description": "Adjust options for unstable connections",
+      "kind": "flag",
+      "hint": "UNSTABLE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--update",
+      "aliases": [
+        "--update"
+      ],
+      "name": "Update sqlmap",
+      "description": "Update sqlmap",
+      "kind": "flag",
+      "hint": "UPDATE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "--wizard",
+      "aliases": [
+        "--wizard"
+      ],
+      "name": "Simple wizard interface for beginner users",
+      "description": "Simple wizard interface for beginner users",
+      "kind": "flag",
+      "hint": "WIZARD",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-h",
+      "aliases": [
+        "-h"
+      ],
+      "name": "Show help",
+      "description": "Print help and exit.",
+      "kind": "flag",
+      "hint": "",
+      "group": "General"
+    },
+    {
+      "flag": "-hh",
+      "aliases": [
+        "-hh"
+      ],
+      "name": "Show advanced help",
+      "description": "Print help and exit.",
+      "kind": "flag",
+      "hint": "",
+      "group": "General"
+    }
+  ],
+  "nikto": [
+    {
+      "flag": "-Add-header",
+      "aliases": [
+        "-Add-header"
+      ],
+      "name": "Add HTTP headers",
+      "description": "Add HTTP headers (can be used multiple times, one per header pair), format is \"Header: value\"",
+      "kind": "value",
+      "hint": "ADD-HEADER",
+      "group": "Scan options",
+      "repeat": true
+    },
+    {
+      "flag": "-ask",
+      "aliases": [
+        "-ask"
+      ],
+      "name": "Whether to ask about submitting updates",
+      "description": "Whether to ask about submitting updates: yes \u2013 Ask about each (default) no \u2013 Don't ask, don't send auto\u2013 Don't ask, just send",
+      "kind": "value",
+      "hint": "ASK",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-check6",
+      "aliases": [
+        "-check6"
+      ],
+      "name": "Check if IPv6 is working",
+      "description": "Check if IPv6 is working (connects to ipv6.google.com or value set in nikto.conf)",
+      "kind": "flag",
+      "hint": "CHECK6",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Cgidirs",
+      "aliases": [
+        "-Cgidirs"
+      ],
+      "name": "Scan these CGI dirs",
+      "description": "Scan these CGI dirs: none all or values like \"/cgi/ /cgi-a/\"",
+      "kind": "value",
+      "hint": "CGIDIRS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-config",
+      "aliases": [
+        "-config"
+      ],
+      "name": "Use this config file",
+      "description": "Use this config file",
+      "kind": "file",
+      "hint": "CONFIG",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Display",
+      "aliases": [
+        "-Display"
+      ],
+      "name": "Turn on/off display outputs",
+      "description": "Turn on/off display outputs: 1 \u2013 Show redirects 2 \u2013 Show cookies received 3 \u2013 Show all 200/OK responses 4 \u2013 Show URLs which require authentication D \u2013 Debug output E \u2013 Display all HTTP errors P \u2013 Print progress to STDOUT S \u2013 Scrub output of IPs and hostnames V \u2013 Verbose output",
+      "kind": "value",
+      "hint": "DISPLAY",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-dbcheck",
+      "aliases": [
+        "-dbcheck"
+      ],
+      "name": "Check database and other key files for syntax errors",
+      "description": "Check database and other key files for syntax errors",
+      "kind": "flag",
+      "hint": "DBCHECK",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-evasion",
+      "aliases": [
+        "-evasion"
+      ],
+      "name": "Encoding technique",
+      "description": "Encoding technique (multiple values can be combined): 1 \u2013 Random URI encoding (non-UTF8) 2 \u2013 Directory self-reference (/./) 3 \u2013 Premature URL ending 4 \u2013 Prepend long random string 5 \u2013 Fake parameter 6 \u2013 TAB as request spacer 7 \u2013 Change the case of the URL 8 \u2013 Use Windows directory separator (\\) A \u2013 Use a carriage return (0x0d) as a request spacer B \u2013 Use binary value 0x0b as a request spacer R \u2013 Random User-Agent from database per request (opt-in; not the default)",
+      "kind": "value",
+      "hint": "EVASION",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-followredirects",
+      "aliases": [
+        "-followredirects"
+      ],
+      "name": "Follow 3xx redirects to new location",
+      "description": "Follow 3xx redirects to new location",
+      "kind": "flag",
+      "hint": "FOLLOWREDIRECTS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Format",
+      "aliases": [
+        "-Format"
+      ],
+      "name": "Save file",
+      "description": "Save file (-o) format. Can specify multiple formats separated by commas (e.g., htm,sql,sqld,txt,json,xml): csv \u2013 Comma-separated-value json \u2013 JSON Format htm \u2013 HTML Format sql \u2013 Generic SQL file of INSERT statements (see documentation/nikto_schema_mysql.sql or nikto_schema_postgresql.sql) sqld \u2013 SQL Direct: insert findings into MySQL/PostgreSQL via DBI (see [[SQL Direct Reporting]]; no -output required) txt \u2013 Plain text xml \u2013 XML Format (if not specified the format will be taken from the file extension passed to -output)",
+      "kind": "value",
+      "hint": "FORMAT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Help",
+      "aliases": [
+        "-Help"
+      ],
+      "name": "This help information",
+      "description": "This help information",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-host",
+      "aliases": [
+        "-host",
+        "-h"
+      ],
+      "name": "Target host/URL",
+      "description": "Target host/URL (alias of -url)",
+      "kind": "file-or-value",
+      "hint": "HOST",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-id",
+      "aliases": [
+        "-id"
+      ],
+      "name": "Host authentication to use, format is id",
+      "description": "Host authentication to use, format is id:pass or id:pass:realm",
+      "kind": "value",
+      "hint": "ID",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-ipv4",
+      "aliases": [
+        "-ipv4"
+      ],
+      "name": "IPv4 Only",
+      "description": "IPv4 Only",
+      "kind": "flag",
+      "hint": "IPV4",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-ipv6",
+      "aliases": [
+        "-ipv6"
+      ],
+      "name": "IPv6 Only",
+      "description": "IPv6 Only",
+      "kind": "flag",
+      "hint": "IPV6",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-key",
+      "aliases": [
+        "-key"
+      ],
+      "name": "Client certificate key file",
+      "description": "Client certificate key file",
+      "kind": "file",
+      "hint": "KEY",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-list-plugins",
+      "aliases": [
+        "-list-plugins"
+      ],
+      "name": "List all available plugins, perform no testing",
+      "description": "List all available plugins, perform no testing",
+      "kind": "flag",
+      "hint": "LIST-PLUGINS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-maxtime",
+      "aliases": [
+        "-maxtime"
+      ],
+      "name": "Maximum testing time per host",
+      "description": "Maximum testing time per host (e.g., 1h, 60m, 3600s)",
+      "kind": "value",
+      "hint": "MAXTIME",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-mutate",
+      "aliases": [
+        "-mutate"
+      ],
+      "name": "Guess additional file names",
+      "description": "Guess additional file names: 1 \u2013 Test all files with all root directories 2 \u2013 Guess for password file names 3 \u2013 Enumerate user names via Apache (/~user type requests) 4 \u2013 Enumerate user names via cgiwrap (/cgi-bin/cgiwrap/~user type requests)",
+      "kind": "value",
+      "hint": "MUTATE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-mutate-options",
+      "aliases": [
+        "-mutate-options"
+      ],
+      "name": "Provide information for mutates",
+      "description": "Provide information for mutates",
+      "kind": "value",
+      "hint": "MUTATE-OPTIONS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nocheck",
+      "aliases": [
+        "-nocheck"
+      ],
+      "name": "Don't check for updates on startup",
+      "description": "Don't check for updates on startup (successful checks are otherwise cached 6 hours in EXECDIR/.last_update_check; delete that file to force a fresh check \u2014 see [[Updating]])",
+      "kind": "flag",
+      "hint": "NOCHECK",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nocookies",
+      "aliases": [
+        "-nocookies"
+      ],
+      "name": "Do not use cookies from responses in requests",
+      "description": "Do not use cookies from responses in requests",
+      "kind": "flag",
+      "hint": "NOCOOKIES",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nointeractive",
+      "aliases": [
+        "-nointeractive"
+      ],
+      "name": "Disables interactive features",
+      "description": "Disables interactive features",
+      "kind": "flag",
+      "hint": "NOINTERACTIVE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nolookup",
+      "aliases": [
+        "-nolookup"
+      ],
+      "name": "Disables DNS lookups",
+      "description": "Disables DNS lookups",
+      "kind": "flag",
+      "hint": "NOLOOKUP",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nossl",
+      "aliases": [
+        "-nossl"
+      ],
+      "name": "Disables the use of SSL",
+      "description": "Disables the use of SSL",
+      "kind": "flag",
+      "hint": "NOSSL",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-nosslkeepalive",
+      "aliases": [
+        "-nosslkeepalive"
+      ],
+      "name": "Disable TLS connection reuse",
+      "description": "Disable TLS connection reuse (keep-alive on by default)",
+      "kind": "flag",
+      "hint": "NOSSLKEEPALIVE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-noslash",
+      "aliases": [
+        "-noslash"
+      ],
+      "name": "Strip trailing slash from URL",
+      "description": "Strip trailing slash from URL (e.g., '/admin/' to '/admin')",
+      "kind": "flag",
+      "hint": "NOSLASH",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Option",
+      "aliases": [
+        "-Option"
+      ],
+      "name": "Over-ride an option in nikto.conf, can be issued multiple times",
+      "description": "Over-ride an option in nikto.conf, can be issued multiple times",
+      "kind": "value",
+      "hint": "OPTION",
+      "group": "Scan options",
+      "repeat": true
+    },
+    {
+      "flag": "-output",
+      "aliases": [
+        "-output",
+        "-o"
+      ],
+      "name": "Write output to this file",
+      "description": "Write output to this file ('.' for auto-name)",
+      "kind": "output",
+      "hint": "OUTPUT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Pause",
+      "aliases": [
+        "-Pause"
+      ],
+      "name": "Pause between tests",
+      "description": "Pause between tests (seconds, integer or float)",
+      "kind": "value",
+      "hint": "PAUSE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Platform",
+      "aliases": [
+        "-Platform"
+      ],
+      "name": "Platform of target",
+      "description": "Platform of target (nix, win, all)",
+      "kind": "value",
+      "hint": "PLATFORM",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Plugins",
+      "aliases": [
+        "-Plugins"
+      ],
+      "name": "List of plugins to run",
+      "description": "List of plugins to run (default: @@DEFAULT)",
+      "kind": "value",
+      "hint": "PLUGINS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-port",
+      "aliases": [
+        "-port",
+        "-p"
+      ],
+      "name": "Port to use",
+      "description": "Port to use (default 80)",
+      "kind": "value",
+      "hint": "PORT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-RSAcert",
+      "aliases": [
+        "-RSAcert"
+      ],
+      "name": "Client certificate file",
+      "description": "Client certificate file",
+      "kind": "file",
+      "hint": "RSACERT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-root",
+      "aliases": [
+        "-root"
+      ],
+      "name": "Prepend root value to all requests, format is /directory",
+      "description": "Prepend root value to all requests, format is /directory",
+      "kind": "value",
+      "hint": "ROOT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Save",
+      "aliases": [
+        "-Save"
+      ],
+      "name": "Save positive responses to this directory",
+      "description": "Save positive responses to this directory ('.' for auto-name)",
+      "kind": "output-directory",
+      "hint": "SAVE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-ssl",
+      "aliases": [
+        "-ssl"
+      ],
+      "name": "Force ssl mode on port",
+      "description": "Force ssl mode on port",
+      "kind": "flag",
+      "hint": "SSL",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Tuning",
+      "aliases": [
+        "-Tuning",
+        "-T"
+      ],
+      "name": "Scan tuning",
+      "description": "Scan tuning: 1 \u2013 Interesting File / Seen in logs 2 \u2013 Misconfiguration / Default File 3 \u2013 Information Disclosure 4 \u2013 Injection (XSS/Script/HTML) 5 \u2013 Remote File Retrieval - Inside Web Root 6 \u2013 Denial of Service 7 \u2013 Remote File Retrieval - Server Wide 8 \u2013 Command Execution / Remote Shell 9 \u2013 SQL Injection 0 \u2013 File Upload a \u2013 Authentication Bypass b \u2013 Software Identification c \u2013 Remote Source Inclusion d \u2013 WebService e \u2013 Administrative Console x \u2013 Reverse Tuning Options (i.e., include all except specified)",
+      "kind": "value",
+      "hint": "TUNING",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-timeout",
+      "aliases": [
+        "-timeout"
+      ],
+      "name": "Timeout for requests",
+      "description": "Timeout for requests (default 10 seconds)",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Userdbs",
+      "aliases": [
+        "-Userdbs"
+      ],
+      "name": "Load only user databases, not the standard databases",
+      "description": "Load only user databases, not the standard databases (optional value): all \u2013 Disable standard dbs and load only user dbs tests \u2013 Disable only db_tests and load udb_tests (also the default if -Userdbs is given with no value)",
+      "kind": "optional-value",
+      "hint": "USERDBS",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-useragent",
+      "aliases": [
+        "-useragent"
+      ],
+      "name": "Force a specific User-Agent string for all requests",
+      "description": "Force a specific User-Agent string for all requests (overrides both the default USERAGENT and -evasion R)",
+      "kind": "value",
+      "hint": "USERAGENT",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-url",
+      "aliases": [
+        "-url"
+      ],
+      "name": "Target host/URL",
+      "description": "Target host/URL (alias of -host)",
+      "kind": "value",
+      "hint": "URL",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-useproxy",
+      "aliases": [
+        "-useproxy"
+      ],
+      "name": "Use the proxy defined in nikto.conf, or optional argument http",
+      "description": "Use the proxy defined in nikto.conf, or optional argument http://server:port",
+      "kind": "optional-value",
+      "hint": "USEPROXY",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-Version",
+      "aliases": [
+        "-Version"
+      ],
+      "name": "Print plugin and database versions",
+      "description": "Print plugin and database versions",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-vhost",
+      "aliases": [
+        "-vhost"
+      ],
+      "name": "Virtual host",
+      "description": "Virtual host (for Host header)",
+      "kind": "value",
+      "hint": "VHOST",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-404code",
+      "aliases": [
+        "-404code"
+      ],
+      "name": "Ignore these HTTP codes as negative responses",
+      "description": "Ignore these HTTP codes as negative responses (always). Format is \"302,301\".",
+      "kind": "value",
+      "hint": "404CODE",
+      "group": "Scan options",
+      "repeat": false
+    },
+    {
+      "flag": "-404string",
+      "aliases": [
+        "-404string"
+      ],
+      "name": "Ignore this string in response body content as negative response",
+      "description": "Ignore this string in response body content as negative response (always). Can be a regular expression.",
+      "kind": "value",
+      "hint": "404STRING",
+      "group": "Scan options",
+      "repeat": false
+    }
+  ]
+}

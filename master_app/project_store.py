@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 from pathlib import Path
 import re
 import threading
+import shutil
 import uuid
 
 DEFAULT_STATUSES = ['test', 'Planned', 'In progress', 'On hold', 'Completed']
@@ -45,6 +46,8 @@ class ProjectStore:
         self.lock = threading.RLock()
 
     def _write(self, path, value):
+        if path.name == 'project.json':
+            value = {k: v for k, v in value.items() if k not in ('saved_notes', 'selected_note_id', 'selected_document_id')}
         path.parent.mkdir(parents=True, exist_ok=True)
         temp = path.with_name(path.name + '.tmp')
         temp.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -109,9 +112,18 @@ class ProjectStore:
                     if entry.get('title') != title:
                         entry['title'] = title
                         changed = True
+            if 'document_entries' not in data:
+                data['document_entries'] = [{'id': d['id'], 'title': d['name'], 'text': '', 'attachments': [d['id']], 'updated_at': d['created_at']} for d in data.get('documents', [])]
+                changed = True
             if changed:
                 self._write(p, data)
             data['notes'] = (directory / 'notes.md').read_text(encoding='utf-8')
+            collection = directory / 'notes.json'
+            if not collection.exists():
+                legacy = data['notes']
+                entries = [{'id': uuid.uuid4().hex, 'title': 'Project notes', 'content': legacy, 'updated_at': data['updated_at']}] if legacy else []
+                self._write(collection, entries)
+            data['saved_notes'] = json.loads(collection.read_text(encoding='utf-8'))
             return data
 
     def create(self, data):
@@ -169,21 +181,55 @@ class ProjectStore:
             return self.get(ident)
 
     def notes(self, ident, data):
-        notes = data.get('notes')
-        if not isinstance(notes, str) or len(notes) > 500000:
-            raise ValueError('Notes must be text up to 500,000 characters')
+        action = data.get('action', 'save')
+        if action not in ('save', 'rename', 'delete'):
+            raise ValueError('Invalid note action')
         with self.lock:
             project = self.get(ident)
             directory = self._directory(ident)
+            entries = project['saved_notes']
+            note_id = data.get('id')
+            entry = next((n for n in entries if n['id'] == note_id), None)
+            if note_id and entry is None:
+                raise FileNotFoundError('Note not found')
+            if action != 'save' and entry is None:
+                raise ValueError('Choose a saved note')
+            now = datetime.now(timezone.utc).isoformat()
+            if action == 'delete':
+                entries.remove(entry)
+            elif action == 'rename':
+                title = self._text(data, 'title', 140)
+                if not title:
+                    raise ValueError('Enter a note name')
+                entry.update(title=title, updated_at=now)
+            else:
+                content = data.get('notes')
+                if not isinstance(content, str) or len(content) > 500000:
+                    raise ValueError('Notes must be text up to 500,000 characters')
+                title = self._text(data, 'title', 140) or 'Project notes'
+                # Preserve compatibility with the original single-note API.
+                if 'title' not in data and not note_id:
+                    entry = next((n for n in entries if n['title'] == 'Project notes'), None)
+                if entry is None:
+                    entry = {'id': uuid.uuid4().hex}
+                    entries.insert(0, entry)
+                entry.update(title=title, content=content, updated_at=now)
+            self._write(directory / 'notes.json', entries)
+            # Keep the legacy file in sync, including after deletion.
+            legacy = entries[0]['content'] if entries else ''
             temp = directory / 'notes.md.tmp'
-            temp.write_text(notes, encoding='utf-8')
+            temp.write_text(legacy, encoding='utf-8')
             temp.replace(directory / 'notes.md')
             project.pop('notes')
-            project['updated_at'] = datetime.now(timezone.utc).isoformat()
+            project['updated_at'] = now
             self._write(directory / 'project.json', project)
-            return self.get(ident)
+            result = self.get(ident)
+            result['selected_note_id'] = entry['id'] if action != 'delete' else None
+            return result
 
     def document(self, ident, data):
+        if 'action' in data:
+            return self.document_entry(ident, data)
         name = self._text(data, 'name', 255)
         if not name or '/' in name or '\\' in name or any(ord(c) < 32 for c in name):
             raise ValueError('Enter a valid document name')
@@ -199,9 +245,70 @@ class ProjectStore:
             (self._directory(ident) / 'docs' / doc['id']).write_bytes(raw)
             project.pop('notes')
             project['documents'].append(doc)
+            project['document_entries'].insert(0, {'id': uuid.uuid4().hex, 'title': name, 'text': '', 'attachments': [doc['id']], 'updated_at': doc['created_at']})
             project['updated_at'] = doc['created_at']
             self._write(self._directory(ident) / 'project.json', project)
             return self.get(ident)
+
+    def document_entry(self, ident, data):
+        action = data.get('action')
+        if action not in ('save', 'rename', 'delete'):
+            raise ValueError('Invalid document action')
+        title = self._text(data, 'title', 140)
+        text = data.get('text', '')
+        if not isinstance(text, str) or len(text) > 500000:
+            raise ValueError('Document text must be at most 500,000 characters')
+        files = data.get('files', [])
+        if not isinstance(files, list) or len(files) > 50:
+            raise ValueError('Choose at most 50 files per save')
+        decoded = []
+        for item in files:
+            if not isinstance(item, dict):
+                raise ValueError('Invalid attachment')
+            name = self._text(item, 'name', 255)
+            if not name or '/' in name or '\\' in name or any(ord(c) < 32 for c in name):
+                raise ValueError('Invalid attachment name')
+            try:
+                raw = base64.b64decode(item.get('content', ''), validate=True)
+            except (ValueError, TypeError, binascii.Error):
+                raise ValueError('Invalid attachment content')
+            decoded.append((name, raw))
+        if sum(len(raw) for _, raw in decoded) > 4 * 1024 * 1024:
+            raise ValueError('New attachments must total 4 MB or smaller per save')
+        with self.lock:
+            project = self.get(ident)
+            entries = project['document_entries']
+            entry = next((e for e in entries if e['id'] == data.get('id')), None)
+            if (data.get('id') or action != 'save') and entry is None:
+                raise FileNotFoundError('Document not found')
+            now = datetime.now(timezone.utc).isoformat()
+            removed = []
+            if action == 'delete':
+                removed = list(entry['attachments'])
+                entries.remove(entry)
+                project['documents'] = [d for d in project['documents'] if d['id'] not in removed]
+            elif action == 'rename':
+                if not title:
+                    raise ValueError('Enter a document name')
+                entry.update(title=title, updated_at=now)
+            else:
+                if entry is None:
+                    entry = {'id': uuid.uuid4().hex, 'attachments': []}
+                    entries.insert(0, entry)
+                for name, raw in decoded:
+                    attachment = {'id': uuid.uuid4().hex, 'name': name, 'size': len(raw), 'created_at': now}
+                    (self._directory(ident) / 'docs' / attachment['id']).write_bytes(raw)
+                    project['documents'].append(attachment)
+                    entry['attachments'].append(attachment['id'])
+                entry.update(title=title or 'Untitled document', text=text, updated_at=now)
+            project.pop('notes')
+            project['updated_at'] = now
+            self._write(self._directory(ident) / 'project.json', project)
+            for docid in removed:
+                (self._directory(ident) / 'docs' / docid).unlink(missing_ok=True)
+            result = self.get(ident)
+            result['selected_document_id'] = entry['id'] if action != 'delete' else None
+            return result
 
     def save_scan(self, ident, record, tool="nmap"):
         with self.lock:
@@ -240,8 +347,11 @@ class ProjectStore:
                 if not directory.resolve().is_relative_to(self._directory(ident).resolve()):
                     raise ValueError('Invalid scan directory')
                 for file in directory.iterdir():
-                    if file.name.startswith((scanid + '.', scanid + '-')) and (file.is_file() or file.is_symlink()):
-                        file.unlink()
+                    if file.name.startswith((scanid + '.', scanid + '-')):
+                        if file.is_symlink() or file.is_file():
+                            file.unlink()
+                        elif file.is_dir():
+                            shutil.rmtree(file)
             project['tool_history'][tool] = [entry for entry in entries if entry['id'] != scanid]
             project.pop('notes')
             project['updated_at'] = datetime.now(timezone.utc).isoformat()

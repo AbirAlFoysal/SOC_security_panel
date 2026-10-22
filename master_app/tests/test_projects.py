@@ -17,6 +17,80 @@ class ProjectTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_named_notes_reopen_rename_delete_and_isolation(self):
+        project = self.store.save({'host': 'notes.test'})
+        other = self.store.save({'host': 'other.test'})
+        ident = project['id']
+        first = self.store.notes(ident, {'title': 'First', 'notes': 'Saved content'})
+        first_id = first['selected_note_id']
+        second = self.store.notes(ident, {'title': 'Second', 'notes': 'Other content'})
+        second_id = second['selected_note_id']
+        reopened = ProjectStore(self.root).get(ident)
+        self.assertEqual(len(reopened['saved_notes']), 2)
+        self.assertEqual(reopened['saved_notes'][1]['content'], 'Saved content')
+        renamed = self.store.notes(ident, {'action': 'rename', 'id': first_id, 'title': 'Renamed'})
+        self.assertEqual(renamed['saved_notes'][1]['title'], 'Renamed')
+        self.assertEqual(renamed['saved_notes'][1]['content'], 'Saved content')
+        with self.assertRaises(FileNotFoundError):
+            self.store.notes(other['id'], {'action': 'delete', 'id': first_id})
+        edited = self.store.notes(ident, {'id': first_id, 'title': 'Renamed', 'notes': 'Edited'})
+        self.assertEqual(len(edited['saved_notes']), 2)
+        deleted = self.store.notes(ident, {'action': 'delete', 'id': second_id})
+        self.assertEqual([n['id'] for n in deleted['saved_notes']], [first_id])
+        self.assertEqual(deleted['saved_notes'][0]['content'], 'Edited')
+        self.store.notes(ident, {'action': 'delete', 'id': first_id})
+        self.assertEqual(ProjectStore(self.root).get(ident)['saved_notes'], [])
+
+    def test_legacy_notes_migrate_once_without_losing_text(self):
+        project = self.store.save({'host': 'legacy.test'})
+        directory = self.root / project['id']
+        (directory / 'notes.json').unlink()
+        (directory / 'notes.md').write_text('Original notes\n', encoding='utf-8')
+        migrated = self.store.get(project['id'])
+        self.assertEqual(migrated['saved_notes'][0]['title'], 'Project notes')
+        self.assertEqual(migrated['saved_notes'][0]['content'], 'Original notes\n')
+        self.assertEqual(self.store.get(project['id'])['saved_notes'], migrated['saved_notes'])
+
+    def test_document_entries_text_files_edit_rename_delete(self):
+        ident = self.store.save({'host': 'docs.test'})['id']
+        files = [{'name': name, 'content': base64.b64encode(content).decode()} for name, content in [('one.txt', b'one'), ('two.txt', b'two')]]
+        saved = self.store.document(ident, {'action': 'save', 'title': 'Findings', 'text': 'Written context', 'files': files})
+        entry_id = saved['selected_document_id']
+        reopened = ProjectStore(self.root).get(ident)
+        entry = reopened['document_entries'][0]
+        self.assertEqual(entry['text'], 'Written context')
+        self.assertEqual(len(entry['attachments']), 2)
+        self.assertEqual(self.store.download(ident, entry['attachments'][0]), b'one')
+        edited = self.store.document(ident, {'action': 'save', 'id': entry_id, 'title': 'Findings', 'text': 'Edited'})
+        self.assertEqual(len(edited['document_entries'][0]['attachments']), 2)
+        renamed = self.store.document(ident, {'action': 'rename', 'id': entry_id, 'title': 'Renamed'})
+        self.assertEqual(renamed['document_entries'][0]['text'], 'Edited')
+        self.assertEqual(renamed['document_entries'][0]['title'], 'Renamed')
+        other = self.store.save({'host': 'other-docs.test'})['id']
+        with self.assertRaises(FileNotFoundError):
+            self.store.document(other, {'action': 'delete', 'id': entry_id})
+        self.store.document(ident, {'action': 'save', 'title': 'Keep', 'text': 'Independent'})
+        deleted = self.store.document(ident, {'action': 'delete', 'id': entry_id})
+        self.assertEqual([d['title'] for d in deleted['document_entries']], ['Keep'])
+        for attachment_id in entry['attachments']:
+            self.assertFalse((self.root / ident / 'docs' / attachment_id).exists())
+
+    def test_legacy_document_migration_and_invalid_upload(self):
+        ident = self.store.save({'host': 'old-docs.test'})['id']
+        saved = self.store.document(ident, {'name': 'old.txt', 'content': base64.b64encode(b'original').decode()})
+        path = self.root / ident / 'project.json'
+        metadata = json.loads(path.read_text())
+        metadata.pop('document_entries')
+        path.write_text(json.dumps(metadata))
+        migrated = ProjectStore(self.root).get(ident)
+        self.assertEqual(migrated['document_entries'][0]['title'], 'old.txt')
+        self.assertEqual(self.store.download(ident, migrated['document_entries'][0]['attachments'][0]), b'original')
+        with self.assertRaises(ValueError):
+            self.store.document(ident, {'action': 'save', 'files': [{'name': '../escape', 'content': ''}]})
+        with self.assertRaises(ValueError):
+            self.store.document(ident, {'action': 'save', 'files': [{'name': 'bad', 'content': '@@@'}]})
+        self.assertEqual(len(self.store.get(ident)['document_entries']), 1)
+
     def test_project_persists_in_its_own_directory(self):
         p = self.store.save({'host': 'example.test', 'others': 'Scope'})
         self.assertEqual(p['name'], 'example.test')

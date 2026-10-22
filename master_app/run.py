@@ -13,6 +13,7 @@ import webbrowser
 from gui_apps import GUI_TOOLS, DesktopLauncher, locate_gui
 from hakrawler_runner import HakrawlerRunner
 from nmap_runner import NmapRunner
+from webscan_runner import WebScanRunner
 import network_manager
 from project_store import ProjectStore, DuplicateProjectError
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -129,6 +130,10 @@ def plan(tool, action, env):
 
 NMAP = NmapRunner(PROJECTS, locate)
 HAKRAWLER = HakrawlerRunner(PROJECTS, locate)
+WEB_SCANS = {tool: WebScanRunner(PROJECTS, locate, tool) for tool in ('sqlmap', 'nikto')}
+
+def web_scans_busy():
+    return any(r.running for r in WEB_SCANS.values())
 DESKTOP = DesktopLauncher(ROOT.parent / '.runtime' / 'desktop-tools')
 
 def snapshot():
@@ -269,6 +274,10 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(200, PROJECTS.get(parts[2]))
                 if len(parts) == 4 and parts[3] == 'nmap':
                     return self.send(200, NMAP.status(parts[2]))
+                if len(parts) == 4 and parts[3] in WEB_SCANS:
+                    result = WEB_SCANS[parts[3]].status(parts[2])
+                    result['busy'] = JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy()
+                    return self.send(200, result)
                 if len(parts) == 4 and parts[3] == 'hakrawler':
                     return self.send(200, HAKRAWLER.status(parts[2]))
                 if len(parts) == 5 and parts[3] == 'documents':
@@ -292,11 +301,11 @@ class Handler(BaseHTTPRequestHandler):
                     digest.update(p.name.encode())
                     digest.update(p.read_bytes())
             with LOCK:
-                running = JOB['running'] or NMAP.running or HAKRAWLER.running
+                running = JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy()
             return self.send(200, {'revision': digest.hexdigest(), 'busy': running})
         if self.path == '/api/status':
             return self.send(200, snapshot())
-        files = {'/': ('index.html', 'text/html; charset=utf-8'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/projects.js': ('projects.js', 'text/javascript'), '/projects.css': ('projects.css', 'text/css'), '/network.js': ('network.js', 'text/javascript'), '/network.css': ('network.css', 'text/css'), '/nmap.js': ('nmap.js', 'text/javascript'), '/nmap.css': ('nmap.css', 'text/css'), '/hakrawler.js': ('hakrawler.js', 'text/javascript'), '/hakrawler.css': ('hakrawler.css', 'text/css')}
+        files = {'/webscan.js': ('webscan.js', 'text/javascript'), '/webscan.css': ('webscan.css', 'text/css'), '/': ('index.html', 'text/html; charset=utf-8'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/projects.js': ('projects.js', 'text/javascript'), '/projects.css': ('projects.css', 'text/css'), '/network.js': ('network.js', 'text/javascript'), '/network.css': ('network.css', 'text/css'), '/nmap.js': ('nmap.js', 'text/javascript'), '/nmap.css': ('nmap.css', 'text/css'), '/hakrawler.js': ('hakrawler.js', 'text/javascript'), '/hakrawler.css': ('hakrawler.css', 'text/css')}
         if self.path not in files:
             return self.send(404, {'error': 'Not found'})
         file, mime = files[self.path]
@@ -306,6 +315,8 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get('Origin')
         if not self.valid_host() or self.headers.get('X-App-Token') != TOKEN or origin not in (None, f'http://{self.headers.get("Host")}'):
             return self.send(403, {'error': 'Request must come from this app.'})
+        if self.path in ('/api/sqlmap/presets', '/api/nikto/presets'):
+            return self.nmap_preset_post(WEB_SCANS[self.path.split('/')[2]])
         if self.path == '/api/hakrawler/presets':
             return self.nmap_preset_post(HAKRAWLER)
         if self.path == '/api/nmap/presets':
@@ -328,7 +339,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError('Bulk removal is not supported')
             ids = [t for t in CATALOG if t not in ('anonsurf','macchanger') and bool(locate(t)) == (action == 'update')] if target == 'all' else [target]
             with LOCK:
-                if JOB['running'] or NMAP.running or HAKRAWLER.running:
+                if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
                     return self.send(409, {'error': 'An operation is already running.'})
                 JOB.update(running=True, log=[], results=[])
             threading.Thread(target=worker, args=(ids, action), daemon=True).start()
@@ -346,7 +357,7 @@ class Handler(BaseHTTPRequestHandler):
             if tool not in ('anonsurf', 'macchanger') or action not in ('start', 'stop'):
                 raise ValueError('Unknown network action.')
             with LOCK:
-                if JOB['running'] or NMAP.running or HAKRAWLER.running:
+                if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
                     return self.send(409, {'error': 'An operation is already running.'})
                 JOB.update(running=True, log=[], results=[])
             threading.Thread(target=network_worker, args=(tool, action), daemon=True).start()
@@ -378,13 +389,27 @@ class Handler(BaseHTTPRequestHandler):
             if self.path == '/api/projects':
                 return self.send(201, PROJECTS.create(data))
             parts = self.path.strip('/').split('/')
+            if len(parts) >= 4 and parts[3] in WEB_SCANS:
+                runner = WEB_SCANS[parts[3]]
+                if len(parts) == 4:
+                    with LOCK:
+                        if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
+                            return self.send(409, {'error': 'An operation is already running.'})
+                        return self.send(202, runner.start(parts[2], data))
+                if len(parts) == 5 and parts[4] == 'cancel':
+                    return self.send(200, runner.cancel(parts[2]))
+                if len(parts) == 5 and parts[4] == 'files':
+                    return self.send(201, runner.upload(parts[2], data))
+                if len(parts) == 7 and parts[4] == 'history' and parts[6] == 'delete':
+                    return self.send(200, runner.delete(parts[2], parts[5]))
+                return self.send(404, {'error': 'Not found'})
             if len(parts) == 6 and parts[3] == 'gui' and parts[5] == 'open':
                 PROJECTS.get(parts[2])
                 return self.send(200, DESKTOP.open(parts[4]))
             if len(parts) >= 4 and parts[3] == 'hakrawler':
                 if len(parts) == 4:
                     with LOCK:
-                        if JOB['running'] or NMAP.running:
+                        if JOB['running'] or NMAP.running or web_scans_busy():
                             return self.send(409, {'error': 'Wait for the current operation to finish.'})
                         return self.send(202, HAKRAWLER.start(parts[2], data))
                 if len(parts) == 5 and parts[4] == 'cancel':
@@ -396,7 +421,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(201, NMAP.upload(parts[2], data))
             if len(parts) == 4 and parts[3] == 'nmap':
                 with LOCK:
-                    if JOB['running'] or HAKRAWLER.running:
+                    if JOB['running'] or HAKRAWLER.running or web_scans_busy():
                         return self.send(409, {'error': 'Wait for the current system operation to finish.'})
                     return self.send(202, NMAP.start(parts[2], data))
             if len(parts) == 7 and parts[3:5] == ['nmap', 'history'] and parts[6] == 'delete':

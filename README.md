@@ -13,7 +13,7 @@ Opens http://127.0.0.1:8000 with automatic reload during development. Use `make 
 ## Features
 
 - Project creation, searchable history, custom statuses, notes, and saved documents
-- Nmap and Hakrawler command builders, parameter reference panels, global presets, and project-specific scan histories
+- Nmap, Hakrawler, SQLmap, and Nikto command builders, parameter reference panels, global presets, and project-specific scan histories
 - Desktop launch buttons for Wireshark and Burp Suite
 - Installed-tool detection and package management
 - AnonSurf and MAC changer controls with live network status

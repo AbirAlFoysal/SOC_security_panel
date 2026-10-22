@@ -72,3 +72,32 @@ MAC changer and AnonSurf are omitted from the startscreen toolkit and project to
 ## Desktop applications
 
 Wireshark and Burp Suite have launch-only project pages: Open Wireshark or Open Burp Suite. GUI tools do not have history dropdowns. Missing installations display Not installed and disable the launcher. Detection checks PATH and common native installer locations. Applications launch as the desktop user without a shell or administrator elevation. A running instance started by this app is reused. Startup errors are reported in the page, with launch logs under `.runtime/desktop-tools/`. These buttons launch the installed desktop application; they do not embed its interface into the browser or start a packet capture automatically.
+
+
+## SQLmap and Nikto
+
+Open either tool from the project sidebar to prepare a command. Scan and Stop sit
+next to the preset selector. Search the right-hand parameter panel by flag or name;
+hover for descriptions and click to add or remove an option. Options accepting
+files offer an upload or an existing local path. SQLmap accepts full URLs with query
+parameters, POST data, request files, and target lists. Nikto accepts web service
+URLs (including ports) or a host-list file.
+
+The command's + button saves a global preset. URL targets use `{target}` so the
+preset follows the selected project. Input-file paths remain tied to their original
+local files. Scan output streams into the Output tab, and every run is saved under
+that project's tool history with command-based titles. The tool's right-side
+sidebar arrow opens its History link without opening the tool page. History entries
+can be reopened or deleted. SQLmap session/report files and Nikto output stay in
+`projects/<id>/scans/<tool>/`; deleting a history entry also removes its generated
+files. SQLmap session files supplied through `-s` are copied before use.
+
+Installed status is detected on this machine. Install missing tools using the
+startscreen tool menu. Browser scans run without interactive terminal prompts
+(SQLmap `--batch`, Nikto `-nointeractive`); terminal/GUI shell modes must be used
+outside this workspace. Runs stop after 30 minutes and save partial output.
+
+The bundled parameter catalogs come from the official [SQLmap command parser](https://github.com/sqlmapproject/sqlmap/blob/master/lib/parse/cmdline.py)
+and [Nikto option reference](https://github.com/sullo/nikto/wiki/Annotated-Option-List),
+retrieved October 23, 2026. Options added in a newer upstream release may require
+updating this catalog; older installed releases may reject newer options.

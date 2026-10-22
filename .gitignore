@@ -1,0 +1,22 @@
+# Local assessment data and personal presets
+/projects/*
+!/projects/README.md
+
+# Runtime and Python caches
+.runtime/
+work/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.log
+
+# Pre-existing third-party material (not part of this application)
+/Ethical-Hacking-main/
+/sql_injectable/
+*.zip
+/new_tools.md

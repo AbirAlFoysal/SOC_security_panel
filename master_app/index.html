@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Startscreen</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/projects.css"><script src="/app.js" defer></script><link rel="stylesheet" href="/nmap.css"><script src="/nmap.js" defer></script><link rel="stylesheet" href="/hakrawler.css"><script src="/hakrawler.js" defer></script><script src="/projects.js" defer></script><link rel="stylesheet" href="/network.css"><script src="/network.js" defer></script>
+</head>
+<body>
+<nav class="network-nav" aria-label="Network controls">
+<div class="network-control"><button id="anonsurf-control" disabled>Start AnonSurf</button><div class="network-info"><span id="anonsurf-state" class="network-state" role="status">Checking…</span><small id="anonsurf-data"></small></div></div>
+<div class="network-control"><button id="mac-control" disabled>Start MAC changer</button><div class="network-info"><span id="mac-state" class="network-state" role="status">Checking…</span><small id="mac-data"></small></div></div>
+<span id="network-updated" class="network-updated"></span>
+<div id="network-message" role="status" hidden></div>
+<details id="network-output" hidden><summary>Operation log</summary><pre id="network-log" tabindex="0"></pre></details>
+</nav>
+<main id="startscreen"><section class="project-start"><button id="start-project" class="primary">+ Start project</button><div id="project-start-error" role="status"></div><section class="history-panel" aria-label="Project history"><h2>Project history</h2><div id="home-projects"></div></section></section><div class="start-right"><aside class="panel" aria-label="Installed cybersecurity tools">
+<div class="search-bar"><input id="search" type="search" placeholder="Search tools…" aria-label="Search tools"></div>
+<div id="tools" class="tools" aria-live="polite"><div class="empty">Checking tools…</div></div>
+<div class="bulk"><button id="update-all" class="secondary">Update all</button><button id="install-all" class="primary">Install all</button></div>
+<div id="activity" class="activity" hidden><p id="notice" role="status"></p><pre id="log" tabindex="0" aria-label="Operation output"></pre><div id="results"></div></div>
+</aside></div></main>
+<section id="workspace" hidden></section>
+<dialog id="project-dialog"><form id="project-form"><h2>Start project</h2><label>Project name<input name="name" maxlength="140" placeholder="Defaults to host or IP"></label><div class="field-pair"><label>IP address<input name="ip" placeholder="192.168.1.10" maxlength="100"></label><label>Host name<input name="host" placeholder="example.com" maxlength="253"></label></div><label>Others<textarea name="others" rows="3" maxlength="20000" placeholder="Scope, context, or other details"></textarea></label><label>Status<select name="status" id="create-status"></select></label><div class="custom-status"><input id="new-status" placeholder="Custom status" maxlength="60" aria-label="New custom status"><button type="button" id="add-status">Add status</button></div><p id="project-error" class="form-message" role="status"></p><div class="form-actions"><button type="button" id="cancel-project">Cancel</button><button class="primary" type="submit">Create project</button></div></form></dialog>
+<dialog id="duplicate-dialog" aria-labelledby="duplicate-title"><h2 id="duplicate-title">IP or domain already exists</h2><p>This target is already saved. Continue an existing project, or make a separate copy with the details you entered.</p><div id="duplicate-projects"></div><p id="duplicate-error" role="status" class="form-message"></p><div class="form-actions"><button id="duplicate-cancel">Cancel</button><button id="duplicate-copy" class="primary">Make a copy</button></div></dialog>
+<dialog id="delete-scan-dialog" aria-labelledby="delete-scan-title"><h2 id="delete-scan-title">Delete saved scan?</h2><p id="delete-scan-text"></p><p id="delete-scan-error" class="form-message" role="status"></p><div class="form-actions"><button id="delete-scan-cancel">Cancel</button><button id="delete-scan-confirm" class="primary">Delete scan</button></div></dialog>
+<dialog id="confirm"><h2 id="confirm-title">Remove module?</h2><p id="confirm-text"></p><div><button id="cancel" class="secondary">Cancel</button><button id="confirm-action" class="primary">Remove</button></div></dialog>
+</body></html>

@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent
 
 def python_revision():
     return tuple((str(p), p.stat().st_mtime_ns, p.stat().st_size)
-                 for p in sorted(ROOT.glob('*.py')) if p.is_file())
+                 for p in sorted(ROOT.iterdir()) if p.is_file() and p.suffix in ('.py','.json'))
 
 
 def busy(url):

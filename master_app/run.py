@@ -14,6 +14,7 @@ from gui_apps import GUI_TOOLS, DesktopLauncher, locate_gui
 from hakrawler_runner import HakrawlerRunner
 from nmap_runner import NmapRunner
 from webscan_runner import WebScanRunner
+from cli_runner import CliRunner, CONFIG as CLI_CONFIG
 import network_manager
 from project_store import ProjectStore, DuplicateProjectError
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -131,6 +132,7 @@ def plan(tool, action, env):
 NMAP = NmapRunner(PROJECTS, locate)
 HAKRAWLER = HakrawlerRunner(PROJECTS, locate)
 WEB_SCANS = {tool: WebScanRunner(PROJECTS, locate, tool) for tool in ('sqlmap', 'nikto')}
+WEB_SCANS.update({tool: CliRunner(PROJECTS, locate, tool) for tool in CLI_CONFIG})
 
 def web_scans_busy():
     return any(r.running for r in WEB_SCANS.values())
@@ -280,6 +282,21 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(200, result)
                 if len(parts) == 4 and parts[3] == 'hakrawler':
                     return self.send(200, HAKRAWLER.status(parts[2]))
+                if len(parts)>=7 and parts[3] in WEB_SCANS and parts[4]=='history' and parts[6]=='files':
+                    runner=WEB_SCANS[parts[3]]
+                    if len(parts)==7:
+                        return self.send(200, {'files':runner.scan_files(parts[2],parts[5])})
+                    if len(parts)==8:
+                        file=runner.scan_file(parts[2],parts[5],parts[7])
+                        with file.open('rb') as stream:
+                            self.send_response(200)
+                            self.send_header('Content-Type','application/octet-stream')
+                            name=''.join(c if c.isascii() and (c.isalnum() or c in '._-') else '_' for c in file.name)
+                            self.send_header('Content-Disposition','attachment; filename="'+name+'"')
+                            self.send_header('X-Content-Type-Options','nosniff')
+                            self.send_header('Content-Length',str(os.fstat(stream.fileno()).st_size))
+                            self.end_headers()
+                            return shutil.copyfileobj(stream,self.wfile)
                 if len(parts) == 5 and parts[3] == 'documents':
                     raw = PROJECTS.download(parts[2], parts[4])
                     self.send_response(200)
@@ -297,7 +314,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == '/api/revision':
             digest = hashlib.sha256(TOKEN.encode())
             for p in sorted(ROOT.iterdir()):
-                if p.is_file() and p.suffix in ('.html', '.css', '.js', '.py'):
+                if p.is_file() and p.suffix in ('.html', '.css', '.js', '.py', '.json'):
                     digest.update(p.name.encode())
                     digest.update(p.read_bytes())
             with LOCK:
@@ -315,7 +332,7 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get('Origin')
         if not self.valid_host() or self.headers.get('X-App-Token') != TOKEN or origin not in (None, f'http://{self.headers.get("Host")}'):
             return self.send(403, {'error': 'Request must come from this app.'})
-        if self.path in ('/api/sqlmap/presets', '/api/nikto/presets'):
+        if self.path.startswith('/api/') and self.path.endswith('/presets') and self.path.split('/')[2] in WEB_SCANS:
             return self.nmap_preset_post(WEB_SCANS[self.path.split('/')[2]])
         if self.path == '/api/hakrawler/presets':
             return self.nmap_preset_post(HAKRAWLER)

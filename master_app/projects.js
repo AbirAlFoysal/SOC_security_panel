@@ -75,7 +75,7 @@ const projectUI = (() => {
     const selected=state?.tools.find(t=>t.id===tool);
     if(!selected) return '<h1>Tool not found</h1>';
     if(selected.gui) return `<div class="desktop-tool-page"><button type="button" class="primary" id="open-desktop-tool" ${selected.installed?'':'disabled'}>Open ${esc(selected.name)}</button>${selected.installed?'':`<p class="muted">${esc(selected.name)} is not installed.</p>`}</div>`;
-    if(['sqlmap','nikto'].includes(tool) && view==='tool') return '<div id="webscan-workspace"></div>';
+    if(['sqlmap','nikto','tcpdump','hydra','john','hashcat','gobuster','ffuf','aircrack-ng'].includes(tool) && view==='tool') return '<div id="webscan-workspace"></div>';
     if(tool==='hakrawler' && view==='tool') return '<div id="hakrawler-workspace"></div>';
     if(tool==='nmap' && view==='tool') return '<div id="nmap-workspace"></div>';
     const entries=project.tool_history[tool] || [];
@@ -106,7 +106,7 @@ const projectUI = (() => {
     });
     const toolsToggle=$('workspace').querySelector('[data-tools-toggle]');
     if(toolsToggle)toolsToggle.onclick=()=>{toolsExpanded=!toolsExpanded;toolsToggle.setAttribute('aria-expanded',toolsExpanded);toolsToggle.textContent=toolsExpanded?'⌄':'›';toolsToggle.parentElement.nextElementSibling.hidden=!toolsExpanded;};
-    if(['sqlmap','nikto'].includes(tool)&&view==='tool') WebScanWorkspace.mount(project,tool,location.hash.split('/')[4]);
+    if(['sqlmap','nikto','tcpdump','hydra','john','hashcat','gobuster','ffuf','aircrack-ng'].includes(tool)&&view==='tool') WebScanWorkspace.mount(project,tool,location.hash.split('/')[4]);
     if(tool==='hakrawler'&&view==='tool') HakrawlerWorkspace.mount(project,location.hash.split('/')[4]);
     if(tool==='nmap'&&view==='tool') NmapWorkspace.mount(project,location.hash.split('/')[4]);
     $('workspace').querySelectorAll('[data-delete-scan]').forEach(button=>button.onclick=()=>{

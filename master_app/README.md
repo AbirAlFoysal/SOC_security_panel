@@ -101,3 +101,43 @@ The bundled parameter catalogs come from the official [SQLmap command parser](ht
 and [Nikto option reference](https://github.com/sullo/nikto/wiki/Annotated-Option-List),
 retrieved October 23, 2026. Options added in a newer upstream release may require
 updating this catalog; older installed releases may reject newer options.
+
+
+## Remaining command-line workspaces
+
+All installed-tool catalog entries now have their appropriate project pages. GUI
+applications retain their single Open button. MAC changer and AnonSurf remain in
+the global navbar. The remaining CLI pages share the command builder, right-hand
+searchable parameter panel, value/file prompts, global preset + button, Run/Stop,
+live output, run details, output-file downloads, and project history. Clicking a
+tool opens its page; only its right-side arrow expands the History link.
+
+| Tool | Inputs and behavior |
+| --- | --- |
+| tcpdump | Interface selector, editable BPF filter, bounded capture presets, pcap output, and offline capture-file upload through `-r`. Live capture administrator permission is opt-in; on Linux it uses the system authentication helper and remains cancellable. Offline reads never request administrator permission. |
+| Hydra | Target service URL, login/password values or lists, credential-pair and target files, protocol module options, concurrency controls, and global presets. Credential sources must be explicitly supplied. |
+| John the Ripper | Hash-file picker, wordlists, hash format, single/incremental modes, format listing, showing recovered passwords, and project-local potfiles and sessions. Native `--option=value` spelling is preserved. |
+| Hashcat | Hash-file picker, hash/attack types, dictionary and mask inputs, combinator/hybrid modes, device listing, status output, and project-local potfiles/restore paths. Exit code 1 means candidates were exhausted; this is a completed run, not a process error. |
+| Gobuster | Mode selector for dir, dns, vhost, fuzz, s3, gcs, and tftp; matching target types; wordlist upload; mode-specific flags; and positive status filtering that clears the default blacklist. Cloud modes disable the unused target field. |
+| ffuf | URL/headers/body fuzzing, repeatable named wordlists, request-file input, matchers, filters, auto-calibration, recursion, and result-file output. The interactive console is disabled in the browser runner. |
+| Aircrack-ng | Saved wireless-capture picker, BSSID/ESSID options, WEP/WPA presets, wordlists, session/export flags, and captured output. This executable audits existing captures; it does not perform airodump capture, airmon interface setup, or aireplay actions. |
+
+New runs are immediately registered in the matching tool's project history.
+Repeated command titles receive `(1)`, `(2)`, etc. Running entries cannot be deleted.
+Deleting a completed entry removes that run's generated output files; uploaded
+inputs and project-local recovery state remain available. Recovery state lives in
+`projects/<id>/<tool>-state/`, generated results in `scans/<tool>/`, and uploaded
+inputs in `<tool>-inputs/`. Presets stay at `projects/<tool>-presets.json`.
+
+Uploads support 4 MB per request. For large captures, hash lists, or wordlists,
+enter an existing path on the machine running the app. The browser always invokes
+the located native executable with an argument array, not a shell command.
+Runs have a 30-minute limit, remain stoppable after navigating away, and save
+partial output on cancellation. Process, installation, and validation errors are
+shown in the workspace. Missing tools can still be configured and their presets
+saved, but Run remains disabled until the executable is installed.
+
+Only one run or system mutation can run at a time. Auto reload waits for active
+runs, and changes to the bundled JSON flag catalogs restart the development server.
+References are recorded in `cli_references.json`; tool releases differ in supported
+flags, and upstream-only flags may be rejected by older installed versions.

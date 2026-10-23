@@ -13,7 +13,8 @@ Opens http://127.0.0.1:8000 with automatic reload during development. Use `make 
 ## Features
 
 - Project creation, searchable history, custom statuses, notes, and saved documents
-- Nmap, Hakrawler, SQLmap, and Nikto command builders, parameter reference panels, global presets, and project-specific scan histories
+- Command workspaces for Nmap, Hakrawler, SQLmap, Nikto, tcpdump, Hydra, John the Ripper, Hashcat, Gobuster, ffuf, and Aircrack-ng
+- Searchable parameter panels, global presets, project-specific history, live output, and downloadable result files
 - Desktop launch buttons for Wireshark and Burp Suite
 - Installed-tool detection and package management
 - AnonSurf and MAC changer controls with live network status
@@ -26,6 +27,12 @@ Assessment data and personal presets stay in `projects/` inside this checkout an
 
 ```sh
 python3 -m unittest discover -s master_app/tests
+```
+
+Optional browser command-builder regression checks (Node.js is only needed for this check):
+
+```sh
+node master_app/tests/workspace_builder.test.js
 ```
 
 See [application documentation](master_app/README.md) for platform support and detailed usage.

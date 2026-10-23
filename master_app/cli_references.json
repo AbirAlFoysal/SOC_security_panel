@@ -1,0 +1,12 @@
+{
+  "retrieved": "2026-10-24",
+  "sources": {
+    "tcpdump": "https://github.com/the-tcpdump-group/tcpdump/blob/master/tcpdump.1.in",
+    "hydra": "https://github.com/vanhauser-thc/thc-hydra/blob/master/hydra.c",
+    "john": "https://github.com/openwall/john/blob/bleeding-jumbo/src/options.c",
+    "hashcat": "https://github.com/hashcat/hashcat/blob/master/src/usage.c",
+    "gobuster": "https://github.com/OJ/gobuster/tree/master/cli",
+    "ffuf": "https://github.com/ffuf/ffuf#usage",
+    "aircrack-ng": "https://github.com/aircrack-ng/aircrack-ng/blob/master/src/aircrack-ng/aircrack-ng.c"
+  }
+}

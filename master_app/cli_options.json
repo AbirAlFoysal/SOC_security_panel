@@ -1,0 +1,6633 @@
+{
+  "tcpdump": [
+    {
+      "flag": "-i",
+      "aliases": [
+        "-i",
+        "--interface"
+      ],
+      "name": "Capture interface",
+      "description": "Capture interface (name, index, or any on Linux)",
+      "kind": "value",
+      "hint": "I",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c"
+      ],
+      "name": "Stop after this many captured packets",
+      "description": "Stop after this many captured packets",
+      "kind": "value",
+      "hint": "C",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-nn",
+      "aliases": [
+        "-nn"
+      ],
+      "name": "Disable both host and service name resolution",
+      "description": "Disable both host and service name resolution",
+      "kind": "flag",
+      "hint": "NN",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-n",
+      "aliases": [
+        "-n"
+      ],
+      "name": "Disable host name resolution",
+      "description": "Disable host name resolution",
+      "kind": "flag",
+      "hint": "N",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-l",
+      "aliases": [
+        "-l"
+      ],
+      "name": "Line-buffer packet output",
+      "description": "Line-buffer packet output",
+      "kind": "flag",
+      "hint": "L",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-U",
+      "aliases": [
+        "-U"
+      ],
+      "name": "Packet-buffer capture output",
+      "description": "Packet-buffer capture output",
+      "kind": "flag",
+      "hint": "U",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s"
+      ],
+      "name": "Snapshot length in bytes; 0 captures the full packet",
+      "description": "Snapshot length in bytes; 0 captures the full packet",
+      "kind": "value",
+      "hint": "S",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-w",
+      "aliases": [
+        "-w"
+      ],
+      "name": "Write raw packets to a pcap file",
+      "description": "Write raw packets to a pcap file",
+      "kind": "output",
+      "hint": "W",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r"
+      ],
+      "name": "Read an existing pcap or pcapng capture instead of live capture",
+      "description": "Read an existing pcap or pcapng capture instead of live capture",
+      "kind": "file",
+      "hint": "R",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-F",
+      "aliases": [
+        "-F"
+      ],
+      "name": "Read the capture filter expression from a file",
+      "description": "Read the capture filter expression from a file",
+      "kind": "file",
+      "hint": "F",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-V",
+      "aliases": [
+        "-V"
+      ],
+      "name": "Read a list of capture files",
+      "description": "Read a list of capture files",
+      "kind": "file",
+      "hint": "V",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-A",
+      "aliases": [
+        "-A"
+      ],
+      "name": "Print packet payload as ASCII",
+      "description": "Print packet payload as ASCII",
+      "kind": "flag",
+      "hint": "A",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-X",
+      "aliases": [
+        "-X"
+      ],
+      "name": "Print packet contents as hexadecimal and ASCII",
+      "description": "Print packet contents as hexadecimal and ASCII",
+      "kind": "flag",
+      "hint": "X",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-XX",
+      "aliases": [
+        "-XX"
+      ],
+      "name": "Include link headers in hexadecimal and ASCII output",
+      "description": "Include link headers in hexadecimal and ASCII output",
+      "kind": "flag",
+      "hint": "XX",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-x",
+      "aliases": [
+        "-x"
+      ],
+      "name": "Print packet data in hexadecimal",
+      "description": "Print packet data in hexadecimal",
+      "kind": "flag",
+      "hint": "X",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-xx",
+      "aliases": [
+        "-xx"
+      ],
+      "name": "Print packet data including link headers in hexadecimal",
+      "description": "Print packet data including link headers in hexadecimal",
+      "kind": "flag",
+      "hint": "XX",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-v",
+      "aliases": [
+        "-v"
+      ],
+      "name": "Verbose packet decoding",
+      "description": "Verbose packet decoding",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-vv",
+      "aliases": [
+        "-vv"
+      ],
+      "name": "More verbose packet decoding",
+      "description": "More verbose packet decoding",
+      "kind": "flag",
+      "hint": "VV",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-vvv",
+      "aliases": [
+        "-vvv"
+      ],
+      "name": "Most verbose packet decoding",
+      "description": "Most verbose packet decoding",
+      "kind": "flag",
+      "hint": "VVV",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-e",
+      "aliases": [
+        "-e"
+      ],
+      "name": "Include link-layer headers",
+      "description": "Include link-layer headers",
+      "kind": "flag",
+      "hint": "E",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-q",
+      "aliases": [
+        "-q"
+      ],
+      "name": "Print less protocol information",
+      "description": "Print less protocol information",
+      "kind": "flag",
+      "hint": "Q",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t"
+      ],
+      "name": "Omit timestamps",
+      "description": "Omit timestamps",
+      "kind": "flag",
+      "hint": "T",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-tt",
+      "aliases": [
+        "-tt"
+      ],
+      "name": "Print seconds since Unix epoch",
+      "description": "Print seconds since Unix epoch",
+      "kind": "flag",
+      "hint": "TT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-ttt",
+      "aliases": [
+        "-ttt"
+      ],
+      "name": "Print time since the previous packet",
+      "description": "Print time since the previous packet",
+      "kind": "flag",
+      "hint": "TTT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-tttt",
+      "aliases": [
+        "-tttt"
+      ],
+      "name": "Print date and time for each packet",
+      "description": "Print date and time for each packet",
+      "kind": "flag",
+      "hint": "TTTT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-ttttt",
+      "aliases": [
+        "-ttttt"
+      ],
+      "name": "Print time since the first packet",
+      "description": "Print time since the first packet",
+      "kind": "flag",
+      "hint": "TTTTT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-S",
+      "aliases": [
+        "-S"
+      ],
+      "name": "Print absolute TCP sequence numbers",
+      "description": "Print absolute TCP sequence numbers",
+      "kind": "flag",
+      "hint": "S",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-p",
+      "aliases": [
+        "-p"
+      ],
+      "name": "Do not enable promiscuous mode",
+      "description": "Do not enable promiscuous mode",
+      "kind": "flag",
+      "hint": "P",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-I",
+      "aliases": [
+        "-I"
+      ],
+      "name": "Use monitor mode if the interface supports it",
+      "description": "Use monitor mode if the interface supports it",
+      "kind": "flag",
+      "hint": "I",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-Q",
+      "aliases": [
+        "-Q"
+      ],
+      "name": "Capture direction: in, out, or inout",
+      "description": "Capture direction: in, out, or inout",
+      "kind": "value",
+      "hint": "Q",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-B",
+      "aliases": [
+        "-B"
+      ],
+      "name": "Capture buffer size in KiB",
+      "description": "Capture buffer size in KiB",
+      "kind": "value",
+      "hint": "B",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-C",
+      "aliases": [
+        "-C"
+      ],
+      "name": "Rotate capture files after this size in millions of bytes",
+      "description": "Rotate capture files after this size in millions of bytes",
+      "kind": "value",
+      "hint": "C",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-G",
+      "aliases": [
+        "-G"
+      ],
+      "name": "Rotate capture files after this many seconds",
+      "description": "Rotate capture files after this many seconds",
+      "kind": "value",
+      "hint": "G",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-W",
+      "aliases": [
+        "-W"
+      ],
+      "name": "Maximum number of rotating capture files",
+      "description": "Maximum number of rotating capture files",
+      "kind": "value",
+      "hint": "W",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-D",
+      "aliases": [
+        "-D"
+      ],
+      "name": "List available capture interfaces",
+      "description": "List available capture interfaces",
+      "kind": "flag",
+      "hint": "D",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-L",
+      "aliases": [
+        "-L"
+      ],
+      "name": "List interface data-link types",
+      "description": "List interface data-link types",
+      "kind": "flag",
+      "hint": "L",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-J",
+      "aliases": [
+        "-J"
+      ],
+      "name": "List timestamp types",
+      "description": "List timestamp types",
+      "kind": "flag",
+      "hint": "J",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-j",
+      "aliases": [
+        "-j"
+      ],
+      "name": "Select timestamp source",
+      "description": "Select timestamp source",
+      "kind": "value",
+      "hint": "J",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-y",
+      "aliases": [
+        "-y"
+      ],
+      "name": "Select data-link type",
+      "description": "Select data-link type",
+      "kind": "value",
+      "hint": "Y",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-T",
+      "aliases": [
+        "-T"
+      ],
+      "name": "Force packet decoding type",
+      "description": "Force packet decoding type",
+      "kind": "value",
+      "hint": "T",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-K",
+      "aliases": [
+        "-K"
+      ],
+      "name": "Skip checksum verification",
+      "description": "Skip checksum verification",
+      "kind": "flag",
+      "hint": "K",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-N",
+      "aliases": [
+        "-N"
+      ],
+      "name": "Do not qualify host names",
+      "description": "Do not qualify host names",
+      "kind": "flag",
+      "hint": "N",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-O",
+      "aliases": [
+        "-O"
+      ],
+      "name": "Disable filter optimization",
+      "description": "Disable filter optimization",
+      "kind": "flag",
+      "hint": "O",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-d",
+      "aliases": [
+        "-d"
+      ],
+      "name": "Print compiled filter instructions",
+      "description": "Print compiled filter instructions",
+      "kind": "flag",
+      "hint": "D",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-dd",
+      "aliases": [
+        "-dd"
+      ],
+      "name": "Print filter instructions as C code",
+      "description": "Print filter instructions as C code",
+      "kind": "flag",
+      "hint": "DD",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-ddd",
+      "aliases": [
+        "-ddd"
+      ],
+      "name": "Print numeric filter instructions",
+      "description": "Print numeric filter instructions",
+      "kind": "flag",
+      "hint": "DDD",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-b",
+      "aliases": [
+        "-b"
+      ],
+      "name": "Print AS numbers in ASDOT notation",
+      "description": "Print AS numbers in ASDOT notation",
+      "kind": "flag",
+      "hint": "B",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-f",
+      "aliases": [
+        "-f"
+      ],
+      "name": "Print foreign IPv4 addresses numerically",
+      "description": "Print foreign IPv4 addresses numerically",
+      "kind": "flag",
+      "hint": "F",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-H",
+      "aliases": [
+        "-H"
+      ],
+      "name": "Attempt 802.11s mesh-header detection",
+      "description": "Attempt 802.11s mesh-header detection",
+      "kind": "flag",
+      "hint": "H",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-M",
+      "aliases": [
+        "-M"
+      ],
+      "name": "Secret for TCP-MD5 verification",
+      "description": "Secret for TCP-MD5 verification",
+      "kind": "value",
+      "hint": "M",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-E",
+      "aliases": [
+        "-E"
+      ],
+      "name": "ESP decryption parameters",
+      "description": "ESP decryption parameters",
+      "kind": "value",
+      "hint": "E",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-Z",
+      "aliases": [
+        "-Z"
+      ],
+      "name": "User to switch to after opening capture device",
+      "description": "User to switch to after opening capture device",
+      "kind": "value",
+      "hint": "Z",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "-z",
+      "aliases": [
+        "-z"
+      ],
+      "name": "Post-rotation processing program",
+      "description": "Post-rotation processing program",
+      "kind": "value",
+      "hint": "Z",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--immediate-mode",
+      "aliases": [
+        "--immediate-mode"
+      ],
+      "name": "Deliver packets immediately instead of buffering",
+      "description": "Deliver packets immediately instead of buffering",
+      "kind": "flag",
+      "hint": "IMMEDIATE-MODE",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--time-stamp-precision",
+      "aliases": [
+        "--time-stamp-precision"
+      ],
+      "name": "Timestamp precision: micro or nano",
+      "description": "Timestamp precision: micro or nano",
+      "kind": "value",
+      "hint": "TIME-STAMP-PRECISION",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--micro",
+      "aliases": [
+        "--micro"
+      ],
+      "name": "Use microsecond timestamp precision",
+      "description": "Use microsecond timestamp precision",
+      "kind": "flag",
+      "hint": "MICRO",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--nano",
+      "aliases": [
+        "--nano"
+      ],
+      "name": "Use nanosecond timestamp precision",
+      "description": "Use nanosecond timestamp precision",
+      "kind": "flag",
+      "hint": "NANO",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--number",
+      "aliases": [
+        "--number"
+      ],
+      "name": "Number the decoded packets",
+      "description": "Number the decoded packets",
+      "kind": "flag",
+      "hint": "NUMBER",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--print",
+      "aliases": [
+        "--print"
+      ],
+      "name": "Print decoded packets even when saving a capture",
+      "description": "Print decoded packets even when saving a capture",
+      "kind": "flag",
+      "hint": "PRINT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--count",
+      "aliases": [
+        "--count"
+      ],
+      "name": "Print only the packet count on completion",
+      "description": "Print only the packet count on completion",
+      "kind": "flag",
+      "hint": "COUNT",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--version",
+      "aliases": [
+        "--version"
+      ],
+      "name": "Print version information",
+      "description": "Print version information",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "--help",
+      "aliases": [
+        "--help"
+      ],
+      "name": "Print help",
+      "description": "Print help",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Capture options",
+      "repeat": false
+    },
+    {
+      "flag": "$filter",
+      "aliases": [
+        "$filter"
+      ],
+      "name": "Packet filter expression, such as host 192.0.2.1 and tcp",
+      "description": "Packet filter expression, such as host 192.0.2.1 and tcp",
+      "kind": "positional-value",
+      "hint": "$FILTER",
+      "group": "Options",
+      "repeat": false
+    }
+  ],
+  "hydra": [
+    {
+      "flag": "-l",
+      "aliases": [
+        "-l"
+      ],
+      "name": "Single login name",
+      "description": "Single login name",
+      "kind": "value",
+      "hint": "L",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": [
+        "-L",
+        "-C"
+      ]
+    },
+    {
+      "flag": "-L",
+      "aliases": [
+        "-L"
+      ],
+      "name": "File of login names, one per line",
+      "description": "File of login names, one per line",
+      "kind": "file",
+      "hint": "L",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": [
+        "-l",
+        "-C"
+      ]
+    },
+    {
+      "flag": "-p",
+      "aliases": [
+        "-p"
+      ],
+      "name": "Single password",
+      "description": "Single password",
+      "kind": "value",
+      "hint": "P",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": [
+        "-P",
+        "-C"
+      ]
+    },
+    {
+      "flag": "-P",
+      "aliases": [
+        "-P"
+      ],
+      "name": "Password wordlist",
+      "description": "Password wordlist",
+      "kind": "file",
+      "hint": "P",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": [
+        "-p",
+        "-C"
+      ]
+    },
+    {
+      "flag": "-C",
+      "aliases": [
+        "-C"
+      ],
+      "name": "File containing login:password pairs",
+      "description": "File containing login:password pairs",
+      "kind": "file",
+      "hint": "C",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": [
+        "-l",
+        "-L",
+        "-p",
+        "-P",
+        "-x"
+      ]
+    },
+    {
+      "flag": "-M",
+      "aliases": [
+        "-M"
+      ],
+      "name": "Server list, one target per line",
+      "description": "Server list, one target per line",
+      "kind": "file",
+      "hint": "M",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-e",
+      "aliases": [
+        "-e"
+      ],
+      "name": "Additional checks: n empty password, s login name, r reversed login",
+      "description": "Additional checks: n empty password, s login name, r reversed login",
+      "kind": "value",
+      "hint": "E",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-x",
+      "aliases": [
+        "-x"
+      ],
+      "name": "Password generation: minimum:maximum:charset",
+      "description": "Password generation: minimum:maximum:charset",
+      "kind": "value",
+      "hint": "X",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-y",
+      "aliases": [
+        "-y"
+      ],
+      "name": "Disable symbols in generated passwords",
+      "description": "Disable symbols in generated passwords",
+      "kind": "flag",
+      "hint": "Y",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r"
+      ],
+      "name": "Use non-random password generation order",
+      "description": "Use non-random password generation order",
+      "kind": "flag",
+      "hint": "R",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-u",
+      "aliases": [
+        "-u"
+      ],
+      "name": "Iterate users before passwords",
+      "description": "Iterate users before passwords",
+      "kind": "flag",
+      "hint": "U",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-D",
+      "aliases": [
+        "-D"
+      ],
+      "name": "Use segment XofY of the wordlist",
+      "description": "Use segment XofY of the wordlist",
+      "kind": "value",
+      "hint": "D",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s"
+      ],
+      "name": "Override the service port",
+      "description": "Override the service port",
+      "kind": "value",
+      "hint": "S",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-S",
+      "aliases": [
+        "-S"
+      ],
+      "name": "Use SSL/TLS",
+      "description": "Use SSL/TLS",
+      "kind": "flag",
+      "hint": "S",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-O",
+      "aliases": [
+        "-O"
+      ],
+      "name": "Use old SSL versions",
+      "description": "Use old SSL versions",
+      "kind": "flag",
+      "hint": "O",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-4",
+      "aliases": [
+        "-4"
+      ],
+      "name": "Use IPv4",
+      "description": "Use IPv4",
+      "kind": "flag",
+      "hint": "4",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-6",
+      "aliases": [
+        "-6"
+      ],
+      "name": "Use IPv6",
+      "description": "Use IPv6",
+      "kind": "flag",
+      "hint": "6",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t"
+      ],
+      "name": "Parallel connections per target",
+      "description": "Parallel connections per target",
+      "kind": "value",
+      "hint": "T",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-T",
+      "aliases": [
+        "-T"
+      ],
+      "name": "Maximum parallel connections overall",
+      "description": "Maximum parallel connections overall",
+      "kind": "value",
+      "hint": "T",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-w",
+      "aliases": [
+        "-w"
+      ],
+      "name": "Response timeout in seconds",
+      "description": "Response timeout in seconds",
+      "kind": "value",
+      "hint": "W",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-W",
+      "aliases": [
+        "-W"
+      ],
+      "name": "Delay between connections per worker",
+      "description": "Delay between connections per worker",
+      "kind": "value",
+      "hint": "W",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c"
+      ],
+      "name": "Delay between all login attempts",
+      "description": "Delay between all login attempts",
+      "kind": "value",
+      "hint": "C",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-f",
+      "aliases": [
+        "-f"
+      ],
+      "name": "Stop this host after a valid login is found",
+      "description": "Stop this host after a valid login is found",
+      "kind": "flag",
+      "hint": "F",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-F",
+      "aliases": [
+        "-F"
+      ],
+      "name": "Stop all hosts after a valid login is found",
+      "description": "Stop all hosts after a valid login is found",
+      "kind": "flag",
+      "hint": "F",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-K",
+      "aliases": [
+        "-K"
+      ],
+      "name": "Do not repeat failed attempts",
+      "description": "Do not repeat failed attempts",
+      "kind": "flag",
+      "hint": "K",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-q",
+      "aliases": [
+        "-q"
+      ],
+      "name": "Suppress connection error messages",
+      "description": "Suppress connection error messages",
+      "kind": "flag",
+      "hint": "Q",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-v",
+      "aliases": [
+        "-v"
+      ],
+      "name": "Verbose status output",
+      "description": "Verbose status output",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-V",
+      "aliases": [
+        "-V"
+      ],
+      "name": "Show each login/password attempt",
+      "description": "Show each login/password attempt",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-d",
+      "aliases": [
+        "-d"
+      ],
+      "name": "Debug output",
+      "description": "Debug output",
+      "kind": "flag",
+      "hint": "D",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-o",
+      "aliases": [
+        "-o"
+      ],
+      "name": "Save discovered login/password pairs",
+      "description": "Save discovered login/password pairs",
+      "kind": "output",
+      "hint": "O",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-b",
+      "aliases": [
+        "-b"
+      ],
+      "name": "Output format: text, json, or jsonv1",
+      "description": "Output format: text, json, or jsonv1",
+      "kind": "value",
+      "hint": "B",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-m",
+      "aliases": [
+        "-m"
+      ],
+      "name": "Protocol-specific module options",
+      "description": "Protocol-specific module options",
+      "kind": "value",
+      "hint": "M",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-U",
+      "aliases": [
+        "-U"
+      ],
+      "name": "Show usage for the selected service module",
+      "description": "Show usage for the selected service module",
+      "kind": "flag",
+      "hint": "U",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-I",
+      "aliases": [
+        "-I"
+      ],
+      "name": "Ignore an existing restore file",
+      "description": "Ignore an existing restore file",
+      "kind": "flag",
+      "hint": "I",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-R",
+      "aliases": [
+        "-R"
+      ],
+      "name": "Restore the previous interrupted job",
+      "description": "Restore the previous interrupted job",
+      "kind": "flag",
+      "hint": "R",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "-h",
+      "aliases": [
+        "-h"
+      ],
+      "name": "Show complete help",
+      "description": "Show complete help",
+      "kind": "flag",
+      "hint": "H",
+      "group": "Authentication options",
+      "repeat": false,
+      "exclusive": []
+    },
+    {
+      "flag": "$target",
+      "aliases": [
+        "$target"
+      ],
+      "name": "Target service URL, such as ssh://192.0.2.1",
+      "description": "Target service URL, such as ssh://192.0.2.1",
+      "kind": "positional-value",
+      "hint": "$TARGET",
+      "group": "Options",
+      "repeat": false,
+      "exclusive": []
+    }
+  ],
+  "john": [
+    {
+      "flag": "--regex",
+      "aliases": [
+        "--regex"
+      ],
+      "name": "Regular expression mode",
+      "description": "Regular expression mode (see doc/README.librexgen)",
+      "kind": "value",
+      "hint": "REGEX",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince",
+      "aliases": [
+        "--prince"
+      ],
+      "name": "PRINCE mode, read words from FILE",
+      "description": "PRINCE mode, read words from FILE",
+      "kind": "optional-value",
+      "hint": "PRINCE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-loopback",
+      "aliases": [
+        "--prince-loopback"
+      ],
+      "name": "Fetch words from a .pot file",
+      "description": "Fetch words from a .pot file",
+      "kind": "optional-value",
+      "hint": "PRINCE-LOOPBACK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-elem-cnt-min",
+      "aliases": [
+        "--prince-elem-cnt-min"
+      ],
+      "name": "Minimum number of elements per chain",
+      "description": "Minimum number of elements per chain (1)",
+      "kind": "value",
+      "hint": "PRINCE-ELEM-CNT-MIN",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-skip",
+      "aliases": [
+        "--prince-skip"
+      ],
+      "name": "Initial skip",
+      "description": "Initial skip",
+      "kind": "value",
+      "hint": "PRINCE-SKIP",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-limit",
+      "aliases": [
+        "--prince-limit"
+      ],
+      "name": "Limit number of candidates generated",
+      "description": "Limit number of candidates generated",
+      "kind": "value",
+      "hint": "PRINCE-LIMIT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-wl-dist-len",
+      "aliases": [
+        "--prince-wl-dist-len"
+      ],
+      "name": "Calculate length distribution from wordlist",
+      "description": "Calculate length distribution from wordlist",
+      "kind": "flag",
+      "hint": "PRINCE-WL-DIST-LEN",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-wl-max",
+      "aliases": [
+        "--prince-wl-max"
+      ],
+      "name": "Load only N words from input wordlist",
+      "description": "Load only N words from input wordlist",
+      "kind": "value",
+      "hint": "PRINCE-WL-MAX",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-case-permute",
+      "aliases": [
+        "--prince-case-permute"
+      ],
+      "name": "Permute case of first letter",
+      "description": "Permute case of first letter",
+      "kind": "flag",
+      "hint": "PRINCE-CASE-PERMUTE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--prince-keyspace",
+      "aliases": [
+        "--prince-keyspace"
+      ],
+      "name": "Just show total keyspace that would be produced",
+      "description": "Just show total keyspace that would be produced",
+      "kind": "flag",
+      "hint": "PRINCE-KEYSPACE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--fuzz",
+      "aliases": [
+        "--fuzz"
+      ],
+      "name": "Fuzz formats' prepare(), valid() and split()",
+      "description": "Fuzz formats' prepare(), valid() and split()",
+      "kind": "optional-value",
+      "hint": "FUZZ",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--fuzz-dump",
+      "aliases": [
+        "--fuzz-dump"
+      ],
+      "name": "Dump the fuzzed hashes between FROM and TO to file",
+      "description": "Dump the fuzzed hashes between FROM and TO to file",
+      "kind": "optional-value",
+      "hint": "FUZZ-DUMP",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--help",
+      "aliases": [
+        "--help"
+      ],
+      "name": "Print usage summary",
+      "description": "Print usage summary",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single",
+      "aliases": [
+        "--single"
+      ],
+      "name": "\"Single crack\" mode, using default or named rules",
+      "description": "\"Single crack\" mode, using default or named rules",
+      "kind": "optional-value",
+      "hint": "SINGLE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single-seed",
+      "aliases": [
+        "--single-seed"
+      ],
+      "name": "Add static seed word(s) for all salts in single mode",
+      "description": "Add static seed word(s) for all salts in single mode",
+      "kind": "value",
+      "hint": "SINGLE-SEED",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single-wordlist",
+      "aliases": [
+        "--single-wordlist"
+      ],
+      "name": "*Short* wordlist with static seed words/morphemes",
+      "description": "*Short* wordlist with static seed words/morphemes",
+      "kind": "file",
+      "hint": "SINGLE-WORDLIST",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single-user-seed",
+      "aliases": [
+        "--single-user-seed"
+      ],
+      "name": "Wordlist with seeds per username",
+      "description": "Wordlist with seeds per username (user:password[s]",
+      "kind": "file",
+      "hint": "SINGLE-USER-SEED",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single-pair-max",
+      "aliases": [
+        "--single-pair-max"
+      ],
+      "name": "Override max",
+      "description": "Override max. number of word pairs generated (%u)",
+      "kind": "value",
+      "hint": "SINGLE-PAIR-MAX",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-single-pair",
+      "aliases": [
+        "--no-single-pair"
+      ],
+      "name": "Disable single word pair generation",
+      "description": "Disable single word pair generation",
+      "kind": "flag",
+      "hint": "NO-SINGLE-PAIR",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--rules",
+      "aliases": [
+        "--rules"
+      ],
+      "name": "Enable word mangling rules",
+      "description": "Enable word mangling rules (for wordlist or PRINCE",
+      "kind": "optional-value",
+      "hint": "RULES",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--rules-stack",
+      "aliases": [
+        "--rules-stack"
+      ],
+      "name": "Same, using \"immediate\" rule(s)",
+      "description": "Same, using \"immediate\" rule(s)",
+      "kind": "value",
+      "hint": "RULES-STACK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--rules-skip-nop",
+      "aliases": [
+        "--rules-skip-nop"
+      ],
+      "name": "Skip any NOP \":\" rules",
+      "description": "Skip any NOP \":\" rules (you already ran w/o rules)",
+      "kind": "flag",
+      "hint": "RULES-SKIP-NOP",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--loopback",
+      "aliases": [
+        "--loopback"
+      ],
+      "name": "Like --wordlist, but extract words from a .pot file",
+      "description": "Like --wordlist, but extract words from a .pot file",
+      "kind": "optional-value",
+      "hint": "LOOPBACK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--mem-file-size",
+      "aliases": [
+        "--mem-file-size"
+      ],
+      "name": "Size threshold for wordlist preload",
+      "description": "Size threshold for wordlist preload (default %u MB)",
+      "kind": "value",
+      "hint": "MEM-FILE-SIZE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--dupe-suppression",
+      "aliases": [
+        "--dupe-suppression"
+      ],
+      "name": "Opportunistic dupe suppression for wordlist+rules",
+      "description": "Opportunistic dupe suppression for wordlist+rules",
+      "kind": "optional-value",
+      "hint": "DUPE-SUPPRESSION",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--incremental",
+      "aliases": [
+        "--incremental"
+      ],
+      "name": "\"Incremental\" mode [using section MODE]",
+      "description": "\"Incremental\" mode [using section MODE]",
+      "kind": "optional-value",
+      "hint": "INCREMENTAL",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--incremental-charcount",
+      "aliases": [
+        "--incremental-charcount"
+      ],
+      "name": "Override CharCount for incremental mode",
+      "description": "Override CharCount for incremental mode",
+      "kind": "value",
+      "hint": "INCREMENTAL-CHARCOUNT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--external",
+      "aliases": [
+        "--external"
+      ],
+      "name": "External mode or word filter",
+      "description": "External mode or word filter",
+      "kind": "value",
+      "hint": "EXTERNAL",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--mask",
+      "aliases": [
+        "--mask"
+      ],
+      "name": "Mask mode using MASK",
+      "description": "Mask mode using MASK (or default from john.conf)",
+      "kind": "optional-value",
+      "hint": "MASK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--markov",
+      "aliases": [
+        "--markov"
+      ],
+      "name": "\"Markov\" mode",
+      "description": "\"Markov\" mode (see doc/MARKOV)",
+      "kind": "optional-value",
+      "hint": "MARKOV",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--mkv-stats",
+      "aliases": [
+        "--mkv-stats"
+      ],
+      "name": "\"Markov\" stats file",
+      "description": "\"Markov\" stats file",
+      "kind": "file",
+      "hint": "MKV-STATS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets",
+      "aliases": [
+        "--subsets"
+      ],
+      "name": "\"Subsets\" mode",
+      "description": "\"Subsets\" mode (see doc/SUBSETS)",
+      "kind": "optional-value",
+      "hint": "SUBSETS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets-required",
+      "aliases": [
+        "--subsets-required"
+      ],
+      "name": "The N first characters of \"subsets\" charset are",
+      "description": "The N first characters of \"subsets\" charset are",
+      "kind": "value",
+      "hint": "SUBSETS-REQUIRED",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets-min-diff",
+      "aliases": [
+        "--subsets-min-diff"
+      ],
+      "name": "Minimum unique characters in subset",
+      "description": "Minimum unique characters in subset",
+      "kind": "value",
+      "hint": "SUBSETS-MIN-DIFF",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets-max-diff",
+      "aliases": [
+        "--subsets-max-diff"
+      ],
+      "name": "Maximum unique characters in subset",
+      "description": "Maximum unique characters in subset (negative N is",
+      "kind": "value",
+      "hint": "SUBSETS-MAX-DIFF",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets-prefer-short",
+      "aliases": [
+        "--subsets-prefer-short"
+      ],
+      "name": "Prefer shorter candidates over smaller subsets",
+      "description": "Prefer shorter candidates over smaller subsets",
+      "kind": "flag",
+      "hint": "SUBSETS-PREFER-SHORT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subsets-prefer-small",
+      "aliases": [
+        "--subsets-prefer-small"
+      ],
+      "name": "Prefer smaller subsets over shorter candidates",
+      "description": "Prefer smaller subsets over shorter candidates",
+      "kind": "flag",
+      "hint": "SUBSETS-PREFER-SMALL",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--make-charset",
+      "aliases": [
+        "--make-charset"
+      ],
+      "name": "Make a charset, FILE will be overwritten",
+      "description": "Make a charset, FILE will be overwritten",
+      "kind": "output",
+      "hint": "MAKE-CHARSET",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--stdout",
+      "aliases": [
+        "--stdout"
+      ],
+      "name": "Just output candidate passwords [cut at LENGTH]",
+      "description": "Just output candidate passwords [cut at LENGTH]",
+      "kind": "optional-value",
+      "hint": "STDOUT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--session",
+      "aliases": [
+        "--session"
+      ],
+      "name": "Give a new session the NAME",
+      "description": "Give a new session the NAME",
+      "kind": "state-session",
+      "hint": "SESSION",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--status",
+      "aliases": [
+        "--status"
+      ],
+      "name": "Print status of a session [called NAME]",
+      "description": "Print status of a session [called NAME]",
+      "kind": "optional-value",
+      "hint": "STATUS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--restore",
+      "aliases": [
+        "--restore"
+      ],
+      "name": "Restore an interrupted session [called NAME]",
+      "description": "Restore an interrupted session [called NAME]",
+      "kind": "optional-value",
+      "hint": "RESTORE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--progress-every",
+      "aliases": [
+        "--progress-every"
+      ],
+      "name": "Emit a status line every N seconds",
+      "description": "Emit a status line every N seconds",
+      "kind": "value",
+      "hint": "PROGRESS-EVERY",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--show",
+      "aliases": [
+        "--show"
+      ],
+      "name": "Show cracked passwords [if =left, then uncracked]",
+      "description": "Show cracked passwords [if =left, then uncracked]",
+      "kind": "optional-value",
+      "hint": "SHOW",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--test",
+      "aliases": [
+        "--test"
+      ],
+      "name": "Run tests and benchmarks for TIME seconds each",
+      "description": "Run tests and benchmarks for TIME seconds each",
+      "kind": "optional-value",
+      "hint": "TEST",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--stress-test",
+      "aliases": [
+        "--stress-test"
+      ],
+      "name": "Loop self tests forever",
+      "description": "Loop self tests forever",
+      "kind": "optional-value",
+      "hint": "STRESS-TEST",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--test-full",
+      "aliases": [
+        "--test-full"
+      ],
+      "name": "Run more thorough self-tests",
+      "description": "Run more thorough self-tests",
+      "kind": "value",
+      "hint": "TEST-FULL",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-mask",
+      "aliases": [
+        "--no-mask"
+      ],
+      "name": "Used with --test for alternate benchmark w/o mask",
+      "description": "Used with --test for alternate benchmark w/o mask",
+      "kind": "flag",
+      "hint": "NO-MASK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--skip-self-tests",
+      "aliases": [
+        "--skip-self-tests"
+      ],
+      "name": "Skip self tests",
+      "description": "Skip self tests",
+      "kind": "flag",
+      "hint": "SKIP-SELF-TESTS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--users",
+      "aliases": [
+        "--users"
+      ],
+      "name": "[Do not] load this",
+      "description": "[Do not] load this (these) user(s) only",
+      "kind": "value",
+      "hint": "USERS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--groups",
+      "aliases": [
+        "--groups"
+      ],
+      "name": "Load users [not] of this",
+      "description": "Load users [not] of this (these) group(s) only",
+      "kind": "value",
+      "hint": "GROUPS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--shells",
+      "aliases": [
+        "--shells"
+      ],
+      "name": "Load users with[out] this",
+      "description": "Load users with[out] this (these) shell(s) only",
+      "kind": "value",
+      "hint": "SHELLS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--salts",
+      "aliases": [
+        "--salts"
+      ],
+      "name": "Load salts with[out] COUNT [to MAX] hashes, or",
+      "description": "Load salts with[out] COUNT [to MAX] hashes, or",
+      "kind": "value",
+      "hint": "SALTS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--costs",
+      "aliases": [
+        "--costs"
+      ],
+      "name": "Load salts with[out] cost value Cn [to Mn]",
+      "description": "Load salts with[out] cost value Cn [to Mn]. For",
+      "kind": "value",
+      "hint": "COSTS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--node",
+      "aliases": [
+        "--node"
+      ],
+      "name": "This node's number range out of TOTAL count",
+      "description": "This node's number range out of TOTAL count",
+      "kind": "value",
+      "hint": "NODE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--save-memory",
+      "aliases": [
+        "--save-memory"
+      ],
+      "name": "Enable memory saving, at LEVEL 1..3",
+      "description": "Enable memory saving, at LEVEL 1..3",
+      "kind": "value",
+      "hint": "SAVE-MEMORY",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--log-stderr",
+      "aliases": [
+        "--log-stderr"
+      ],
+      "name": "Log to screen instead of file",
+      "description": "Log to screen instead of file",
+      "kind": "flag",
+      "hint": "LOG-STDERR",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--verbosity",
+      "aliases": [
+        "--verbosity"
+      ],
+      "name": "Change verbosity",
+      "description": "Change verbosity (1-%u or %u for debug, default %u)",
+      "kind": "value",
+      "hint": "VERBOSITY",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-log",
+      "aliases": [
+        "--no-log"
+      ],
+      "name": "Disables creation and writing to john.log file",
+      "description": "Disables creation and writing to john.log file",
+      "kind": "flag",
+      "hint": "NO-LOG",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--bare-always-valid",
+      "aliases": [
+        "--bare-always-valid"
+      ],
+      "name": "Treat bare hashes as valid",
+      "description": "Treat bare hashes as valid (Y/N)",
+      "kind": "value",
+      "hint": "BARE-ALWAYS-VALID",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--catch-up",
+      "aliases": [
+        "--catch-up"
+      ],
+      "name": "Catch up with existing",
+      "description": "Catch up with existing (paused) session NAME",
+      "kind": "value",
+      "hint": "CATCH-UP",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--config",
+      "aliases": [
+        "--config"
+      ],
+      "name": "Use FILE instead of john.conf or john.ini",
+      "description": "Use FILE instead of john.conf or john.ini",
+      "kind": "file",
+      "hint": "CONFIG",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--encoding",
+      "aliases": [
+        "--encoding"
+      ],
+      "name": "Input encoding",
+      "description": "Input encoding (eg. UTF-8, ISO-8859-1). See also",
+      "kind": "value",
+      "hint": "ENCODING",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--input-encoding",
+      "aliases": [
+        "--input-encoding"
+      ],
+      "name": "Input encoding",
+      "description": "Input encoding (alias for --encoding)",
+      "kind": "value",
+      "hint": "INPUT-ENCODING",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--internal-codepage",
+      "aliases": [
+        "--internal-codepage"
+      ],
+      "name": "Codepage used in rules/masks",
+      "description": "Codepage used in rules/masks (see doc/ENCODINGS)",
+      "kind": "value",
+      "hint": "INTERNAL-CODEPAGE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--target-encoding",
+      "aliases": [
+        "--target-encoding"
+      ],
+      "name": "Output encoding",
+      "description": "Output encoding (used by format)",
+      "kind": "value",
+      "hint": "TARGET-ENCODING",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--force-tty",
+      "aliases": [
+        "--force-tty"
+      ],
+      "name": "Set up terminal for reading keystrokes even if we're",
+      "description": "Set up terminal for reading keystrokes even if we're",
+      "kind": "flag",
+      "hint": "FORCE-TTY",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--field-separator-char",
+      "aliases": [
+        "--field-separator-char"
+      ],
+      "name": "Use 'C' instead of the ':' in input and pot files",
+      "description": "Use 'C' instead of the ':' in input and pot files",
+      "kind": "value",
+      "hint": "FIELD-SEPARATOR-CHAR",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--list",
+      "aliases": [
+        "--list"
+      ],
+      "name": "List capabilities, see --list=help or doc/OPTIONS",
+      "description": "List capabilities, see --list=help or doc/OPTIONS",
+      "kind": "value",
+      "hint": "LIST",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--length",
+      "aliases": [
+        "--length"
+      ],
+      "name": "Shortcut for --min-len=N --max-len=N",
+      "description": "Shortcut for --min-len=N --max-len=N",
+      "kind": "value",
+      "hint": "LENGTH",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--min-length",
+      "aliases": [
+        "--min-length"
+      ],
+      "name": "Request a minimum candidate length in bytes",
+      "description": "Request a minimum candidate length in bytes",
+      "kind": "value",
+      "hint": "MIN-LENGTH",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--max-length",
+      "aliases": [
+        "--max-length"
+      ],
+      "name": "Request a maximum candidate length in bytes",
+      "description": "Request a maximum candidate length in bytes",
+      "kind": "value",
+      "hint": "MAX-LENGTH",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--max-candidates",
+      "aliases": [
+        "--max-candidates"
+      ],
+      "name": "Gracefully exit after this many candidates tried.",
+      "description": "Gracefully exit after this many candidates tried.",
+      "kind": "value",
+      "hint": "MAX-CANDIDATES",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--max-run-time",
+      "aliases": [
+        "--max-run-time"
+      ],
+      "name": "Gracefully exit after this many seconds",
+      "description": "Gracefully exit after this many seconds (if negative,",
+      "kind": "value",
+      "hint": "MAX-RUN-TIME",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--mkpc",
+      "aliases": [
+        "--mkpc"
+      ],
+      "name": "Request a lower max",
+      "description": "Request a lower max. keys per crypt",
+      "kind": "value",
+      "hint": "MKPC",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-loader-dupe-check",
+      "aliases": [
+        "--no-loader-dupe-check"
+      ],
+      "name": "Disable the dupe checking when loading hashes",
+      "description": "Disable the dupe checking when loading hashes",
+      "kind": "flag",
+      "hint": "NO-LOADER-DUPE-CHECK",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--pot",
+      "aliases": [
+        "--pot"
+      ],
+      "name": "Pot file to use",
+      "description": "Pot file to use",
+      "kind": "state-file",
+      "hint": "POT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--regen-lost-salts",
+      "aliases": [
+        "--regen-lost-salts"
+      ],
+      "name": "Brute force unknown salts",
+      "description": "Brute force unknown salts (see doc/OPTIONS)",
+      "kind": "value",
+      "hint": "REGEN-LOST-SALTS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--reject-printable",
+      "aliases": [
+        "--reject-printable"
+      ],
+      "name": "Reject printable binaries",
+      "description": "Reject printable binaries",
+      "kind": "flag",
+      "hint": "REJECT-PRINTABLE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--tune",
+      "aliases": [
+        "--tune"
+      ],
+      "name": "Tuning options",
+      "description": "Tuning options (auto/report/N)",
+      "kind": "value",
+      "hint": "TUNE",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--subformat",
+      "aliases": [
+        "--subformat"
+      ],
+      "name": "Pick a benchmark format for --format=crypt",
+      "description": "Pick a benchmark format for --format=crypt",
+      "kind": "value",
+      "hint": "SUBFORMAT",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--devices",
+      "aliases": [
+        "--devices"
+      ],
+      "name": "Set OpenCL device(s)",
+      "description": "Set OpenCL device(s) (see --list=opencl-devices)",
+      "kind": "value",
+      "hint": "DEVICES",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--mask-internal-target",
+      "aliases": [
+        "--mask-internal-target"
+      ],
+      "name": "Request a specific internal mask target",
+      "description": "Request a specific internal mask target",
+      "kind": "value",
+      "hint": "MASK-INTERNAL-TARGET",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--force-scalar",
+      "aliases": [
+        "--force-scalar"
+      ],
+      "name": "Force scalar mode",
+      "description": "Force scalar mode",
+      "kind": "flag",
+      "hint": "FORCE-SCALAR",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--force-vector-width",
+      "aliases": [
+        "--force-vector-width"
+      ],
+      "name": "Force vector width N",
+      "description": "Force vector width N",
+      "kind": "value",
+      "hint": "FORCE-VECTOR-WIDTH",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--lws",
+      "aliases": [
+        "--lws"
+      ],
+      "name": "Force local worksize N",
+      "description": "Force local worksize N",
+      "kind": "value",
+      "hint": "LWS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--gws",
+      "aliases": [
+        "--gws"
+      ],
+      "name": "Force global worksize N",
+      "description": "Force global worksize N",
+      "kind": "value",
+      "hint": "GWS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--crack-status",
+      "aliases": [
+        "--crack-status"
+      ],
+      "name": "Print a status line for each recovered password",
+      "description": "Print a status line for each recovered password",
+      "kind": "flag",
+      "hint": "CRACK-STATUS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-crack-status",
+      "aliases": [
+        "--no-crack-status"
+      ],
+      "name": "Disable per-password status lines",
+      "description": "Disable per-password status lines",
+      "kind": "flag",
+      "hint": "NO-CRACK-STATUS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--single-retest-guess",
+      "aliases": [
+        "--single-retest-guess"
+      ],
+      "name": "Retest guessed passwords in single mode",
+      "description": "Retest guessed passwords in single mode",
+      "kind": "flag",
+      "hint": "SINGLE-RETEST-GUESS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--no-single-retest-guess",
+      "aliases": [
+        "--no-single-retest-guess"
+      ],
+      "name": "Disable retesting guesses",
+      "description": "Disable retesting guesses",
+      "kind": "flag",
+      "hint": "NO-SINGLE-RETEST-GUESS",
+      "group": "Password auditing",
+      "repeat": false
+    },
+    {
+      "flag": "$extra-input",
+      "aliases": [
+        "$extra-input"
+      ],
+      "name": "Add another hash file",
+      "description": "Add another hash file",
+      "kind": "positional-file",
+      "hint": "EXTRA-INPUT",
+      "group": "Input files",
+      "repeat": false
+    },
+    {
+      "flag": "--wordlist",
+      "aliases": [
+        "--wordlist"
+      ],
+      "name": "Read candidate passwords from a wordlist",
+      "description": "Read candidate passwords from a wordlist",
+      "kind": "file",
+      "hint": "path/to/wordlist.txt",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "--format",
+      "aliases": [
+        "--format"
+      ],
+      "name": "Force a hash format, such as raw-md5 or bcrypt",
+      "description": "Force a hash format, such as raw-md5 or bcrypt",
+      "kind": "value",
+      "hint": "FORMAT",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "--fork",
+      "aliases": [
+        "--fork"
+      ],
+      "name": "Use this many worker processes",
+      "description": "Use this many worker processes",
+      "kind": "value",
+      "hint": "FORK",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "--keep-guessing",
+      "aliases": [
+        "--keep-guessing"
+      ],
+      "name": "Continue finding plaintext collisions",
+      "description": "Continue finding plaintext collisions",
+      "kind": "flag",
+      "hint": "KEEP-GUESSING",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "--no-keep-guessing",
+      "aliases": [
+        "--no-keep-guessing"
+      ],
+      "name": "Stop guessing each hash after recovery",
+      "description": "Stop guessing each hash after recovery",
+      "kind": "flag",
+      "hint": "NO-KEEP-GUESSING",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "$input",
+      "aliases": [
+        "$input"
+      ],
+      "name": "Choose the primary hash file",
+      "description": "Choose the primary hash file",
+      "kind": "positional-file",
+      "hint": "$INPUT",
+      "group": "Options",
+      "repeat": false
+    }
+  ],
+  "hashcat": [
+    {
+      "flag": "--hash-type",
+      "aliases": [
+        "-m",
+        "--hash-type"
+      ],
+      "name": "Hash-type, references below",
+      "description": "Hash-type, references below (otherwise autodetect)",
+      "kind": "value",
+      "hint": "HASH-TYPE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hash-recipe",
+      "aliases": [
+        "--hash-recipe"
+      ],
+      "name": "Hash recipe for hash-mode 4000",
+      "description": "Hash recipe for hash-mode 4000",
+      "kind": "value",
+      "hint": "HASH-RECIPE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--attack-mode",
+      "aliases": [
+        "-a",
+        "--attack-mode"
+      ],
+      "name": "Attack-mode, see references below",
+      "description": "Attack-mode, see references below",
+      "kind": "value",
+      "hint": "ATTACK-MODE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--version",
+      "aliases": [
+        "-V",
+        "--version"
+      ],
+      "name": "Print version",
+      "description": "Print version",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--help",
+      "aliases": [
+        "-h",
+        "--help"
+      ],
+      "name": "Print help",
+      "description": "Print help. Use -hh to show all supported hash-modes",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--quiet",
+      "aliases": [
+        "--quiet"
+      ],
+      "name": "Suppress output",
+      "description": "Suppress output",
+      "kind": "flag",
+      "hint": "QUIET",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hex-charset",
+      "aliases": [
+        "--hex-charset"
+      ],
+      "name": "Assume charset is given in hex",
+      "description": "Assume charset is given in hex",
+      "kind": "flag",
+      "hint": "HEX-CHARSET",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hex-salt",
+      "aliases": [
+        "--hex-salt"
+      ],
+      "name": "Assume salt is given in hex",
+      "description": "Assume salt is given in hex",
+      "kind": "flag",
+      "hint": "HEX-SALT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hex-wordlist",
+      "aliases": [
+        "--hex-wordlist"
+      ],
+      "name": "Assume words in wordlist are given in hex",
+      "description": "Assume words in wordlist are given in hex",
+      "kind": "flag",
+      "hint": "HEX-WORDLIST",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--force",
+      "aliases": [
+        "--force"
+      ],
+      "name": "Ignore warnings",
+      "description": "Ignore warnings",
+      "kind": "flag",
+      "hint": "FORCE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--deprecated-check-disable",
+      "aliases": [
+        "--deprecated-check-disable"
+      ],
+      "name": "Enable deprecated plugins",
+      "description": "Enable deprecated plugins",
+      "kind": "flag",
+      "hint": "DEPRECATED-CHECK-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--pipeline-stats",
+      "aliases": [
+        "--pipeline-stats"
+      ],
+      "name": "Show where each launch's time goes, per device",
+      "description": "Show where each launch's time goes, per device",
+      "kind": "flag",
+      "hint": "PIPELINE-STATS",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--task-time-breakdown",
+      "aliases": [
+        "--task-time-breakdown"
+      ],
+      "name": "Show where the run's wall clock went, by stage",
+      "description": "Show where the run's wall clock went, by stage",
+      "kind": "flag",
+      "hint": "TASK-TIME-BREAKDOWN",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--status",
+      "aliases": [
+        "--status"
+      ],
+      "name": "Enable automatic update of the status screen",
+      "description": "Enable automatic update of the status screen",
+      "kind": "flag",
+      "hint": "STATUS",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--status-json",
+      "aliases": [
+        "--status-json"
+      ],
+      "name": "Enable JSON format for status output",
+      "description": "Enable JSON format for status output",
+      "kind": "flag",
+      "hint": "STATUS-JSON",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--json",
+      "aliases": [
+        "--json"
+      ],
+      "name": "Enable JSON format for all output",
+      "description": "Enable JSON format for all output",
+      "kind": "flag",
+      "hint": "JSON",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--status-timer",
+      "aliases": [
+        "--status-timer"
+      ],
+      "name": "Sets seconds between status screen updates to X",
+      "description": "Sets seconds between status screen updates to X",
+      "kind": "value",
+      "hint": "STATUS-TIMER",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--stdin-count",
+      "aliases": [
+        "--stdin-count"
+      ],
+      "name": "Expected number of lines on stdin, for the ETA",
+      "description": "Expected number of lines on stdin, for the ETA",
+      "kind": "value",
+      "hint": "STDIN-COUNT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--stdin-timeout-abort",
+      "aliases": [
+        "--stdin-timeout-abort"
+      ],
+      "name": "Abort if there is no input from stdin for X seconds",
+      "description": "Abort if there is no input from stdin for X seconds",
+      "kind": "value",
+      "hint": "STDIN-TIMEOUT-ABORT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--machine-readable",
+      "aliases": [
+        "--machine-readable"
+      ],
+      "name": "Display the status view in a machine-readable format",
+      "description": "Display the status view in a machine-readable format",
+      "kind": "flag",
+      "hint": "MACHINE-READABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--keep-guessing",
+      "aliases": [
+        "--keep-guessing"
+      ],
+      "name": "Keep guessing the hash after it has been cracked",
+      "description": "Keep guessing the hash after it has been cracked",
+      "kind": "flag",
+      "hint": "KEEP-GUESSING",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--self-test-disable",
+      "aliases": [
+        "--self-test-disable"
+      ],
+      "name": "Disable self-test functionality on startup",
+      "description": "Disable self-test functionality on startup",
+      "kind": "flag",
+      "hint": "SELF-TEST-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--loopback",
+      "aliases": [
+        "--loopback"
+      ],
+      "name": "Add new plains to induct directory",
+      "description": "Add new plains to induct directory",
+      "kind": "flag",
+      "hint": "LOOPBACK",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--markov-hcstat2",
+      "aliases": [
+        "--markov-hcstat2"
+      ],
+      "name": "Specify hcstat2 file to use",
+      "description": "Specify hcstat2 file to use",
+      "kind": "file",
+      "hint": "MARKOV-HCSTAT2",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--markov-disable",
+      "aliases": [
+        "--markov-disable"
+      ],
+      "name": "Disables markov-chains, emulates classic brute-force",
+      "description": "Disables markov-chains, emulates classic brute-force",
+      "kind": "flag",
+      "hint": "MARKOV-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--markov-classic",
+      "aliases": [
+        "--markov-classic"
+      ],
+      "name": "Enables classic markov-chains, no per-position",
+      "description": "Enables classic markov-chains, no per-position",
+      "kind": "flag",
+      "hint": "MARKOV-CLASSIC",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--markov-inverse",
+      "aliases": [
+        "--markov-inverse"
+      ],
+      "name": "Enables inverse markov-chains, no per-position",
+      "description": "Enables inverse markov-chains, no per-position",
+      "kind": "flag",
+      "hint": "MARKOV-INVERSE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--markov-threshold",
+      "aliases": [
+        "-t",
+        "--markov-threshold"
+      ],
+      "name": "Threshold X when to stop accepting new markov-chains",
+      "description": "Threshold X when to stop accepting new markov-chains",
+      "kind": "value",
+      "hint": "MARKOV-THRESHOLD",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--metal-compiler-runtime",
+      "aliases": [
+        "--metal-compiler-runtime"
+      ],
+      "name": "Abort Metal kernel build after X seconds of runtime",
+      "description": "Abort Metal kernel build after X seconds of runtime",
+      "kind": "value",
+      "hint": "METAL-COMPILER-RUNTIME",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--runtime",
+      "aliases": [
+        "--runtime"
+      ],
+      "name": "Abort session after X seconds of runtime",
+      "description": "Abort session after X seconds of runtime",
+      "kind": "value",
+      "hint": "RUNTIME",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--session",
+      "aliases": [
+        "--session"
+      ],
+      "name": "Define specific session name",
+      "description": "Define specific session name",
+      "kind": "state-session",
+      "hint": "SESSION",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--restore",
+      "aliases": [
+        "--restore"
+      ],
+      "name": "Show the command line to resume --session, then stop",
+      "description": "Show the command line to resume --session, then stop",
+      "kind": "flag",
+      "hint": "RESTORE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--restore-disable",
+      "aliases": [
+        "--restore-disable"
+      ],
+      "name": "Do not write restore file",
+      "description": "Do not write restore file",
+      "kind": "flag",
+      "hint": "RESTORE-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--restore-file-path",
+      "aliases": [
+        "--restore-file-path"
+      ],
+      "name": "Specific path to restore file",
+      "description": "Specific path to restore file",
+      "kind": "state-file",
+      "hint": "RESTORE-FILE-PATH",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--restore-position",
+      "aliases": [
+        "--restore-position"
+      ],
+      "name": "Take only the position from the restore file",
+      "description": "Take only the position from the restore file",
+      "kind": "flag",
+      "hint": "RESTORE-POSITION",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile",
+      "aliases": [
+        "-o",
+        "--outfile"
+      ],
+      "name": "Define outfile for recovered hash",
+      "description": "Define outfile for recovered hash",
+      "kind": "output",
+      "hint": "OUTFILE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile-format",
+      "aliases": [
+        "--outfile-format"
+      ],
+      "name": "Outfile format to use, separated with commas",
+      "description": "Outfile format to use, separated with commas",
+      "kind": "value",
+      "hint": "OUTFILE-FORMAT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile-json",
+      "aliases": [
+        "--outfile-json"
+      ],
+      "name": "Force JSON format in outfile format",
+      "description": "Force JSON format in outfile format",
+      "kind": "flag",
+      "hint": "OUTFILE-JSON",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile-autohex-disable",
+      "aliases": [
+        "--outfile-autohex-disable"
+      ],
+      "name": "Disable the use of $HEX[] in output plains",
+      "description": "Disable the use of $HEX[] in output plains",
+      "kind": "flag",
+      "hint": "OUTFILE-AUTOHEX-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile-check-timer",
+      "aliases": [
+        "--outfile-check-timer"
+      ],
+      "name": "Sets seconds between outfile checks to X",
+      "description": "Sets seconds between outfile checks to X",
+      "kind": "value",
+      "hint": "OUTFILE-CHECK-TIMER",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--wordlist-autohex-disable",
+      "aliases": [
+        "--wordlist-autohex-disable"
+      ],
+      "name": "Disable the conversion of $HEX[] from the wordlist",
+      "description": "Disable the conversion of $HEX[] from the wordlist",
+      "kind": "flag",
+      "hint": "WORDLIST-AUTOHEX-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--separator",
+      "aliases": [
+        "-p",
+        "--separator"
+      ],
+      "name": "Separator char for hashlists and outfile",
+      "description": "Separator char for hashlists and outfile",
+      "kind": "value",
+      "hint": "SEPARATOR",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--stdout",
+      "aliases": [
+        "--stdout"
+      ],
+      "name": "Do not crack a hash, instead print candidates only",
+      "description": "Do not crack a hash, instead print candidates only",
+      "kind": "flag",
+      "hint": "STDOUT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--show",
+      "aliases": [
+        "--show"
+      ],
+      "name": "Compare hashlist with potfile; show cracked hashes",
+      "description": "Compare hashlist with potfile; show cracked hashes",
+      "kind": "flag",
+      "hint": "SHOW",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--left",
+      "aliases": [
+        "--left"
+      ],
+      "name": "Compare hashlist with potfile; show uncracked hashes",
+      "description": "Compare hashlist with potfile; show uncracked hashes",
+      "kind": "flag",
+      "hint": "LEFT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--username",
+      "aliases": [
+        "--username"
+      ],
+      "name": "Enable ignoring of usernames in hashfile",
+      "description": "Enable ignoring of usernames in hashfile",
+      "kind": "flag",
+      "hint": "USERNAME",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--dynamic-x",
+      "aliases": [
+        "--dynamic-x"
+      ],
+      "name": "Load hashes written in John's $dynamic_X$ format",
+      "description": "Load hashes written in John's $dynamic_X$ format",
+      "kind": "flag",
+      "hint": "DYNAMIC-X",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--remove",
+      "aliases": [
+        "--remove"
+      ],
+      "name": "Enable removal of hashes once they are cracked",
+      "description": "Enable removal of hashes once they are cracked",
+      "kind": "flag",
+      "hint": "REMOVE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--remove-timer",
+      "aliases": [
+        "--remove-timer"
+      ],
+      "name": "Update input hash file each X seconds",
+      "description": "Update input hash file each X seconds",
+      "kind": "value",
+      "hint": "REMOVE-TIMER",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--potfile-disable",
+      "aliases": [
+        "--potfile-disable"
+      ],
+      "name": "Do not write potfile",
+      "description": "Do not write potfile",
+      "kind": "flag",
+      "hint": "POTFILE-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--potfile-path",
+      "aliases": [
+        "--potfile-path"
+      ],
+      "name": "Specific path to potfile",
+      "description": "Specific path to potfile",
+      "kind": "state-file",
+      "hint": "POTFILE-PATH",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--encoding-from",
+      "aliases": [
+        "--encoding-from"
+      ],
+      "name": "Force internal wordlist encoding from X",
+      "description": "Force internal wordlist encoding from X",
+      "kind": "value",
+      "hint": "ENCODING-FROM",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--encoding-to",
+      "aliases": [
+        "--encoding-to"
+      ],
+      "name": "Force internal wordlist encoding to X",
+      "description": "Force internal wordlist encoding to X",
+      "kind": "value",
+      "hint": "ENCODING-TO",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--debug-mode",
+      "aliases": [
+        "--debug-mode"
+      ],
+      "name": "Defines the debug mode, needs rules or a feed",
+      "description": "Defines the debug mode, needs rules or a feed",
+      "kind": "value",
+      "hint": "DEBUG-MODE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--debug-file",
+      "aliases": [
+        "--debug-file"
+      ],
+      "name": "Output file for debugging rules",
+      "description": "Output file for debugging rules",
+      "kind": "output",
+      "hint": "DEBUG-FILE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--induction-dir",
+      "aliases": [
+        "--induction-dir"
+      ],
+      "name": "Specify the induction directory to use for loopback",
+      "description": "Specify the induction directory to use for loopback",
+      "kind": "state-directory",
+      "hint": "INDUCTION-DIR",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--outfile-check-dir",
+      "aliases": [
+        "--outfile-check-dir"
+      ],
+      "name": "Specify the directory to monitor 3rd party outfiles",
+      "description": "Specify the directory to monitor 3rd party outfiles",
+      "kind": "state-directory",
+      "hint": "OUTFILE-CHECK-DIR",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--cache-path",
+      "aliases": [
+        "--cache-path"
+      ],
+      "name": "Specify the directory hashcat caches everything in",
+      "description": "Specify the directory hashcat caches everything in",
+      "kind": "state-directory",
+      "hint": "CACHE-PATH",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--logfile-disable",
+      "aliases": [
+        "--logfile-disable"
+      ],
+      "name": "Disable the logfile",
+      "description": "Disable the logfile",
+      "kind": "flag",
+      "hint": "LOGFILE-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark",
+      "aliases": [
+        "-b",
+        "--benchmark"
+      ],
+      "name": "Run benchmark of selected hash-modes",
+      "description": "Run benchmark of selected hash-modes",
+      "kind": "flag",
+      "hint": "BENCHMARK",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark-pure",
+      "aliases": [
+        "-B",
+        "--benchmark-pure"
+      ],
+      "name": "Run benchmark of selected hash-modes, pure kernels",
+      "description": "Run benchmark of selected hash-modes, pure kernels",
+      "kind": "flag",
+      "hint": "BENCHMARK-PURE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark-all",
+      "aliases": [
+        "--benchmark-all"
+      ],
+      "name": "Run benchmark of all hash-modes",
+      "description": "Run benchmark of all hash-modes (requires -b)",
+      "kind": "flag",
+      "hint": "BENCHMARK-ALL",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark-json",
+      "aliases": [
+        "--benchmark-json"
+      ],
+      "name": "Enable JSON format for benchmark output",
+      "description": "Enable JSON format for benchmark output",
+      "kind": "flag",
+      "hint": "BENCHMARK-JSON",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark-min",
+      "aliases": [
+        "--benchmark-min"
+      ],
+      "name": "Set benchmark min hash-mode",
+      "description": "Set benchmark min hash-mode (requires -b)",
+      "kind": "value",
+      "hint": "BENCHMARK-MIN",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--benchmark-max",
+      "aliases": [
+        "--benchmark-max"
+      ],
+      "name": "Set benchmark max hash-mode",
+      "description": "Set benchmark max hash-mode (requires -b)",
+      "kind": "value",
+      "hint": "BENCHMARK-MAX",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--speed-only",
+      "aliases": [
+        "--speed-only"
+      ],
+      "name": "Return expected speed of the attack, then quit",
+      "description": "Return expected speed of the attack, then quit",
+      "kind": "flag",
+      "hint": "SPEED-ONLY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--progress-only",
+      "aliases": [
+        "--progress-only"
+      ],
+      "name": "Return ideal progress step size and time to process",
+      "description": "Return ideal progress step size and time to process",
+      "kind": "flag",
+      "hint": "PROGRESS-ONLY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bitmap-min",
+      "aliases": [
+        "--bitmap-min"
+      ],
+      "name": "Sets minimum bits allowed for bitmaps to X",
+      "description": "Sets minimum bits allowed for bitmaps to X",
+      "kind": "value",
+      "hint": "BITMAP-MIN",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bitmap-max",
+      "aliases": [
+        "--bitmap-max"
+      ],
+      "name": "Sets maximum bits allowed for bitmaps to X",
+      "description": "Sets maximum bits allowed for bitmaps to X",
+      "kind": "value",
+      "hint": "BITMAP-MAX",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bridge-parameter1",
+      "aliases": [
+        "--bridge-parameter1"
+      ],
+      "name": "Sets the generic parameter 1 for a Bridge",
+      "description": "Sets the generic parameter 1 for a Bridge",
+      "kind": "value",
+      "hint": "BRIDGE-PARAMETER1",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bridge-parameter2",
+      "aliases": [
+        "--bridge-parameter2"
+      ],
+      "name": "Sets the generic parameter 2 for a Bridge",
+      "description": "Sets the generic parameter 2 for a Bridge",
+      "kind": "value",
+      "hint": "BRIDGE-PARAMETER2",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bridge-parameter3",
+      "aliases": [
+        "--bridge-parameter3"
+      ],
+      "name": "Sets the generic parameter 3 for a Bridge",
+      "description": "Sets the generic parameter 3 for a Bridge",
+      "kind": "value",
+      "hint": "BRIDGE-PARAMETER3",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bridge-parameter4",
+      "aliases": [
+        "--bridge-parameter4"
+      ],
+      "name": "Sets the generic parameter 4 for a Bridge",
+      "description": "Sets the generic parameter 4 for a Bridge",
+      "kind": "value",
+      "hint": "BRIDGE-PARAMETER4",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--cpu-affinity",
+      "aliases": [
+        "--cpu-affinity"
+      ],
+      "name": "Locks to CPU devices, separated with commas",
+      "description": "Locks to CPU devices, separated with commas",
+      "kind": "value",
+      "hint": "CPU-AFFINITY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hook-threads",
+      "aliases": [
+        "--hook-threads"
+      ],
+      "name": "Sets number of threads for a hook",
+      "description": "Sets number of threads for a hook (per compute unit)",
+      "kind": "value",
+      "hint": "HOOK-THREADS",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hash-info",
+      "aliases": [
+        "-H",
+        "--hash-info"
+      ],
+      "name": "Show information for each hash-mode",
+      "description": "Show information for each hash-mode",
+      "kind": "flag",
+      "hint": "HASH-INFO",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--example-hashes",
+      "aliases": [
+        "--example-hashes"
+      ],
+      "name": "Alias of --hash-info",
+      "description": "Alias of --hash-info",
+      "kind": "flag",
+      "hint": "EXAMPLE-HASHES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-ignore-cuda",
+      "aliases": [
+        "--backend-ignore-cuda"
+      ],
+      "name": "Do not try to open CUDA interface on startup",
+      "description": "Do not try to open CUDA interface on startup",
+      "kind": "flag",
+      "hint": "BACKEND-IGNORE-CUDA",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-ignore-hip",
+      "aliases": [
+        "--backend-ignore-hip"
+      ],
+      "name": "Do not try to open HIP interface on startup",
+      "description": "Do not try to open HIP interface on startup",
+      "kind": "flag",
+      "hint": "BACKEND-IGNORE-HIP",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-ignore-metal",
+      "aliases": [
+        "--backend-ignore-metal"
+      ],
+      "name": "Do not try to open Metal interface on startup",
+      "description": "Do not try to open Metal interface on startup",
+      "kind": "flag",
+      "hint": "BACKEND-IGNORE-METAL",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-ignore-opencl",
+      "aliases": [
+        "--backend-ignore-opencl"
+      ],
+      "name": "Do not try to open OpenCL interface on startup",
+      "description": "Do not try to open OpenCL interface on startup",
+      "kind": "flag",
+      "hint": "BACKEND-IGNORE-OPENCL",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-info",
+      "aliases": [
+        "-I",
+        "--backend-info"
+      ],
+      "name": "Show system/environment/backend API info",
+      "description": "Show system/environment/backend API info",
+      "kind": "flag",
+      "hint": "BACKEND-INFO",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-devices",
+      "aliases": [
+        "-d",
+        "--backend-devices"
+      ],
+      "name": "Backend devices to use, separated with commas",
+      "description": "Backend devices to use, separated with commas",
+      "kind": "value",
+      "hint": "BACKEND-DEVICES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-devices-virtmulti",
+      "aliases": [
+        "-Y",
+        "--backend-devices-virtmulti"
+      ],
+      "name": "Spawn X virtual instances on a real device",
+      "description": "Spawn X virtual instances on a real device",
+      "kind": "value",
+      "hint": "BACKEND-DEVICES-VIRTMULTI",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-devices-virthost",
+      "aliases": [
+        "-R",
+        "--backend-devices-virthost"
+      ],
+      "name": "Sets the real device that runs the virtual instances",
+      "description": "Sets the real device that runs the virtual instances",
+      "kind": "value",
+      "hint": "BACKEND-DEVICES-VIRTHOST",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--opencl-device-types",
+      "aliases": [
+        "-D",
+        "--opencl-device-types"
+      ],
+      "name": "OpenCL device-types to use, separated with commas",
+      "description": "OpenCL device-types to use, separated with commas",
+      "kind": "value",
+      "hint": "OPENCL-DEVICE-TYPES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--optimized-kernel-enable",
+      "aliases": [
+        "-O",
+        "--optimized-kernel-enable"
+      ],
+      "name": "Enable optimized kernels",
+      "description": "Enable optimized kernels (limits password length)",
+      "kind": "flag",
+      "hint": "OPTIMIZED-KERNEL-ENABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--multiply-accel-disable",
+      "aliases": [
+        "-M",
+        "--multiply-accel-disable"
+      ],
+      "name": "Disable multiply kernel-accel with processor count",
+      "description": "Disable multiply kernel-accel with processor count",
+      "kind": "flag",
+      "hint": "MULTIPLY-ACCEL-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--kernel-accel",
+      "aliases": [
+        "-n",
+        "--kernel-accel"
+      ],
+      "name": "Manual workload tuning, set outerloop step size to X",
+      "description": "Manual workload tuning, set outerloop step size to X",
+      "kind": "value",
+      "hint": "KERNEL-ACCEL",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--kernel-loops",
+      "aliases": [
+        "-u",
+        "--kernel-loops"
+      ],
+      "name": "Manual workload tuning, set innerloop step size to X",
+      "description": "Manual workload tuning, set innerloop step size to X",
+      "kind": "value",
+      "hint": "KERNEL-LOOPS",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--kernel-threads",
+      "aliases": [
+        "-T",
+        "--kernel-threads"
+      ],
+      "name": "Manual workload tuning, set thread count to X",
+      "description": "Manual workload tuning, set thread count to X",
+      "kind": "value",
+      "hint": "KERNEL-THREADS",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--backend-vector-width",
+      "aliases": [
+        "--backend-vector-width"
+      ],
+      "name": "Manually override backend vector-width to X",
+      "description": "Manually override backend vector-width to X",
+      "kind": "value",
+      "hint": "BACKEND-VECTOR-WIDTH",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--length-sort-disable",
+      "aliases": [
+        "--length-sort-disable"
+      ],
+      "name": "Disable ordering candidates by password length",
+      "description": "Disable ordering candidates by password length",
+      "kind": "flag",
+      "hint": "LENGTH-SORT-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--spin-damp",
+      "aliases": [
+        "--spin-damp"
+      ],
+      "name": "Use CPU for device synchronization, in percent",
+      "description": "Use CPU for device synchronization, in percent",
+      "kind": "value",
+      "hint": "SPIN-DAMP",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hwmon-disable",
+      "aliases": [
+        "--hwmon-disable"
+      ],
+      "name": "Disable temperature and fanspeed reads and triggers",
+      "description": "Disable temperature and fanspeed reads and triggers",
+      "kind": "flag",
+      "hint": "HWMON-DISABLE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hwmon-temp-abort",
+      "aliases": [
+        "--hwmon-temp-abort"
+      ],
+      "name": "Abort if temperature reaches X degrees Celsius",
+      "description": "Abort if temperature reaches X degrees Celsius",
+      "kind": "value",
+      "hint": "HWMON-TEMP-ABORT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--skip",
+      "aliases": [
+        "-s",
+        "--skip"
+      ],
+      "name": "Skip X words from the start",
+      "description": "Skip X words from the start",
+      "kind": "value",
+      "hint": "SKIP",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--limit",
+      "aliases": [
+        "-l",
+        "--limit"
+      ],
+      "name": "Limit X words from the start + skipped words",
+      "description": "Limit X words from the start + skipped words",
+      "kind": "value",
+      "hint": "LIMIT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--keyspace",
+      "aliases": [
+        "--keyspace"
+      ],
+      "name": "Show keyspace base:mod values and quit",
+      "description": "Show keyspace base:mod values and quit",
+      "kind": "flag",
+      "hint": "KEYSPACE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--total-candidates",
+      "aliases": [
+        "--total-candidates"
+      ],
+      "name": "Show total candidate count",
+      "description": "Show total candidate count (base*mod) and quit",
+      "kind": "flag",
+      "hint": "TOTAL-CANDIDATES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--lookup",
+      "aliases": [
+        "--lookup"
+      ],
+      "name": "Show where this attack reaches candidate X and quit",
+      "description": "Show where this attack reaches candidate X and quit",
+      "kind": "value",
+      "hint": "LOOKUP",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--rule-left",
+      "aliases": [
+        "-j",
+        "--rule-left"
+      ],
+      "name": "Single rule applied to each word from left wordlist",
+      "description": "Single rule applied to each word from left wordlist",
+      "kind": "value",
+      "hint": "RULE-LEFT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--rule-right",
+      "aliases": [
+        "-k",
+        "--rule-right"
+      ],
+      "name": "Single rule applied to each word from right wordlist",
+      "description": "Single rule applied to each word from right wordlist",
+      "kind": "value",
+      "hint": "RULE-RIGHT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--rules-file",
+      "aliases": [
+        "-r",
+        "--rules-file"
+      ],
+      "name": "Multiple rules applied to each word from wordlists",
+      "description": "Multiple rules applied to each word from wordlists",
+      "kind": "file",
+      "hint": "RULES-FILE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--rules-concat",
+      "aliases": [
+        "--rules-concat"
+      ],
+      "name": "Use the -r files as one list instead of chaining them",
+      "description": "Use the -r files as one list instead of chaining them",
+      "kind": "flag",
+      "hint": "RULES-CONCAT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--generate-rules",
+      "aliases": [
+        "-g",
+        "--generate-rules"
+      ],
+      "name": "Generate X random rules",
+      "description": "Generate X random rules",
+      "kind": "value",
+      "hint": "GENERATE-RULES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--generate-rules-func-min",
+      "aliases": [
+        "--generate-rules-func-min"
+      ],
+      "name": "Force min X functions per rule",
+      "description": "Force min X functions per rule",
+      "kind": "value",
+      "hint": "GENERATE-RULES-FUNC-MIN",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--generate-rules-func-max",
+      "aliases": [
+        "--generate-rules-func-max"
+      ],
+      "name": "Force max X functions per rule",
+      "description": "Force max X functions per rule",
+      "kind": "value",
+      "hint": "GENERATE-RULES-FUNC-MAX",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--generate-rules-func-sel",
+      "aliases": [
+        "--generate-rules-func-sel"
+      ],
+      "name": "Pool of rule operators valid for random rule engine",
+      "description": "Pool of rule operators valid for random rule engine",
+      "kind": "value",
+      "hint": "GENERATE-RULES-FUNC-SEL",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--generate-rules-seed",
+      "aliases": [
+        "--generate-rules-seed"
+      ],
+      "name": "Force RNG seed set to X",
+      "description": "Force RNG seed set to X",
+      "kind": "value",
+      "hint": "GENERATE-RULES-SEED",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset1",
+      "aliases": [
+        "-1",
+        "--custom-charset1"
+      ],
+      "name": "User-defined charset ?1",
+      "description": "User-defined charset ?1",
+      "kind": "file-or-value",
+      "hint": "CUSTOM-CHARSET1",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset2",
+      "aliases": [
+        "-2",
+        "--custom-charset2"
+      ],
+      "name": "User-defined charset ?2",
+      "description": "User-defined charset ?2",
+      "kind": "file-or-value",
+      "hint": "CUSTOM-CHARSET2",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset3",
+      "aliases": [
+        "-3",
+        "--custom-charset3"
+      ],
+      "name": "User-defined charset ?3",
+      "description": "User-defined charset ?3",
+      "kind": "file-or-value",
+      "hint": "CUSTOM-CHARSET3",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset4",
+      "aliases": [
+        "-4",
+        "--custom-charset4"
+      ],
+      "name": "User-defined charset ?4",
+      "description": "User-defined charset ?4",
+      "kind": "file-or-value",
+      "hint": "CUSTOM-CHARSET4",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset5",
+      "aliases": [
+        "-5",
+        "--custom-charset5"
+      ],
+      "name": "User-defined charset ?5",
+      "description": "User-defined charset ?5",
+      "kind": "value",
+      "hint": "CUSTOM-CHARSET5",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset6",
+      "aliases": [
+        "-6",
+        "--custom-charset6"
+      ],
+      "name": "User-defined charset ?6",
+      "description": "User-defined charset ?6",
+      "kind": "value",
+      "hint": "CUSTOM-CHARSET6",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset7",
+      "aliases": [
+        "-7",
+        "--custom-charset7"
+      ],
+      "name": "User-defined charset ?7",
+      "description": "User-defined charset ?7",
+      "kind": "value",
+      "hint": "CUSTOM-CHARSET7",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--custom-charset8",
+      "aliases": [
+        "-8",
+        "--custom-charset8"
+      ],
+      "name": "User-defined charset ?8",
+      "description": "User-defined charset ?8",
+      "kind": "value",
+      "hint": "CUSTOM-CHARSET8",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--identify",
+      "aliases": [
+        "--identify"
+      ],
+      "name": "Shows all supported algorithms for input hashes",
+      "description": "Shows all supported algorithms for input hashes",
+      "kind": "flag",
+      "hint": "IDENTIFY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--increment",
+      "aliases": [
+        "-i",
+        "--increment"
+      ],
+      "name": "Enable mask increment mode",
+      "description": "Enable mask increment mode",
+      "kind": "flag",
+      "hint": "INCREMENT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--increment-inverse",
+      "aliases": [
+        "-i",
+        "--increment-inverse"
+      ],
+      "name": "Increment from right-to-left",
+      "description": "Increment from right-to-left",
+      "kind": "flag",
+      "hint": "INCREMENT-INVERSE",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--increment-min",
+      "aliases": [
+        "--increment-min"
+      ],
+      "name": "Start mask incrementing at X",
+      "description": "Start mask incrementing at X",
+      "kind": "value",
+      "hint": "INCREMENT-MIN",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--increment-max",
+      "aliases": [
+        "--increment-max"
+      ],
+      "name": "Stop mask incrementing at X",
+      "description": "Stop mask incrementing at X",
+      "kind": "value",
+      "hint": "INCREMENT-MAX",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--slow-candidates",
+      "aliases": [
+        "-S",
+        "--slow-candidates"
+      ],
+      "name": "Enable slower",
+      "description": "Enable slower (but advanced) candidate generators",
+      "kind": "flag",
+      "hint": "SLOW-CANDIDATES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bypass-delay",
+      "aliases": [
+        "--bypass-delay"
+      ],
+      "name": "Seconds delay between checking bypass threshold",
+      "description": "Seconds delay between checking bypass threshold",
+      "kind": "value",
+      "hint": "BYPASS-DELAY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--bypass-threshold",
+      "aliases": [
+        "--bypass-threshold"
+      ],
+      "name": "Minimum amount of founds to avoid being bypassed",
+      "description": "Minimum amount of founds to avoid being bypassed",
+      "kind": "value",
+      "hint": "BYPASS-THRESHOLD",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-server",
+      "aliases": [
+        "--brain-server"
+      ],
+      "name": "Enable brain server",
+      "description": "Enable brain server",
+      "kind": "flag",
+      "hint": "BRAIN-SERVER",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-server-timer",
+      "aliases": [
+        "--brain-server-timer"
+      ],
+      "name": "Update the brain server dump each X seconds",
+      "description": "Update the brain server dump each X seconds (min:60)",
+      "kind": "value",
+      "hint": "BRAIN-SERVER-TIMER",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-client",
+      "aliases": [
+        "-z",
+        "--brain-client"
+      ],
+      "name": "Enable brain client, activates -S unless features=2",
+      "description": "Enable brain client, activates -S unless features=2",
+      "kind": "flag",
+      "hint": "BRAIN-CLIENT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-feed",
+      "aliases": [
+        "--brain-feed"
+      ],
+      "name": "Hash stdin into a running brain, needs --brain-session",
+      "description": "Hash stdin into a running brain, needs --brain-session",
+      "kind": "flag",
+      "hint": "BRAIN-FEED",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-client-features",
+      "aliases": [
+        "--brain-client-features"
+      ],
+      "name": "Define brain client features, see below",
+      "description": "Define brain client features, see below",
+      "kind": "value",
+      "hint": "BRAIN-CLIENT-FEATURES",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-host",
+      "aliases": [
+        "--brain-host"
+      ],
+      "name": "Brain server host",
+      "description": "Brain server host (IP or domain)",
+      "kind": "value",
+      "hint": "BRAIN-HOST",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-port",
+      "aliases": [
+        "--brain-port"
+      ],
+      "name": "Brain server port",
+      "description": "Brain server port (default 6863)",
+      "kind": "value",
+      "hint": "BRAIN-PORT",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-password",
+      "aliases": [
+        "--brain-password"
+      ],
+      "name": "Brain server authentication password",
+      "description": "Brain server authentication password",
+      "kind": "value",
+      "hint": "BRAIN-PASSWORD",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-session",
+      "aliases": [
+        "--brain-session"
+      ],
+      "name": "Overrides automatically calculated brain session",
+      "description": "Overrides automatically calculated brain session",
+      "kind": "value",
+      "hint": "BRAIN-SESSION",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--brain-session-whitelist",
+      "aliases": [
+        "--brain-session-whitelist"
+      ],
+      "name": "Allow given sessions only, separated with commas",
+      "description": "Allow given sessions only, separated with commas",
+      "kind": "value",
+      "hint": "BRAIN-SESSION-WHITELIST",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--color-cracked",
+      "aliases": [
+        "--color-cracked"
+      ],
+      "name": "Enables color output for cracked hashes",
+      "description": "Enables color output for cracked hashes",
+      "kind": "flag",
+      "hint": "COLOR-CRACKED",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--hash-copy",
+      "aliases": [
+        "--hash-copy"
+      ],
+      "name": "Output hashes identically to the input hash",
+      "description": "Output hashes identically to the input hash",
+      "kind": "flag",
+      "hint": "HASH-COPY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "--encrypt-with-pubkey",
+      "aliases": [
+        "--encrypt-with-pubkey"
+      ],
+      "name": "Encrypt recovered plains with an RSA public key",
+      "description": "Encrypt recovered plains with an RSA public key",
+      "kind": "file",
+      "hint": "ENCRYPT-WITH-PUBKEY",
+      "group": "Recovery options",
+      "repeat": false
+    },
+    {
+      "flag": "$wordlist",
+      "aliases": [
+        "$wordlist"
+      ],
+      "name": "Add a wordlist, combination file, or mask file",
+      "description": "Add a wordlist, combination file, or mask file",
+      "kind": "positional-file",
+      "hint": "WORDLIST",
+      "group": "Input files and masks",
+      "repeat": false
+    },
+    {
+      "flag": "$mask",
+      "aliases": [
+        "$mask"
+      ],
+      "name": "Add a mask such as ?l?l?l?l?d?d",
+      "description": "Add a mask such as ?l?l?l?l?d?d",
+      "kind": "positional-value",
+      "hint": "MASK",
+      "group": "Input files and masks",
+      "repeat": false
+    },
+    {
+      "flag": "$input",
+      "aliases": [
+        "$input"
+      ],
+      "name": "Choose the primary hash file",
+      "description": "Choose the primary hash file",
+      "kind": "positional-file",
+      "hint": "$INPUT",
+      "group": "Options",
+      "repeat": false
+    }
+  ],
+  "gobuster": [
+    {
+      "flag": "--status-codes",
+      "aliases": [
+        "--status-codes",
+        "-s"
+      ],
+      "name": "Positive status codes",
+      "description": "Positive status codes (will be overwritten with status-codes-blacklist if set). Can also handle ranges like 200,300-400,404",
+      "kind": "value",
+      "hint": "STATUS-CODES",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--status-codes-blacklist",
+      "aliases": [
+        "--status-codes-blacklist",
+        "-b"
+      ],
+      "name": "Negative status codes",
+      "description": "Negative status codes (will override status-codes if set). Can also handle ranges like 200,300-400,404. Use an empty string to disable the default blacklist when matching positive status codes.",
+      "kind": "value",
+      "hint": "STATUS-CODES-BLACKLIST",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ],
+      "allow_empty": true
+    },
+    {
+      "flag": "--extensions",
+      "aliases": [
+        "--extensions",
+        "-x"
+      ],
+      "name": "File extension(s) to search for",
+      "description": "File extension(s) to search for",
+      "kind": "value",
+      "hint": "EXTENSIONS",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--extensions-file",
+      "aliases": [
+        "--extensions-file",
+        "-X"
+      ],
+      "name": "Read file extension(s) to search from the file",
+      "description": "Read file extension(s) to search from the file",
+      "kind": "file",
+      "hint": "EXTENSIONS-FILE",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--expanded",
+      "aliases": [
+        "--expanded",
+        "-e"
+      ],
+      "name": "Expanded mode, print full URLs",
+      "description": "Expanded mode, print full URLs",
+      "kind": "flag",
+      "hint": "EXPANDED",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--no-status",
+      "aliases": [
+        "--no-status",
+        "-n"
+      ],
+      "name": "Don't print status codes",
+      "description": "Don't print status codes",
+      "kind": "flag",
+      "hint": "NO-STATUS",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--hide-length",
+      "aliases": [
+        "--hide-length",
+        "-hl"
+      ],
+      "name": "Hide the length of the body in the output",
+      "description": "Hide the length of the body in the output",
+      "kind": "flag",
+      "hint": "HIDE-LENGTH",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--add-slash",
+      "aliases": [
+        "--add-slash",
+        "-f"
+      ],
+      "name": "Append / to each request",
+      "description": "Append / to each request",
+      "kind": "flag",
+      "hint": "ADD-SLASH",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--discover-backup",
+      "aliases": [
+        "--discover-backup",
+        "-db"
+      ],
+      "name": "Upon finding a file search for backup files by appending multiple backup extensions",
+      "description": "Upon finding a file search for backup files by appending multiple backup extensions",
+      "kind": "flag",
+      "hint": "DISCOVER-BACKUP",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--exclude-length",
+      "aliases": [
+        "--exclude-length",
+        "-xl"
+      ],
+      "name": "exclude the following content lengths",
+      "description": "exclude the following content lengths (completely ignores the status). You can separate multiple lengths by comma and it also supports ranges like 203-206",
+      "kind": "value",
+      "hint": "EXCLUDE-LENGTH",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--force",
+      "aliases": [
+        "--force"
+      ],
+      "name": "Continue even if the prechecks fail",
+      "description": "Continue even if the prechecks fail. Please only use this if you know what you are doing, it can lead to unexpected results.",
+      "kind": "flag",
+      "hint": "FORCE",
+      "group": "DIR mode",
+      "repeat": false,
+      "modes": [
+        "dir"
+      ]
+    },
+    {
+      "flag": "--domain",
+      "aliases": [
+        "--domain",
+        "-do"
+      ],
+      "name": "The target domain",
+      "description": "The target domain",
+      "kind": "value",
+      "hint": "DOMAIN",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--check-cname",
+      "aliases": [
+        "--check-cname",
+        "-c"
+      ],
+      "name": "Also check CNAME records",
+      "description": "Also check CNAME records",
+      "kind": "flag",
+      "hint": "CHECK-CNAME",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--timeout",
+      "aliases": [
+        "--timeout",
+        "-to"
+      ],
+      "name": "DNS resolver timeout",
+      "description": "DNS resolver timeout",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--wildcard",
+      "aliases": [
+        "--wildcard",
+        "-wc"
+      ],
+      "name": "Force continued operation when wildcard found",
+      "description": "Force continued operation when wildcard found",
+      "kind": "flag",
+      "hint": "WILDCARD",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--no-fqdn",
+      "aliases": [
+        "--no-fqdn",
+        "-nf"
+      ],
+      "name": "Do not automatically add a trailing dot to the domain, so the resolver uses the DNS search domain",
+      "description": "Do not automatically add a trailing dot to the domain, so the resolver uses the DNS search domain",
+      "kind": "flag",
+      "hint": "NO-FQDN",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--resolver",
+      "aliases": [
+        "--resolver"
+      ],
+      "name": "Use custom DNS server",
+      "description": "Use custom DNS server (format server.com or server.com:port)",
+      "kind": "value",
+      "hint": "RESOLVER",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--protocol",
+      "aliases": [
+        "--protocol"
+      ],
+      "name": "Use either 'udp' or 'tcp' as protocol on the custom resolver",
+      "description": "Use either 'udp' or 'tcp' as protocol on the custom resolver",
+      "kind": "value",
+      "hint": "PROTOCOL",
+      "group": "DNS mode",
+      "repeat": false,
+      "modes": [
+        "dns"
+      ]
+    },
+    {
+      "flag": "--exclude-statuscodes",
+      "aliases": [
+        "--exclude-statuscodes",
+        "-b"
+      ],
+      "name": "Excluded status codes",
+      "description": "Excluded status codes. Can also handle ranges like 200,300-400,404.",
+      "kind": "value",
+      "hint": "EXCLUDE-STATUSCODES",
+      "group": "FUZZ mode",
+      "repeat": false,
+      "modes": [
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--body",
+      "aliases": [
+        "--body",
+        "-B"
+      ],
+      "name": "Request body",
+      "description": "Request body",
+      "kind": "value",
+      "hint": "BODY",
+      "group": "FUZZ mode",
+      "repeat": false,
+      "modes": [
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--max-files",
+      "aliases": [
+        "--max-files",
+        "-m"
+      ],
+      "name": "max files to list when listing buckets",
+      "description": "max files to list when listing buckets",
+      "kind": "value",
+      "hint": "MAX-FILES",
+      "group": "GCS mode",
+      "repeat": false,
+      "modes": [
+        "gcs",
+        "s3"
+      ]
+    },
+    {
+      "flag": "--show-files",
+      "aliases": [
+        "--show-files",
+        "-s"
+      ],
+      "name": "show files from found buckets",
+      "description": "show files from found buckets",
+      "kind": "flag",
+      "hint": "SHOW-FILES",
+      "group": "GCS mode",
+      "repeat": false,
+      "modes": [
+        "gcs",
+        "s3"
+      ]
+    },
+    {
+      "flag": "--useragent",
+      "aliases": [
+        "--useragent",
+        "-a"
+      ],
+      "name": "Set the User-Agent string",
+      "description": "Set the User-Agent string",
+      "kind": "value",
+      "hint": "USERAGENT",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--random-agent",
+      "aliases": [
+        "--random-agent",
+        "-rua"
+      ],
+      "name": "Use a random User-Agent string",
+      "description": "Use a random User-Agent string",
+      "kind": "flag",
+      "hint": "RANDOM-AGENT",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--proxy",
+      "aliases": [
+        "--proxy"
+      ],
+      "name": "Proxy to use for requests [http(s)://host:port] or [socks5://host:port]",
+      "description": "Proxy to use for requests [http(s)://host:port] or [socks5://host:port]",
+      "kind": "value",
+      "hint": "PROXY",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--timeout",
+      "aliases": [
+        "--timeout",
+        "-to"
+      ],
+      "name": "HTTP Timeout",
+      "description": "HTTP Timeout",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--no-tls-validation",
+      "aliases": [
+        "--no-tls-validation",
+        "-k"
+      ],
+      "name": "Skip TLS certificate verification",
+      "description": "Skip TLS certificate verification",
+      "kind": "flag",
+      "hint": "NO-TLS-VALIDATION",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--retry",
+      "aliases": [
+        "--retry"
+      ],
+      "name": "Should retry on request timeout",
+      "description": "Should retry on request timeout",
+      "kind": "flag",
+      "hint": "RETRY",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--retry-attempts",
+      "aliases": [
+        "--retry-attempts",
+        "-ra"
+      ],
+      "name": "Times to retry on request timeout",
+      "description": "Times to retry on request timeout",
+      "kind": "value",
+      "hint": "RETRY-ATTEMPTS",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--client-cert-pem",
+      "aliases": [
+        "--client-cert-pem",
+        "-ccp"
+      ],
+      "name": "public key in PEM format for optional TLS client certificates]",
+      "description": "public key in PEM format for optional TLS client certificates]",
+      "kind": "file",
+      "hint": "CLIENT-CERT-PEM",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--client-cert-pem-key",
+      "aliases": [
+        "--client-cert-pem-key",
+        "-ccpk"
+      ],
+      "name": "private key in PEM format for optional TLS client certificates",
+      "description": "private key in PEM format for optional TLS client certificates (this key needs to have no password)",
+      "kind": "file",
+      "hint": "CLIENT-CERT-PEM-KEY",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--client-cert-p12",
+      "aliases": [
+        "--client-cert-p12",
+        "-ccp12"
+      ],
+      "name": "a p12 file to use for options TLS client certificates",
+      "description": "a p12 file to use for options TLS client certificates",
+      "kind": "file",
+      "hint": "CLIENT-CERT-P12",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--client-cert-p12-password",
+      "aliases": [
+        "--client-cert-p12-password",
+        "-ccp12p"
+      ],
+      "name": "the password to the p12 file",
+      "description": "the password to the p12 file",
+      "kind": "value",
+      "hint": "CLIENT-CERT-P12-PASSWORD",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--tls-renegotiation",
+      "aliases": [
+        "--tls-renegotiation"
+      ],
+      "name": "Enable TLS renegotiation",
+      "description": "Enable TLS renegotiation",
+      "kind": "flag",
+      "hint": "TLS-RENEGOTIATION",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--interface",
+      "aliases": [
+        "--interface",
+        "-iface"
+      ],
+      "name": "specify network interface to use",
+      "description": "specify network interface to use. Can't be used with local-ip",
+      "kind": "value",
+      "hint": "INTERFACE",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--local-ip",
+      "aliases": [
+        "--local-ip"
+      ],
+      "name": "specify local ip of network interface to use",
+      "description": "specify local ip of network interface to use. Can't be used with interface",
+      "kind": "value",
+      "hint": "LOCAL-IP",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--url",
+      "aliases": [
+        "--url",
+        "-u"
+      ],
+      "name": "The target URL",
+      "description": "The target URL",
+      "kind": "value",
+      "hint": "URL",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--cookies",
+      "aliases": [
+        "--cookies",
+        "-c"
+      ],
+      "name": "Cookies to use for the requests",
+      "description": "Cookies to use for the requests",
+      "kind": "value",
+      "hint": "COOKIES",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--username",
+      "aliases": [
+        "--username",
+        "-U"
+      ],
+      "name": "Username for Basic Auth",
+      "description": "Username for Basic Auth",
+      "kind": "value",
+      "hint": "USERNAME",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--password",
+      "aliases": [
+        "--password",
+        "-P"
+      ],
+      "name": "Password for Basic Auth",
+      "description": "Password for Basic Auth",
+      "kind": "value",
+      "hint": "PASSWORD",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--follow-redirect",
+      "aliases": [
+        "--follow-redirect",
+        "-r"
+      ],
+      "name": "Follow redirects",
+      "description": "Follow redirects",
+      "kind": "flag",
+      "hint": "FOLLOW-REDIRECT",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--headers",
+      "aliases": [
+        "--headers",
+        "-H"
+      ],
+      "name": "Specify HTTP headers, -H 'Header1: val1' -H 'Header2: val2'",
+      "description": "Specify HTTP headers, -H 'Header1: val1' -H 'Header2: val2'",
+      "kind": "value",
+      "hint": "HEADERS",
+      "group": "Options",
+      "repeat": true,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--no-canonicalize-headers",
+      "aliases": [
+        "--no-canonicalize-headers",
+        "-nch"
+      ],
+      "name": "Do not canonicalize HTTP header names",
+      "description": "Do not canonicalize HTTP header names. If set header names are sent as is",
+      "kind": "flag",
+      "hint": "NO-CANONICALIZE-HEADERS",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--method",
+      "aliases": [
+        "--method",
+        "-m"
+      ],
+      "name": "HTTP request method",
+      "description": "HTTP request method, such as GET or POST.",
+      "kind": "value",
+      "hint": "METHOD",
+      "group": "Options",
+      "repeat": false,
+      "modes": [
+        "dir",
+        "vhost",
+        "fuzz"
+      ]
+    },
+    {
+      "flag": "--wordlist",
+      "aliases": [
+        "--wordlist",
+        "-w"
+      ],
+      "name": "Path to the wordlist",
+      "description": "Path to the wordlist. Set to - to use STDIN.",
+      "kind": "file",
+      "hint": "WORDLIST",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--delay",
+      "aliases": [
+        "--delay",
+        "-d"
+      ],
+      "name": "Time each thread waits between requests",
+      "description": "Time each thread waits between requests (e.g. 1500ms)",
+      "kind": "value",
+      "hint": "DELAY",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--threads",
+      "aliases": [
+        "--threads",
+        "-t"
+      ],
+      "name": "Number of concurrent threads",
+      "description": "Number of concurrent threads",
+      "kind": "value",
+      "hint": "THREADS",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--wordlist-offset",
+      "aliases": [
+        "--wordlist-offset",
+        "-wo"
+      ],
+      "name": "Resume from a given position in the wordlist",
+      "description": "Resume from a given position in the wordlist",
+      "kind": "value",
+      "hint": "WORDLIST-OFFSET",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--output",
+      "aliases": [
+        "--output",
+        "-o"
+      ],
+      "name": "Output file to write results to",
+      "description": "Output file to write results to (defaults to stdout)",
+      "kind": "output",
+      "hint": "OUTPUT",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--quiet",
+      "aliases": [
+        "--quiet",
+        "-q"
+      ],
+      "name": "Don't print the banner and other noise",
+      "description": "Don't print the banner and other noise",
+      "kind": "flag",
+      "hint": "QUIET",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--no-progress",
+      "aliases": [
+        "--no-progress",
+        "-np"
+      ],
+      "name": "Don't display progress",
+      "description": "Don't display progress",
+      "kind": "flag",
+      "hint": "NO-PROGRESS",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--no-error",
+      "aliases": [
+        "--no-error",
+        "-ne"
+      ],
+      "name": "Don't display errors",
+      "description": "Don't display errors",
+      "kind": "flag",
+      "hint": "NO-ERROR",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--pattern",
+      "aliases": [
+        "--pattern",
+        "-p"
+      ],
+      "name": "File containing replacement patterns",
+      "description": "File containing replacement patterns",
+      "kind": "file",
+      "hint": "PATTERN",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--discover-pattern",
+      "aliases": [
+        "--discover-pattern",
+        "-pd"
+      ],
+      "name": "File containing replacement patterns applied to successful guesses",
+      "description": "File containing replacement patterns applied to successful guesses",
+      "kind": "file",
+      "hint": "DISCOVER-PATTERN",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--no-color",
+      "aliases": [
+        "--no-color",
+        "-nc"
+      ],
+      "name": "Disable color output",
+      "description": "Disable color output",
+      "kind": "flag",
+      "hint": "NO-COLOR",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--debug",
+      "aliases": [
+        "--debug"
+      ],
+      "name": "enable debug output",
+      "description": "enable debug output",
+      "kind": "flag",
+      "hint": "DEBUG",
+      "group": "Options",
+      "repeat": false,
+      "modes": []
+    },
+    {
+      "flag": "--server",
+      "aliases": [
+        "--server",
+        "-s"
+      ],
+      "name": "The target TFTP server",
+      "description": "The target TFTP server",
+      "kind": "value",
+      "hint": "SERVER",
+      "group": "TFTP mode",
+      "repeat": false,
+      "modes": [
+        "tftp"
+      ]
+    },
+    {
+      "flag": "--timeout",
+      "aliases": [
+        "--timeout",
+        "-to"
+      ],
+      "name": "TFTP timeout",
+      "description": "TFTP timeout",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "TFTP mode",
+      "repeat": false,
+      "modes": [
+        "tftp"
+      ]
+    },
+    {
+      "flag": "--append-domain",
+      "aliases": [
+        "--append-domain",
+        "-ad"
+      ],
+      "name": "Append main domain from URL to words from wordlist",
+      "description": "Append main domain from URL to words from wordlist. Otherwise the fully qualified domains need to be specified in the wordlist.",
+      "kind": "flag",
+      "hint": "APPEND-DOMAIN",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--exclude-length",
+      "aliases": [
+        "--exclude-length",
+        "-xl"
+      ],
+      "name": "exclude the following content lengths",
+      "description": "exclude the following content lengths. You can separate multiple lengths by comma and it also supports ranges like 203-206",
+      "kind": "value",
+      "hint": "EXCLUDE-LENGTH",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--exclude-status",
+      "aliases": [
+        "--exclude-status",
+        "-xs"
+      ],
+      "name": "exclude the following status codes",
+      "description": "exclude the following status codes. Can also handle ranges like 200,300-400,404.",
+      "kind": "value",
+      "hint": "EXCLUDE-STATUS",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--domain",
+      "aliases": [
+        "--domain",
+        "-do"
+      ],
+      "name": "the domain to append when using an IP address as URL",
+      "description": "the domain to append when using an IP address as URL. If left empty and you specify a domain based URL the hostname from the URL is extracted",
+      "kind": "value",
+      "hint": "DOMAIN",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--force",
+      "aliases": [
+        "--force"
+      ],
+      "name": "Force execution even when result is not guaranteed.",
+      "description": "Force execution even when result is not guaranteed.",
+      "kind": "flag",
+      "hint": "FORCE",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--exclude-hostname-length",
+      "aliases": [
+        "--exclude-hostname-length",
+        "-xh"
+      ],
+      "name": "Automatically adjust exclude-length based on dynamic hostname length in responses",
+      "description": "Automatically adjust exclude-length based on dynamic hostname length in responses",
+      "kind": "flag",
+      "hint": "EXCLUDE-HOSTNAME-LENGTH",
+      "group": "VHOST mode",
+      "repeat": false,
+      "modes": [
+        "vhost"
+      ]
+    },
+    {
+      "flag": "--help",
+      "aliases": [
+        "--help"
+      ],
+      "name": "Show command or mode help",
+      "description": "Show command or mode help",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "--version",
+      "aliases": [
+        "--version"
+      ],
+      "name": "Show Gobuster version",
+      "description": "Show Gobuster version",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "Options",
+      "repeat": false
+    }
+  ],
+  "ffuf": [
+    {
+      "flag": "-H",
+      "aliases": [
+        "-H"
+      ],
+      "name": "Header `\"Name: Value\"`, separated by colon",
+      "description": "Header `\"Name: Value\"`, separated by colon. Multiple -H flags are accepted.",
+      "kind": "value",
+      "hint": "H",
+      "group": "Http Options",
+      "repeat": true
+    },
+    {
+      "flag": "-X",
+      "aliases": [
+        "-X"
+      ],
+      "name": "HTTP method to use",
+      "description": "HTTP method to use",
+      "kind": "value",
+      "hint": "X",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-b",
+      "aliases": [
+        "-b"
+      ],
+      "name": "Cookie data `\"NAME1=VALUE1; NAME2=VALUE2\"` for copy as curl functionality.",
+      "description": "Cookie data `\"NAME1=VALUE1; NAME2=VALUE2\"` for copy as curl functionality.",
+      "kind": "value",
+      "hint": "B",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-cc",
+      "aliases": [
+        "-cc"
+      ],
+      "name": "Client cert for authentication",
+      "description": "Client cert for authentication. Client key needs to be defined as well for this to work",
+      "kind": "file",
+      "hint": "CC",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ck",
+      "aliases": [
+        "-ck"
+      ],
+      "name": "Client key for authentication",
+      "description": "Client key for authentication. Client certificate needs to be defined as well for this to work",
+      "kind": "file",
+      "hint": "CK",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-d",
+      "aliases": [
+        "-d"
+      ],
+      "name": "POST data",
+      "description": "POST data",
+      "kind": "value",
+      "hint": "D",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-http2",
+      "aliases": [
+        "-http2"
+      ],
+      "name": "Use HTTP2 protocol",
+      "description": "Use HTTP2 protocol (default: false)",
+      "kind": "flag",
+      "hint": "HTTP2",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ignore-body",
+      "aliases": [
+        "-ignore-body"
+      ],
+      "name": "Do not fetch the response content.",
+      "description": "Do not fetch the response content. (default: false)",
+      "kind": "flag",
+      "hint": "IGNORE-BODY",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r"
+      ],
+      "name": "Follow redirects",
+      "description": "Follow redirects (default: false)",
+      "kind": "flag",
+      "hint": "R",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-raw",
+      "aliases": [
+        "-raw"
+      ],
+      "name": "Do not encode URI",
+      "description": "Do not encode URI (default: false)",
+      "kind": "flag",
+      "hint": "RAW",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-recursion",
+      "aliases": [
+        "-recursion"
+      ],
+      "name": "Scan recursively",
+      "description": "Scan recursively. Only FUZZ keyword is supported, and URL (-u) has to end in it. (default: false)",
+      "kind": "flag",
+      "hint": "RECURSION",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-recursion-depth",
+      "aliases": [
+        "-recursion-depth"
+      ],
+      "name": "Maximum recursion depth.",
+      "description": "Maximum recursion depth. (default: 0)",
+      "kind": "value",
+      "hint": "RECURSION-DEPTH",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-replay-proxy",
+      "aliases": [
+        "-replay-proxy"
+      ],
+      "name": "Replay matched requests using this proxy.",
+      "description": "Replay matched requests using this proxy.",
+      "kind": "value",
+      "hint": "REPLAY-PROXY",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-sni",
+      "aliases": [
+        "-sni"
+      ],
+      "name": "Target TLS SNI, does not support FUZZ keyword",
+      "description": "Target TLS SNI, does not support FUZZ keyword",
+      "kind": "value",
+      "hint": "SNI",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-timeout",
+      "aliases": [
+        "-timeout"
+      ],
+      "name": "HTTP request timeout in seconds.",
+      "description": "HTTP request timeout in seconds. (default: 10)",
+      "kind": "value",
+      "hint": "TIMEOUT",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-u",
+      "aliases": [
+        "-u"
+      ],
+      "name": "Target URL",
+      "description": "Target URL",
+      "kind": "value",
+      "hint": "U",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-x",
+      "aliases": [
+        "-x"
+      ],
+      "name": "Proxy URL",
+      "description": "Proxy URL (SOCKS5 or HTTP). For example: http://127.0.0.1:8080 or socks5://127.0.0.1:8080",
+      "kind": "value",
+      "hint": "X",
+      "group": "Http Options",
+      "repeat": false
+    },
+    {
+      "flag": "-V",
+      "aliases": [
+        "-V"
+      ],
+      "name": "Show version",
+      "description": "Show version",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ac",
+      "aliases": [
+        "-ac"
+      ],
+      "name": "Automatically calibrate filtering options",
+      "description": "Automatically calibrate filtering options (default: false)",
+      "kind": "flag",
+      "hint": "AC",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-acc",
+      "aliases": [
+        "-acc"
+      ],
+      "name": "Custom auto-calibration string",
+      "description": "Custom auto-calibration string. Can be used multiple times. Implies -ac",
+      "kind": "value",
+      "hint": "ACC",
+      "group": "General Options",
+      "repeat": true
+    },
+    {
+      "flag": "-ach",
+      "aliases": [
+        "-ach"
+      ],
+      "name": "Per host autocalibration",
+      "description": "Per host autocalibration (default: false)",
+      "kind": "flag",
+      "hint": "ACH",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ack",
+      "aliases": [
+        "-ack"
+      ],
+      "name": "Autocalibration keyword",
+      "description": "Autocalibration keyword (default: FUZZ)",
+      "kind": "value",
+      "hint": "ACK",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-acs",
+      "aliases": [
+        "-acs"
+      ],
+      "name": "Custom auto-calibration strategies",
+      "description": "Custom auto-calibration strategies. Can be used multiple times. Implies -ac",
+      "kind": "value",
+      "hint": "ACS",
+      "group": "General Options",
+      "repeat": true
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c"
+      ],
+      "name": "Colorize output.",
+      "description": "Colorize output. (default: false)",
+      "kind": "flag",
+      "hint": "C",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-config",
+      "aliases": [
+        "-config"
+      ],
+      "name": "Load configuration from a file",
+      "description": "Load configuration from a file",
+      "kind": "file",
+      "hint": "CONFIG",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-json",
+      "aliases": [
+        "-json"
+      ],
+      "name": "JSON output, printing newline-delimited JSON records",
+      "description": "JSON output, printing newline-delimited JSON records (default: false)",
+      "kind": "flag",
+      "hint": "JSON",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-maxtime",
+      "aliases": [
+        "-maxtime"
+      ],
+      "name": "Maximum running time in seconds for entire process.",
+      "description": "Maximum running time in seconds for entire process. (default: 0)",
+      "kind": "value",
+      "hint": "MAXTIME",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-maxtime-job",
+      "aliases": [
+        "-maxtime-job"
+      ],
+      "name": "Maximum running time in seconds per job.",
+      "description": "Maximum running time in seconds per job. (default: 0)",
+      "kind": "value",
+      "hint": "MAXTIME-JOB",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-noninteractive",
+      "aliases": [
+        "-noninteractive"
+      ],
+      "name": "Disable the interactive console functionality",
+      "description": "Disable the interactive console functionality (default: false)",
+      "kind": "flag",
+      "hint": "NONINTERACTIVE",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-p",
+      "aliases": [
+        "-p"
+      ],
+      "name": "Seconds of `delay` between requests, or a range of random delay",
+      "description": "Seconds of `delay` between requests, or a range of random delay. For example \"0.1\" or \"0.1-2.0\"",
+      "kind": "value",
+      "hint": "P",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-rate",
+      "aliases": [
+        "-rate"
+      ],
+      "name": "Rate of requests per second",
+      "description": "Rate of requests per second (default: 0)",
+      "kind": "value",
+      "hint": "RATE",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s"
+      ],
+      "name": "Do not print additional information",
+      "description": "Do not print additional information (silent mode) (default: false)",
+      "kind": "flag",
+      "hint": "S",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-sa",
+      "aliases": [
+        "-sa"
+      ],
+      "name": "Stop on all error cases",
+      "description": "Stop on all error cases. Implies -sf and -se. (default: false)",
+      "kind": "flag",
+      "hint": "SA",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-scraperfile",
+      "aliases": [
+        "-scraperfile"
+      ],
+      "name": "Custom scraper file path",
+      "description": "Custom scraper file path",
+      "kind": "file",
+      "hint": "SCRAPERFILE",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-scrapers",
+      "aliases": [
+        "-scrapers"
+      ],
+      "name": "Active scraper groups",
+      "description": "Active scraper groups (default: all)",
+      "kind": "value",
+      "hint": "SCRAPERS",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-se",
+      "aliases": [
+        "-se"
+      ],
+      "name": "Stop on spurious errors",
+      "description": "Stop on spurious errors (default: false)",
+      "kind": "flag",
+      "hint": "SE",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-search",
+      "aliases": [
+        "-search"
+      ],
+      "name": "Search for a FFUFHASH payload from ffuf history",
+      "description": "Search for a FFUFHASH payload from ffuf history",
+      "kind": "value",
+      "hint": "SEARCH",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-sf",
+      "aliases": [
+        "-sf"
+      ],
+      "name": "Stop when > 95% of responses return 403 Forbidden",
+      "description": "Stop when > 95% of responses return 403 Forbidden (default: false)",
+      "kind": "flag",
+      "hint": "SF",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t"
+      ],
+      "name": "Number of concurrent threads.",
+      "description": "Number of concurrent threads. (default: 40)",
+      "kind": "value",
+      "hint": "T",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-v",
+      "aliases": [
+        "-v"
+      ],
+      "name": "Verbose output, printing full URL and redirect location",
+      "description": "Verbose output, printing full URL and redirect location (if any) with the results. (default: false)",
+      "kind": "flag",
+      "hint": "V",
+      "group": "General Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mc",
+      "aliases": [
+        "-mc"
+      ],
+      "name": "Match HTTP status codes, or \"all\" for everything.",
+      "description": "Match HTTP status codes, or \"all\" for everything. (default: 200-299,301,302,307,401,403,405,500)",
+      "kind": "value",
+      "hint": "MC",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ml",
+      "aliases": [
+        "-ml"
+      ],
+      "name": "Match amount of lines in response",
+      "description": "Match amount of lines in response",
+      "kind": "value",
+      "hint": "ML",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mmode",
+      "aliases": [
+        "-mmode"
+      ],
+      "name": "Matcher set operator",
+      "description": "Matcher set operator. Either of: and, or (default: or)",
+      "kind": "value",
+      "hint": "MMODE",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mr",
+      "aliases": [
+        "-mr"
+      ],
+      "name": "Match regexp",
+      "description": "Match regexp",
+      "kind": "value",
+      "hint": "MR",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ms",
+      "aliases": [
+        "-ms"
+      ],
+      "name": "Match HTTP response size",
+      "description": "Match HTTP response size",
+      "kind": "value",
+      "hint": "MS",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mt",
+      "aliases": [
+        "-mt"
+      ],
+      "name": "Match how many milliseconds to the first response byte, either greater or less than",
+      "description": "Match how many milliseconds to the first response byte, either greater or less than. EG: >100 or <100",
+      "kind": "value",
+      "hint": "MT",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mw",
+      "aliases": [
+        "-mw"
+      ],
+      "name": "Match amount of words in response",
+      "description": "Match amount of words in response",
+      "kind": "value",
+      "hint": "MW",
+      "group": "Matcher Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fc",
+      "aliases": [
+        "-fc"
+      ],
+      "name": "Filter HTTP status codes from response",
+      "description": "Filter HTTP status codes from response. Comma separated list of codes and ranges",
+      "kind": "value",
+      "hint": "FC",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fl",
+      "aliases": [
+        "-fl"
+      ],
+      "name": "Filter by amount of lines in response",
+      "description": "Filter by amount of lines in response. Comma separated list of line counts and ranges",
+      "kind": "value",
+      "hint": "FL",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fmode",
+      "aliases": [
+        "-fmode"
+      ],
+      "name": "Filter set operator",
+      "description": "Filter set operator. Either of: and, or (default: or)",
+      "kind": "value",
+      "hint": "FMODE",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fr",
+      "aliases": [
+        "-fr"
+      ],
+      "name": "Filter regexp",
+      "description": "Filter regexp",
+      "kind": "value",
+      "hint": "FR",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fs",
+      "aliases": [
+        "-fs"
+      ],
+      "name": "Filter HTTP response size",
+      "description": "Filter HTTP response size. Comma separated list of sizes and ranges",
+      "kind": "value",
+      "hint": "FS",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ft",
+      "aliases": [
+        "-ft"
+      ],
+      "name": "Filter by number of milliseconds to the first response byte, either greater or less than",
+      "description": "Filter by number of milliseconds to the first response byte, either greater or less than. EG: >100 or <100",
+      "kind": "value",
+      "hint": "FT",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-fw",
+      "aliases": [
+        "-fw"
+      ],
+      "name": "Filter by amount of words in response",
+      "description": "Filter by amount of words in response. Comma separated list of word counts and ranges",
+      "kind": "value",
+      "hint": "FW",
+      "group": "Filter Options",
+      "repeat": false
+    },
+    {
+      "flag": "-D",
+      "aliases": [
+        "-D"
+      ],
+      "name": "DirSearch wordlist compatibility mode",
+      "description": "DirSearch wordlist compatibility mode. Used in conjunction with -e flag. (default: false)",
+      "kind": "flag",
+      "hint": "D",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-e",
+      "aliases": [
+        "-e"
+      ],
+      "name": "Comma separated list of extensions",
+      "description": "Comma separated list of extensions. Extends FUZZ keyword.",
+      "kind": "value",
+      "hint": "E",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-enc",
+      "aliases": [
+        "-enc"
+      ],
+      "name": "Encoders for keywords, eg",
+      "description": "Encoders for keywords, eg. 'FUZZ:urlencode b64encode'",
+      "kind": "value",
+      "hint": "ENC",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-ic",
+      "aliases": [
+        "-ic"
+      ],
+      "name": "Ignore wordlist comments",
+      "description": "Ignore wordlist comments (default: false)",
+      "kind": "flag",
+      "hint": "IC",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-input-cmd",
+      "aliases": [
+        "-input-cmd"
+      ],
+      "name": "Command producing the input",
+      "description": "Command producing the input. --input-num is required when using this input method. Overrides -w.",
+      "kind": "value",
+      "hint": "INPUT-CMD",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-input-num",
+      "aliases": [
+        "-input-num"
+      ],
+      "name": "Number of inputs to test",
+      "description": "Number of inputs to test. Used in conjunction with --input-cmd. (default: 100)",
+      "kind": "value",
+      "hint": "INPUT-NUM",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-input-shell",
+      "aliases": [
+        "-input-shell"
+      ],
+      "name": "Shell to be used for running command",
+      "description": "Shell to be used for running command",
+      "kind": "value",
+      "hint": "INPUT-SHELL",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-mode",
+      "aliases": [
+        "-mode"
+      ],
+      "name": "Multi-wordlist operation mode",
+      "description": "Multi-wordlist operation mode. Available modes: clusterbomb, pitchfork, sniper (default: clusterbomb)",
+      "kind": "value",
+      "hint": "MODE",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-request",
+      "aliases": [
+        "-request"
+      ],
+      "name": "File containing the raw http request",
+      "description": "File containing the raw http request",
+      "kind": "file",
+      "hint": "REQUEST",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-request-proto",
+      "aliases": [
+        "-request-proto"
+      ],
+      "name": "Protocol to use along with raw request",
+      "description": "Protocol to use along with raw request (default: https)",
+      "kind": "value",
+      "hint": "REQUEST-PROTO",
+      "group": "Input Options",
+      "repeat": false
+    },
+    {
+      "flag": "-w",
+      "aliases": [
+        "-w"
+      ],
+      "name": "Wordlist file path and",
+      "description": "Wordlist file path and (optional) keyword separated by colon. eg. '/path/to/wordlist:KEYWORD'",
+      "kind": "file",
+      "hint": "W",
+      "group": "Input Options",
+      "repeat": true
+    },
+    {
+      "flag": "-debug-log",
+      "aliases": [
+        "-debug-log"
+      ],
+      "name": "Write all of the internal logging to the specified file.",
+      "description": "Write all of the internal logging to the specified file.",
+      "kind": "output",
+      "hint": "DEBUG-LOG",
+      "group": "Output Options",
+      "repeat": false
+    },
+    {
+      "flag": "-o",
+      "aliases": [
+        "-o"
+      ],
+      "name": "Write output to file",
+      "description": "Write output to file",
+      "kind": "output",
+      "hint": "O",
+      "group": "Output Options",
+      "repeat": false
+    },
+    {
+      "flag": "-od",
+      "aliases": [
+        "-od"
+      ],
+      "name": "Directory path to store matched results to.",
+      "description": "Directory path to store matched results to.",
+      "kind": "output-directory",
+      "hint": "OD",
+      "group": "Output Options",
+      "repeat": false
+    },
+    {
+      "flag": "-of",
+      "aliases": [
+        "-of"
+      ],
+      "name": "Output file format",
+      "description": "Output file format. Available formats: json, ejson, html, md, csv, ecsv (or, 'all' for all formats) (default: json)",
+      "kind": "value",
+      "hint": "OF",
+      "group": "Output Options",
+      "repeat": false
+    },
+    {
+      "flag": "-or",
+      "aliases": [
+        "-or"
+      ],
+      "name": "Don't create the output file if we don't have results",
+      "description": "Don't create the output file if we don't have results (default: false)",
+      "kind": "flag",
+      "hint": "OR",
+      "group": "Output Options",
+      "repeat": false
+    },
+    {
+      "flag": "-h",
+      "aliases": [
+        "-h"
+      ],
+      "name": "Show help",
+      "description": "Show help",
+      "kind": "flag",
+      "hint": "H",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "-recursion-strategy",
+      "aliases": [
+        "-recursion-strategy"
+      ],
+      "name": "Recursion strategy: default or greedy",
+      "description": "Recursion strategy: default or greedy",
+      "kind": "value",
+      "hint": "RECURSION-STRATEGY",
+      "group": "Options",
+      "repeat": false
+    }
+  ],
+  "aircrack-ng": [
+    {
+      "flag": "-a",
+      "aliases": [
+        "-a"
+      ],
+      "name": "force attack mode",
+      "description": "force attack mode (1/WEP, 2/WPA-PSK)",
+      "kind": "value",
+      "hint": "A",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-e",
+      "aliases": [
+        "-e"
+      ],
+      "name": "target selection: network identifier",
+      "description": "target selection: network identifier",
+      "kind": "value",
+      "hint": "E",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-b",
+      "aliases": [
+        "-b"
+      ],
+      "name": "target selection: access point's MAC",
+      "description": "target selection: access point's MAC",
+      "kind": "value",
+      "hint": "B",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-p",
+      "aliases": [
+        "-p"
+      ],
+      "name": "# of CPU to use ",
+      "description": "# of CPU to use  (default: all CPUs)",
+      "kind": "value",
+      "hint": "P",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-q",
+      "aliases": [
+        "-q"
+      ],
+      "name": "enable quiet mode",
+      "description": "enable quiet mode (no status output)",
+      "kind": "flag",
+      "hint": "Q",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-C",
+      "aliases": [
+        "-C"
+      ],
+      "name": "merge the given APs to a virtual one",
+      "description": "merge the given APs to a virtual one",
+      "kind": "value",
+      "hint": "C",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-l",
+      "aliases": [
+        "-l"
+      ],
+      "name": "write key to file",
+      "description": "write key to file. Overwrites file.",
+      "kind": "output",
+      "hint": "L",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c"
+      ],
+      "name": "search alphanumeric characters only",
+      "description": "search alphanumeric characters only",
+      "kind": "flag",
+      "hint": "C",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t"
+      ],
+      "name": "search binary coded decimal chr only",
+      "description": "search binary coded decimal chr only",
+      "kind": "flag",
+      "hint": "T",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-h",
+      "aliases": [
+        "-h"
+      ],
+      "name": "search the numeric key for Fritz!BOX",
+      "description": "search the numeric key for Fritz!BOX",
+      "kind": "flag",
+      "hint": "H",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-d",
+      "aliases": [
+        "-d"
+      ],
+      "name": "use masking of the key",
+      "description": "use masking of the key (A1:XX:CF:YY)",
+      "kind": "value",
+      "hint": "D",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-m",
+      "aliases": [
+        "-m"
+      ],
+      "name": "MAC address to filter usable packets",
+      "description": "MAC address to filter usable packets",
+      "kind": "value",
+      "hint": "M",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-n",
+      "aliases": [
+        "-n"
+      ],
+      "name": "WEP key length :  64/128/152/256/512",
+      "description": "WEP key length :  64/128/152/256/512",
+      "kind": "value",
+      "hint": "N",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-i",
+      "aliases": [
+        "-i"
+      ],
+      "name": "WEP key index",
+      "description": "WEP key index (1 to 4), default: any",
+      "kind": "value",
+      "hint": "I",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-f",
+      "aliases": [
+        "-f"
+      ],
+      "name": "bruteforce fudge factor,  default: 2",
+      "description": "bruteforce fudge factor,  default: 2",
+      "kind": "value",
+      "hint": "F",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-k",
+      "aliases": [
+        "-k"
+      ],
+      "name": "disable one attack method ",
+      "description": "disable one attack method  (1 to 17)",
+      "kind": "value",
+      "hint": "K",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-x1",
+      "aliases": [
+        "-x1"
+      ],
+      "name": "last keybyte bruteforcing ",
+      "description": "last keybyte bruteforcing  (default)",
+      "kind": "flag",
+      "hint": "X1",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-x2",
+      "aliases": [
+        "-x2"
+      ],
+      "name": "enable last  2 keybytes bruteforcing%s      -y         : experimental  single bruteforce mode",
+      "description": "enable last  2 keybytes bruteforcing%s      -y         : experimental  single bruteforce mode",
+      "kind": "flag",
+      "hint": "X2",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-K",
+      "aliases": [
+        "-K"
+      ],
+      "name": "use only old KoreK attacks",
+      "description": "use only old KoreK attacks (pre-PTW)",
+      "kind": "flag",
+      "hint": "K",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s"
+      ],
+      "name": "show the key in ASCII while cracking",
+      "description": "show the key in ASCII while cracking",
+      "kind": "flag",
+      "hint": "S",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-M",
+      "aliases": [
+        "-M"
+      ],
+      "name": "specify maximum number of IVs to use",
+      "description": "specify maximum number of IVs to use",
+      "kind": "value",
+      "hint": "M",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-D",
+      "aliases": [
+        "-D"
+      ],
+      "name": "WEP decloak, skips broken keystreams",
+      "description": "WEP decloak, skips broken keystreams",
+      "kind": "flag",
+      "hint": "D",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-P",
+      "aliases": [
+        "-P"
+      ],
+      "name": "PTW debug:  1: disable Klein, 2: PTW",
+      "description": "PTW debug:  1: disable Klein, 2: PTW",
+      "kind": "value",
+      "hint": "P",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-1",
+      "aliases": [
+        "-1"
+      ],
+      "name": "run only 1 try to crack key with PTW",
+      "description": "run only 1 try to crack key with PTW",
+      "kind": "flag",
+      "hint": "1",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-V",
+      "aliases": [
+        "-V"
+      ],
+      "name": "run in visual inspection mode",
+      "description": "run in visual inspection mode",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-w",
+      "aliases": [
+        "-w"
+      ],
+      "name": "path to wordlist(s) filename(s)",
+      "description": "path to wordlist(s) filename(s)",
+      "kind": "file",
+      "hint": "W",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-N",
+      "aliases": [
+        "-N"
+      ],
+      "name": "path to new session filename",
+      "description": "path to new session filename",
+      "kind": "output",
+      "hint": "N",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-R",
+      "aliases": [
+        "-R"
+      ],
+      "name": "path to existing session filename",
+      "description": "path to existing session filename",
+      "kind": "file",
+      "hint": "R",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-E",
+      "aliases": [
+        "-E"
+      ],
+      "name": "create EWSA Project file v3",
+      "description": "create EWSA Project file v3",
+      "kind": "output",
+      "hint": "E",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-I",
+      "aliases": [
+        "-I"
+      ],
+      "name": "PMKID string",
+      "description": "PMKID string (hashcat -m 16800)",
+      "kind": "value",
+      "hint": "I",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-j",
+      "aliases": [
+        "-j"
+      ],
+      "name": "create Hashcat v3.6+ file",
+      "description": "create Hashcat v3.6+ file (HCCAPX)",
+      "kind": "output",
+      "hint": "J",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-J",
+      "aliases": [
+        "-J"
+      ],
+      "name": "create Hashcat file",
+      "description": "create Hashcat file (HCCAP)",
+      "kind": "output",
+      "hint": "J",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-S",
+      "aliases": [
+        "-S"
+      ],
+      "name": "WPA cracking speed test",
+      "description": "WPA cracking speed test",
+      "kind": "flag",
+      "hint": "S",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-Z",
+      "aliases": [
+        "-Z"
+      ],
+      "name": "WPA cracking speed test length of",
+      "description": "WPA cracking speed test length of",
+      "kind": "value",
+      "hint": "Z",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r"
+      ],
+      "name": "path to airolib-ng database",
+      "description": "path to airolib-ng database",
+      "kind": "file",
+      "hint": "R",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--simd-list",
+      "aliases": [
+        "--simd-list"
+      ],
+      "name": "Show a list of the available",
+      "description": "Show a list of the available",
+      "kind": "flag",
+      "hint": "SIMD-LIST",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--simd",
+      "aliases": [
+        "--simd"
+      ],
+      "name": "Use specific SIMD architecture.",
+      "description": "Use specific SIMD architecture.",
+      "kind": "value",
+      "hint": "SIMD",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "-u",
+      "aliases": [
+        "-u"
+      ],
+      "name": "Displays # of CPUs & SIMD support",
+      "description": "Displays # of CPUs & SIMD support",
+      "kind": "flag",
+      "hint": "U",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "--help",
+      "aliases": [
+        "--help"
+      ],
+      "name": "Displays this usage screen",
+      "description": "Displays this usage screen",
+      "kind": "flag",
+      "hint": "HELP",
+      "group": "Wireless capture auditing",
+      "repeat": false
+    },
+    {
+      "flag": "$extra-input",
+      "aliases": [
+        "$extra-input"
+      ],
+      "name": "Add another capture file",
+      "description": "Add another capture file",
+      "kind": "positional-file",
+      "hint": "EXTRA-INPUT",
+      "group": "Input files",
+      "repeat": false
+    },
+    {
+      "flag": "-x",
+      "aliases": [
+        "-x"
+      ],
+      "name": "Set how many trailing WEP key bytes to brute force",
+      "description": "Optional number of trailing WEP key bytes; native spelling is -x0, -x1, or -x2.",
+      "kind": "optional-value",
+      "hint": "X",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "-x0",
+      "aliases": [
+        "-x0"
+      ],
+      "name": "Disable brute force of trailing WEP key bytes",
+      "description": "Disable brute force of trailing WEP key bytes",
+      "kind": "flag",
+      "hint": "X0",
+      "group": "Options",
+      "repeat": false
+    },
+    {
+      "flag": "$input",
+      "aliases": [
+        "$input"
+      ],
+      "name": "Choose the primary capture file",
+      "description": "Choose the primary capture file",
+      "kind": "positional-file",
+      "hint": "$INPUT",
+      "group": "Options",
+      "repeat": false
+    }
+  ]
+}

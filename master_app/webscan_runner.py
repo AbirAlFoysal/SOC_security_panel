@@ -198,6 +198,31 @@ class WebScanRunner(NmapRunner):
             threading.Thread(target=self._run_web, args=([binary] + actual, directory / (scanid + '.txt')), daemon=True).start()
             return deepcopy(self.current)
 
+    def scan_files(self,ident,scanid):
+        project=self.store.get(ident)
+        if not any(r['id']==scanid for r in project.get('tool_history',{}).get(self.tool,[])):
+            raise FileNotFoundError('Run not found in this project.')
+        directory=self.store._directory(ident)/'scans'/self.tool
+        if not directory.resolve().is_relative_to(self.store._directory(ident).resolve()):
+            raise ValueError('Invalid scan directory.')
+        result=[]
+        if not directory.exists():return result
+        for root in directory.iterdir():
+            if root.is_symlink() or not root.name.startswith((scanid+'.',scanid+'-')):continue
+            candidates=root.rglob('*') if root.is_dir() else [root]
+            for file in candidates:
+                if len(result)>=1000:break
+                if not file.is_file() or file.is_symlink() or not file.resolve().is_relative_to(directory.resolve()) or file.suffix=='.stop':continue
+                relative=file.relative_to(directory).as_posix()
+                result.append({'name':relative,'token':relative.encode().hex(),'size':file.stat().st_size})
+        return result
+
+    def scan_file(self,ident,scanid,token):
+        files=self.scan_files(ident,scanid)
+        selected=next((f for f in files if f['token']==token),None)
+        if not selected:raise FileNotFoundError('Output file not found.')
+        return self.store._directory(ident)/'scans'/self.tool/selected['name']
+
     def _signal(self, kill=False):
         proc = self.process
         if proc and proc.poll() is None:
@@ -233,7 +258,8 @@ class WebScanRunner(NmapRunner):
         try:
             proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
                                     text=True, errors='replace', start_new_session=os.name == 'posix', bufsize=1,
-                                    env={**os.environ, 'PYTHONUNBUFFERED': '1'})
+                                    env={**os.environ, 'PYTHONUNBUFFERED': '1', **getattr(self,'execution_env',{})},
+                                    cwd=getattr(self,'execution_cwd',None))
             with self.lock:
                 self.process = proc
                 if self.cancelled:
@@ -252,11 +278,14 @@ class WebScanRunner(NmapRunner):
                         self.current['output'] = (self.current['output'] + line)[-262144:]
             code = proc.wait()
             with self.lock:
-                status = 'cancelled' if self.cancelled else 'failed' if timed_out.is_set() or code else 'completed'
+                successful = code in getattr(self,'success_codes',{0})
+                status = 'cancelled' if self.cancelled else 'failed' if timed_out.is_set() or not successful else 'completed'
                 self.current.update(status=status, exit_code=code, finished_at=datetime.now(timezone.utc).isoformat())
+                if self.tool=='hashcat' and code==1 and not self.cancelled:
+                    self.current['outcome']='exhausted'
                 if timed_out.is_set():
                     self.current['error'] = 'Scan stopped after the 30-minute time limit. Partial output was saved.'
-                elif code and not self.cancelled:
+                elif not successful and not self.cancelled:
                     self.current['error'] = f'{self.tool} exited with code {code}. See output.'
         except Exception as exc:
             with self.lock:

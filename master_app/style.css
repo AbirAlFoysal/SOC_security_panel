@@ -1,15 +1,16 @@
 @import "tokens.css";
 
 :root {
+  color-scheme: dark;
   --bg: var(--color-surface);
   --panel: var(--color-card);
   --line: var(--color-line);
-  --muted: var(--color-neutral-400, var(--color-muted));
+  --muted: var(--color-muted);
   --text: var(--color-fg);
-  --accent: var(--color-ember);
-  --accent-hover: var(--color-ember-hover);
+  --accent: var(--color-cyber-green, var(--color-brand-400));
+  --accent-hover: var(--color-cyber-green-hover, var(--color-brand-300));
   --red: var(--color-danger);
-  --green: var(--color-success);
+  --green: var(--color-brand-400);
 }
 
 * {
@@ -33,7 +34,7 @@ button {
   color: var(--text);
   background: transparent;
   outline-offset: 3px;
-  transition: background var(--duration-quick), border-color var(--duration-quick), color var(--duration-quick), transform var(--duration-quick);
+  transition: background var(--duration-quick), border-color var(--duration-quick), color var(--duration-quick), box-shadow var(--duration-quick), transform var(--duration-quick);
 }
 
 button:disabled {
@@ -43,6 +44,7 @@ button:disabled {
 
 button:hover:enabled {
   border-color: var(--accent);
+  box-shadow: 0 0 8px var(--color-cyber-green-glow);
 }
 
 button:active:enabled {
@@ -95,6 +97,7 @@ main {
 .tool-name {
   font-size: 12px;
   font-weight: 550;
+  letter-spacing: 0.2px;
 }
 
 .status {
@@ -111,41 +114,19 @@ main {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  color: var(--color-success);
-  background: var(--color-green-50);
+  color: var(--accent);
+  background: rgba(56, 239, 125, 0.14);
+  border: 1px solid rgba(56, 239, 125, 0.35);
   font-size: 13px;
   font-weight: 700;
-}
-
-:root[data-theme="dark"] .status b,
-.dark .status b {
-  background: rgba(74, 222, 128, 0.16);
-  border: 1px solid rgba(74, 222, 128, 0.35);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .status b {
-    background: rgba(74, 222, 128, 0.16);
-    border: 1px solid rgba(74, 222, 128, 0.35);
-  }
+  box-shadow: 0 0 6px rgba(56, 239, 125, 0.2);
 }
 
 .status.no b {
   color: var(--color-danger);
-  background: var(--color-red-50);
-}
-
-:root[data-theme="dark"] .status.no b,
-.dark .status.no b {
   background: rgba(248, 113, 113, 0.16);
   border: 1px solid rgba(248, 113, 113, 0.35);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .status.no b {
-    background: rgba(248, 113, 113, 0.16);
-    border: 1px solid rgba(248, 113, 113, 0.35);
-  }
+  box-shadow: 0 0 6px rgba(248, 113, 113, 0.15);
 }
 
 .menu-button {
@@ -167,7 +148,7 @@ main {
   border-radius: var(--radius-control);
   padding: 4px;
   min-width: 130px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
 }
 
 .dropdown button {
@@ -182,6 +163,7 @@ main {
 
 .dropdown button:hover:enabled {
   background: var(--color-subtle);
+  color: var(--accent);
 }
 
 .dropdown button:last-child {
@@ -204,12 +186,15 @@ main {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--color-on-solid);
-  font-weight: 600;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+  box-shadow: 0 0 12px var(--color-cyber-green-glow);
 }
 
 .primary:hover:enabled {
   background: var(--accent-hover);
   border-color: var(--accent-hover);
+  box-shadow: 0 0 18px rgba(56, 239, 125, 0.4);
 }
 
 .secondary {
@@ -220,6 +205,7 @@ main {
 
 .secondary:hover:enabled {
   background: var(--line);
+  border-color: var(--color-neutral-700);
 }
 
 .activity {
@@ -250,8 +236,9 @@ pre {
 .result {
   padding: 7px 0;
   border-top: 1px solid var(--line);
-  color: var(--color-success);
+  color: var(--accent);
   overflow-wrap: anywhere;
+  font-family: var(--font-mono);
 }
 
 .result.failed {
@@ -271,17 +258,18 @@ dialog {
   color: var(--text);
   border-radius: var(--radius-card);
   padding: var(--space-major);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(2px);
 }
 
 dialog h2 {
   font-size: 18px;
   font-weight: 550;
+  color: var(--text);
 }
 
 dialog p {
@@ -330,7 +318,7 @@ dialog > div {
 .search-bar input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+  box-shadow: 0 0 0 2px var(--color-cyber-green-glow), 0 0 10px rgba(56, 239, 125, 0.2);
 }
 
 .tools {

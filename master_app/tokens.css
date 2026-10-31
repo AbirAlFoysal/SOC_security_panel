@@ -1,16 +1,19 @@
-/* Primitive palette extracted from Counterfoil globals.css. Semantic layer adapted for School OS. */
+/* Design tokens adapted with Cyber Green hacker palette for SOC security command panel. */
 :root {
-  --color-brand-50: #fff5ee;
-  --color-brand-100: #ffe6d5;
-  --color-brand-200: #ffc9a8;
-  --color-brand-300: #ffa572;
-  --color-brand-400: #ff7a3d;
-  --color-brand-500: #f94a00;
-  --color-brand-600: #d63d00;
-  --color-brand-700: #aa3000;
-  --color-brand-800: #802500;
-  --color-brand-900: #541900;
-  --color-brand-950: #2d0d00;
+  /* Primitive: Cyber Green (Terminal / Phosphor Hacker palette) */
+  --color-brand-50: #edfaf1;
+  --color-brand-100: #d6f6e0;
+  --color-brand-200: #adeec3;
+  --color-brand-300: #76e19d;
+  --color-brand-400: #38ef7d;
+  --color-brand-500: #18d867;
+  --color-brand-600: #0eb752;
+  --color-brand-700: #0a8f40;
+  --color-brand-800: #0d7035;
+  --color-brand-900: #0c5c2d;
+  --color-brand-950: #033318;
+
+  /* Primitive: Warm Dark Neutral palette */
   --color-neutral-50: #f5f2eb;
   --color-neutral-100: #efece5;
   --color-neutral-200: #e2ded5;
@@ -22,6 +25,8 @@
   --color-neutral-800: #383632;
   --color-neutral-900: #22211f;
   --color-neutral-950: #141413;
+
+  /* Primitive: Functional Status scales */
   --color-green-50: #f0fdf4;
   --color-green-100: #dcfce7;
   --color-green-200: #bbf7d0;
@@ -33,6 +38,7 @@
   --color-green-800: #166534;
   --color-green-900: #14532d;
   --color-green-950: #052e16;
+
   --color-amber-50: #fffbeb;
   --color-amber-100: #fef3c7;
   --color-amber-200: #fde68a;
@@ -44,6 +50,7 @@
   --color-amber-800: #92400e;
   --color-amber-900: #78350f;
   --color-amber-950: #451a03;
+
   --color-red-50: #fef2f2;
   --color-red-100: #fee2e2;
   --color-red-200: #fecaca;
@@ -55,6 +62,7 @@
   --color-red-800: #991b1b;
   --color-red-900: #7f1d1d;
   --color-red-950: #450a0a;
+
   --color-blue-50: #eff6ff;
   --color-blue-100: #dbeafe;
   --color-blue-200: #bfdbfe;
@@ -67,28 +75,25 @@
   --color-blue-900: #1e3a8a;
   --color-blue-950: #172554;
 
-  --color-surface: var(--color-neutral-50);
-  --color-card: #ffffff;
-  --color-fg: var(--color-neutral-900);
-  --color-muted: var(--color-neutral-600);
-  --color-line: var(--color-neutral-200);
-  --color-subtle: var(--color-neutral-100);
-  --color-ember: var(--color-brand-500);
-  --color-ember-hover: var(--color-brand-600);
-  --color-brand-text: var(--color-brand-700);
-  --color-success: var(--color-green-800);
-  --color-danger: var(--color-red-700);
-  --color-on-solid: #ffffff;
-  --color-lesson-0-bg: #edf6f2;
-  --color-lesson-0-line: #5a8d80;
-  --color-lesson-1-bg: #eef2fb;
-  --color-lesson-1-line: #7d8bc3;
-  --color-lesson-2-bg: #faf2e6;
-  --color-lesson-2-line: #c29b63;
-  --color-lesson-3-bg: #f4eff9;
-  --color-lesson-3-line: #a58abc;
-  --color-lesson-4-bg: #eaf4fa;
-  --color-lesson-4-line: #72a6bf;
+  /* Semantic tokens: Cyber Green Identity */
+  --color-cyber-green: var(--color-brand-400);
+  --color-cyber-green-hover: var(--color-brand-300);
+  --color-cyber-green-glow: rgba(56, 239, 125, 0.22);
+  --color-ember: var(--color-brand-400);
+  --color-ember-hover: var(--color-brand-300);
+  --color-brand-text: var(--color-brand-300);
+
+  --color-surface: var(--color-neutral-950);
+  --color-card: var(--color-neutral-900);
+  --color-fg: var(--color-neutral-100);
+  --color-muted: var(--color-neutral-400);
+  --color-line: var(--color-neutral-800);
+  --color-subtle: #191c1d;
+  --color-success: var(--color-brand-400);
+  --color-danger: var(--color-red-400);
+  --color-on-solid: #051d10;
+
+  /* Typography, Spacing, Radii & Transitions */
   --radius-control: 6px;
   --radius-card: 12px;
   --space-inline: 4px;
@@ -100,26 +105,27 @@
   --space-page: 32px;
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --shadow-card: 0 1px 3px rgb(20 20 19 / 0.03);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.35);
   --duration-quick: 140ms;
 }
 
-/* Dark mode semantic layer (adapted from Counterfoil design token specification) */
+/* Explicit dark mode bindings */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root {
     color-scheme: dark;
     --color-surface: var(--color-neutral-950);
     --color-card: var(--color-neutral-900);
     --color-fg: var(--color-neutral-100);
-    --color-muted: var(--color-neutral-500);
+    --color-muted: var(--color-neutral-400);
     --color-line: var(--color-neutral-800);
-    --color-subtle: var(--color-neutral-900);
+    --color-subtle: #191c1d;
+    --color-cyber-green: var(--color-brand-400);
     --color-ember: var(--color-brand-400);
-    --color-ember-hover: var(--color-brand-500);
+    --color-ember-hover: var(--color-brand-300);
     --color-brand-text: var(--color-brand-300);
-    --color-success: var(--color-green-400);
+    --color-success: var(--color-brand-400);
     --color-danger: var(--color-red-400);
-    --shadow-card: 0 1px 3px rgb(0 0 0 / 0.35);
+    --color-on-solid: #051d10;
   }
 }
 
@@ -129,13 +135,14 @@
   --color-surface: var(--color-neutral-950);
   --color-card: var(--color-neutral-900);
   --color-fg: var(--color-neutral-100);
-  --color-muted: var(--color-neutral-500);
+  --color-muted: var(--color-neutral-400);
   --color-line: var(--color-neutral-800);
-  --color-subtle: var(--color-neutral-900);
+  --color-subtle: #191c1d;
+  --color-cyber-green: var(--color-brand-400);
   --color-ember: var(--color-brand-400);
-  --color-ember-hover: var(--color-brand-500);
+  --color-ember-hover: var(--color-brand-300);
   --color-brand-text: var(--color-brand-300);
-  --color-success: var(--color-green-400);
+  --color-success: var(--color-brand-400);
   --color-danger: var(--color-red-400);
-  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.35);
+  --color-on-solid: #051d10;
 }

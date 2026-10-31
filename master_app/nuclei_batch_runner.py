@@ -439,7 +439,6 @@ class NucleiBatchRunner:
                 'summary': None,
             }
             self.cancelled = False
-            self._finishing = True
             try:
                 self.store.save_scan(ident, deepcopy(self.current), self.TOOL)
             except Exception:
@@ -452,15 +451,18 @@ class NucleiBatchRunner:
 
     def cancel(self, ident=None):
         with self.lock:
-            if not self.running:
-                return {'message': 'No active batch scan running.'}
             self.cancelled = True
+            self._finishing = False
             with self._proc_lock:
                 procs = list(self._active_procs)
             for p in procs:
                 try:
                     if os.name == 'posix':
-                        os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+                        try:
+                            pgid = os.getpgid(p.pid)
+                            os.killpg(pgid, signal.SIGTERM)
+                        except Exception:
+                            p.terminate()
                     else:
                         p.terminate()
                 except Exception:
@@ -472,14 +474,18 @@ class NucleiBatchRunner:
                     try:
                         if p.poll() is None:
                             if os.name == 'posix':
-                                os.killpg(os.getpgid(p.pid), signal.SIGKILL)
+                                try:
+                                    pgid = os.getpgid(p.pid)
+                                    os.killpg(pgid, signal.SIGKILL)
+                                except Exception:
+                                    p.kill()
                             else:
                                 p.kill()
                     except Exception:
                         pass
             threading.Thread(target=_kill_lingering, args=(procs,), daemon=True).start()
 
-            if self.current:
+            if self.current and (not ident or self.current.get('project_id') == ident):
                 self.current['status'] = 'cancelled'
                 for h in self.current.get('hosts', []):
                     if h.get('status') in ('pending', 'running'):
@@ -492,6 +498,26 @@ class NucleiBatchRunner:
                         self.store.save_scan(pid, deepcopy(self.current), self.TOOL)
                     except Exception:
                         pass
+                return {'message': 'Batch scan cancelled.'}
+
+            if ident:
+                try:
+                    project = self.store.get(ident)
+                    entries = project.get('tool_history', {}).get(self.TOOL, [])
+                    changed = False
+                    for entry in entries:
+                        if entry.get('status') == 'running':
+                            entry['status'] = 'cancelled'
+                            for h in entry.get('hosts', []):
+                                if h.get('status') in ('pending', 'running'):
+                                    h['status'] = 'cancelled'
+                                    h['detail'] = 'cancelled by user'
+                            changed = True
+                    if changed:
+                        self.store._write(self.store._directory(ident) / 'project.json', project)
+                        return {'message': 'Batch scan stopped.'}
+                except Exception:
+                    pass
         return {'message': 'Batch scan cancelled.'}
 
     def _update_host(self, ident, batch_id, url, update):

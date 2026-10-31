@@ -112,7 +112,7 @@ const NmapWorkspace = (() => {
     $('nmap-run-status').textContent=run ? `${run.status.toUpperCase()} · ${run.target}` : 'READY';
     $('nmap-scan').disabled=!data?.installed||data?.busy;
     $('nmap-stop').disabled=!(data?.current?.status==='running');
-    $('nmap-hosts').innerHTML=hosts.length?hosts.map((h,i)=>`<button class="${hostIndex===i?'selected':''}" data-nmap-host="${i}">${esc(h.addresses[0]||h.names[0]||'Host')}<small>${esc(h.state)}</small></button>`).join(''):'<p>No hosts yet</p>';
+    const prevHostsScroll=$('nmap-hosts')?.scrollTop||0;$('nmap-hosts').innerHTML=hosts.length?hosts.map((h,i)=>`<button class="${hostIndex===i?'selected':''}" data-nmap-host="${i}">${esc(h.addresses[0]||h.names[0]||'Host')}<small>${esc(h.state)}</small></button>`).join(''):'<p>No hosts yet</p>';if($('nmap-hosts')&&prevHostsScroll)$('nmap-hosts').scrollTop=prevHostsScroll;
     const pane=$('nmap-result');
     if(tabName==='output'){pane.innerHTML=`<pre class="nmap-terminal">${esc(run?.output||'Select a target and profile, then click Scan. Output will appear here.')}</pre>${run?.error?`<p class="scan-error">${esc(run.error)}</p>`:''}`;}
     else if(tabName==='ports'){

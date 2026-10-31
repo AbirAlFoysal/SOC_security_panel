@@ -23,7 +23,7 @@ const WebScanWorkspace = (() => {
     const result=await response.json();if(!response.ok)throw Error(result.error||'Request failed');return result;
   }
   
-  let selectedHostIdx = -1, batchSearchQuery = '', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start';
+  let selectedHostIdx = -1, batchSearchQuery = '', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start', savedHostsListScroll = 0, lastBatchRunId = null;
 
   function batchStatusBadge(status) {
     const s = String(status || 'pending').toLowerCase();
@@ -267,9 +267,10 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
 </dialog>
 `;}
   function selected(){return (selectedId?[data?.current,...(data?.history||[])].find(r=>r?.id===selectedId):data?.current||data?.history?.[0])||null;}
+  const isScanRunning = (r = selected()) => Boolean(data?.busy) || data?.current?.status === 'running' || (r?.status === 'running' && data?.current?.id === r?.id);
   function results(){const run=selected();
     const isBatch = tool === 'nuclei' && (run?.type === 'batch' || Boolean(run?.hosts));
-    const isRunning = run?.status === 'running' || data?.current?.status === 'running' || Boolean(data?.busy);
+    const isRunning = isScanRunning(run);
     const statusText = !data.installed ? 'NOT INSTALLED' : run?.status ? run.status.toUpperCase() : 'READY';
     const statusCls = !data.installed ? 'status-error' : isRunning ? 'status-running' : run?.status === 'cancelled' ? 'status-cancelled' : run?.status === 'completed' ? 'status-clean' : 'status-pending';
     el('status').textContent = (isRunning ? '⟳ ' : '') + statusText;
@@ -302,6 +303,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
   }
   
   function renderBatchWorkspace(run) {
+    const isRunning = isScanRunning(run);
     const hosts = run.hosts || [];
     const query = batchSearchQuery.toLowerCase().trim();
     const completed = hosts.filter(h => !['pending', 'running'].includes(h.status)).length;
@@ -328,7 +330,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
             ${findings ? `<span class="badge-findings-count">${findings} findings</span>` : ''}
           </div>
         </div>
-        <div class="batch-hosts-list" role="tablist">
+        <div class="batch-hosts-list" id="batch-hosts-list" role="tablist">
           <button type="button" class="batch-host-row ${selectedHostIdx === -1 ? 'active' : ''}" data-batch-host="-1">
             <div class="batch-host-row-main">
               <strong class="batch-host-title">Batch Summary &amp; Log</strong>
@@ -354,6 +356,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
             </div>
             <div class="batch-host-header-right">
               ${batchStatusBadge(run.status)}
+              ${isRunning ? `<button type="button" class="batch-stop-header-btn" id="batch-header-stop-btn" title="Stop batch scan">Stop Scan</button>` : ''}
             </div>
           </div>
           <pre class="web-terminal batch-terminal" id="batch-terminal">${esc(run.output || 'Batch scan starting…')}</pre>
@@ -383,6 +386,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
             <div class="batch-host-header-right">
               ${batchStatusBadge(currentHost.status)}
               ${currentHost.detail ? `<span class="batch-host-detail">${esc(currentHost.detail)}</span>` : ''}
+              ${isRunning ? `<button type="button" class="batch-stop-header-btn" id="batch-header-stop-btn" title="Stop batch scan">Stop Scan</button>` : ''}
             </div>
           </div>
           <pre class="web-terminal batch-terminal" id="batch-host-term">${esc(activeBatchHostLog || 'Loading host log…')}</pre>
@@ -488,9 +492,30 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
       `;
     }
 
+    if (lastBatchRunId !== run.id) {
+      lastBatchRunId = run.id;
+      savedHostsListScroll = 0;
+    }
+
     const prevTerm = document.getElementById('batch-terminal') || document.getElementById('batch-host-term');
     const prevScroll = prevTerm?.scrollTop || 0;
     const atBottom = !prevTerm || (prevTerm.scrollHeight - prevTerm.clientHeight - prevTerm.scrollTop < 40);
+
+    const prevList = document.getElementById('batch-hosts-list') || document.querySelector('.batch-hosts-list');
+    if (prevList && prevList.scrollTop > 0) {
+      savedHostsListScroll = prevList.scrollTop;
+    }
+
+    const prevDetails = document.querySelector('.batch-host-details');
+    const prevDetailsScroll = prevDetails ? prevDetails.scrollTop : 0;
+
+    const prevFiles = document.getElementById('batch-files-container');
+    const prevFilesScroll = prevFiles ? prevFiles.scrollTop : 0;
+
+    const searchInput = document.getElementById('batch-host-search');
+    const searchWasFocused = document.activeElement && document.activeElement.id === 'batch-host-search';
+    const searchSelStart = searchWasFocused ? searchInput.selectionStart : null;
+    const searchSelEnd = searchWasFocused ? searchInput.selectionEnd : null;
 
     el('result').innerHTML = `
       <div class="batch-layout">
@@ -501,22 +526,56 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
       </div>
     `;
 
+    const nextList = document.getElementById('batch-hosts-list') || document.querySelector('.batch-hosts-list');
+    if (nextList) {
+      if (savedHostsListScroll > 0) {
+        nextList.scrollTop = savedHostsListScroll;
+      }
+      nextList.onscroll = () => {
+        savedHostsListScroll = nextList.scrollTop;
+      };
+    }
+
     const term = document.getElementById('batch-terminal') || document.getElementById('batch-host-term');
     if (term) term.scrollTop = atBottom ? term.scrollHeight : prevScroll;
 
-    const searchInput = document.getElementById('batch-host-search');
-    if (searchInput) {
-      searchInput.oninput = () => {
-        batchSearchQuery = searchInput.value;
+    if (prevDetailsScroll > 0) {
+      const nextDetails = document.querySelector('.batch-host-details');
+      if (nextDetails) nextDetails.scrollTop = prevDetailsScroll;
+    }
+
+    if (prevFilesScroll > 0) {
+      const nextFiles = document.getElementById('batch-files-container');
+      if (nextFiles) nextFiles.scrollTop = prevFilesScroll;
+    }
+
+    const nextSearch = document.getElementById('batch-host-search');
+    if (nextSearch) {
+      if (searchWasFocused) {
+        nextSearch.focus();
+        if (searchSelStart !== null && searchSelEnd !== null) {
+          try { nextSearch.setSelectionRange(searchSelStart, searchSelEnd); } catch(_) {}
+        }
+      }
+      nextSearch.oninput = () => {
+        batchSearchQuery = nextSearch.value;
+        savedHostsListScroll = 0;
         const curRun = selected();
         if (curRun) renderBatchWorkspace(curRun);
-        const nextInput = document.getElementById('batch-host-search');
-        if (nextInput) {
-          nextInput.focus();
-          nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length);
+        const refocused = document.getElementById('batch-host-search');
+        if (refocused) {
+          refocused.focus();
+          refocused.setSelectionRange(refocused.value.length, refocused.value.length);
         }
       };
     }
+
+    requestAnimationFrame(() => {
+      const l = document.getElementById('batch-hosts-list') || document.querySelector('.batch-hosts-list');
+      if (l && savedHostsListScroll > 0 && l.scrollTop !== savedHostsListScroll) {
+        l.scrollTop = savedHostsListScroll;
+      }
+    });
   }
 
   function setTab(){document.querySelectorAll('[data-web-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.webTab===currentTab));}
@@ -534,10 +593,36 @@ el('command').oninput=()=>{el('preset').value='custom';targetFromCommand();};el(
     el('save-preset').onclick=()=>{el('preset-name').value='';el('preset-error').textContent='';el('preset-dialog').showModal();};el('preset-cancel').onclick=()=>el('preset-dialog').close();
     el('preset-form').onsubmit=async e=>{e.preventDefault();const button=e.submitter,actionGeneration=generation;button.disabled=true;try{const tokens=commandTokens();if(config&&targetOption().flag.startsWith('$')&&config.target_kind!=='file'){const rows=pieces(tokens);const positions=rows.filter(r=>r.positional);if(positions.length){const retained=rows.filter(r=>!r.positional).flatMap(r=>r.tokens);tokens.splice(1,tokens.length-1,...retained,'{target}');}}else if(!config||config.target_kind!=='file'){for(let i=1;i<tokens.length;i++){const o=optionFor(tokens[i]);if(o&&(o.flag===targetOption().flag||(tool==='nikto'&&o.flag==='-url'))){if(tokens[i].includes('='))tokens[i]=tokens[i].split('=')[0]+'={target}';else tokens[i+1]='{target}';}}}const preset=await request(`/api/${tool}/presets`,{name:el('preset-name').value,command:tokens.map(quote).join(' ')});if(actionGeneration!==generation)return;await poll();if(actionGeneration!==generation)return;presetOptions('preset:'+preset.id);el('preset-dialog').close();el('notice').textContent='Global preset saved.';}catch(error){if(actionGeneration===generation)el('preset-error').textContent=error.message;}finally{button.disabled=false;}};
     el('form').onsubmit=async e=>{e.preventDefault();el('scan').disabled=true;const startGeneration=generation;try{const run=await request(path(),{command:el('command').value,target:el('target').value,profile:el('preset').value,elevate:el('elevate')?.checked===true});if(startGeneration!==generation)return;selectedId=run.id;currentTab='output';setTab();await poll();}catch(error){if(startGeneration===generation){el('notice').textContent=error.message;el('scan').disabled=!data.installed||data.busy;}}};
-    el('stop').onclick=async()=>{const actionGeneration=generation;el('stop').disabled=true;el('notice').textContent='Stopping scan…';try{await request(path()+'/cancel',{});if(actionGeneration===generation)await poll();}catch(error){if(actionGeneration===generation)el('notice').textContent=error.message;}};
-    document.getElementById('webscan-workspace').onclick=e=>{
-    const bHost=e.target.closest('[data-batch-host]');
-    if(bHost){selectedHostIdx=Number(bHost.dataset.batchHost);results();return;}const tab=e.target.closest('[data-web-tab]');if(tab){currentTab=tab.dataset.webTab;setTab();results();}const run=e.target.closest('[data-web-run]');if(run){selectedId=run.dataset.webRun;const saved=selected();el('command').value=saved.command;el('target').value=saved.target;el('preset').value='custom';targetFromCommand();currentTab='output';setTab();results();}};
+    const handleStop = async () => {
+      const actionGeneration = generation;
+      el('stop').disabled = true;
+      document.querySelectorAll('.batch-stop-header-btn').forEach(b => { b.disabled = true; b.textContent = 'Stopping…'; });
+      el('notice').textContent = 'Stopping scan…';
+      try {
+        await request(path() + '/cancel', {});
+        if (tool === 'nuclei') {
+          await request(`/api/projects/${project.id}/nuclei_batch/cancel`, {}).catch(() => {});
+        }
+        if (actionGeneration === generation) await poll();
+      } catch (error) {
+        if (actionGeneration === generation) {
+          el('notice').textContent = error.message;
+          await poll();
+        }
+      }
+    };
+    el('stop').onclick = handleStop;
+    document.getElementById('webscan-workspace').onclick = e => {
+    const bStop = e.target.closest('#batch-header-stop-btn, .batch-stop-header-btn');
+    if (bStop) { handleStop(); return; }
+    const bHost = e.target.closest('[data-batch-host]');
+    if (bHost) {
+      const list = document.getElementById('batch-hosts-list') || document.querySelector('.batch-hosts-list');
+      if (list) savedHostsListScroll = list.scrollTop;
+      selectedHostIdx = Number(bHost.dataset.batchHost);
+      results();
+      return;
+    }const tab=e.target.closest('[data-web-tab]');if(tab){currentTab=tab.dataset.webTab;setTab();results();}const run=e.target.closest('[data-web-run]');if(run){selectedId=run.dataset.webRun;const saved=selected();el('command').value=saved.command;el('target').value=saved.target;el('preset').value='custom';targetFromCommand();currentTab='output';setTab();results();}};
     
     const batchDialog = document.getElementById('web-batch-dialog');
     const batchTrigger = document.getElementById('web-batch-scan');
@@ -721,6 +806,6 @@ el('command').oninput=()=>{el('preset').value='custom';targetFromCommand();};el(
 
     timer=setInterval(poll,1500);
   }
-  function unmount(){generation++;if(timer)clearInterval(timer);timer=null;project=null;polling=false;}
+  function unmount(){generation++;if(timer)clearInterval(timer);timer=null;project=null;polling=false;savedHostsListScroll=0;lastBatchRunId=null;}
   return {mount,unmount};
 })();

@@ -534,3 +534,26 @@ body:has(#webscan-workspace) .project-content{max-width:none;padding:20px 22px}#
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.35; transform: scale(0.85); }
 }
+
+.batch-stop-header-btn {
+  background: rgba(248, 81, 73, 0.18) !important;
+  color: #ff7b72 !important;
+  border: 1px solid rgba(248, 81, 73, 0.5) !important;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+  box-shadow: 0 0 6px rgba(248, 81, 73, 0.2);
+}
+.batch-stop-header-btn:hover {
+  background: rgba(248, 81, 73, 0.35) !important;
+  border-color: #ff7b72 !important;
+  color: #fff !important;
+}
+.batch-stop-header-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

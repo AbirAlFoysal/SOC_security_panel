@@ -270,24 +270,49 @@ class WebScanRunner(NmapRunner):
         if proc and proc.poll() is None:
             try:
                 if os.name == 'posix':
-                    os.killpg(proc.pid, signal.SIGKILL if kill else signal.SIGTERM)
+                    try:
+                        pgid = os.getpgid(proc.pid)
+                        os.killpg(pgid, signal.SIGKILL if kill else signal.SIGTERM)
+                    except Exception:
+                        if kill:
+                            proc.kill()
+                        else:
+                            proc.terminate()
                 elif kill:
                     proc.kill()
                 else:
                     proc.terminate()
-            except ProcessLookupError:
+            except (ProcessLookupError, OSError, Exception):
                 pass
 
     def cancel(self, ident):
         with self.lock:
-            if not self.running or self.current['project_id'] != ident:
+            if self.running:
+                if self.current and self.current.get('project_id') == ident:
+                    self.cancelled = True
+                    self._signal()
+                    escalation = threading.Timer(3, self._force_cancel, args=(self.current['id'],))
+                    escalation.daemon = True
+                    escalation.start()
+                    return {'message': 'Stopping scan…'}
                 raise ValueError('No running scan in this project.')
-            self.cancelled = True
-            self._signal()
-            escalation = threading.Timer(3, self._force_cancel, args=(self.current['id'],))
-            escalation.daemon = True
-            escalation.start()
-            return {'message': 'Stopping scan…'}
+            # If not running in memory, check for orphan running scan in this project
+            project = self.store.get(ident)
+            entries = project.get('tool_history', {}).get(self.tool, [])
+            changed = False
+            for entry in entries:
+                if entry.get('status') == 'running':
+                    entry['status'] = 'cancelled'
+                    if entry.get('type') == 'batch':
+                        for h in entry.get('hosts', []):
+                            if h.get('status') in ('pending', 'running'):
+                                h['status'] = 'cancelled'
+                                h['detail'] = 'cancelled by user'
+                    changed = True
+            if changed:
+                self.store._write(self.store._directory(ident) / 'project.json', project)
+                return {'message': 'Scan stopped.'}
+            raise ValueError('No running scan in this project.')
 
     def _force_cancel(self, scanid):
         with self.lock:

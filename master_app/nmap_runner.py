@@ -260,14 +260,26 @@ class NmapRunner:
 
     def cancel(self, ident):
         with self.lock:
-            if not self.running or self.current['project_id'] != ident:
+            if self.running:
+                if self.current and self.current.get('project_id') == ident:
+                    self.cancelled = True
+                    if self.current.get('admin') and self.stop_file:
+                        self.stop_file.touch()
+                    elif self.process:
+                        self.process.terminate()
+                    return {'message': 'Stopping scan…'}
                 raise ValueError('No running scan in this project.')
-            self.cancelled = True
-            if self.current.get('admin') and self.stop_file:
-                self.stop_file.touch()
-            elif self.process:
-                self.process.terminate()
-            return {'message': 'Stopping scan…'}
+            project = self.store.get(ident)
+            entries = project.get('tool_history', {}).get(self.tool, [])
+            changed = False
+            for entry in entries:
+                if entry.get('status') == 'running':
+                    entry['status'] = 'cancelled'
+                    changed = True
+            if changed:
+                self.store._write(self.store._directory(ident) / 'project.json', project)
+                return {'message': 'Scan stopped.'}
+            raise ValueError('No running scan in this project.')
 
     def _run(self, cmd, xml, output):
         timer = None

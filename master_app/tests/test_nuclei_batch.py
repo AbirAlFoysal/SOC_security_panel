@@ -113,5 +113,77 @@ class NucleiBatchTests(unittest.TestCase):
         self.assertEqual(sessions[0]['done'], 2)
 
 
+    def test_cancel_orphan_running_scan_cleans_history(self):
+        # Simulate an orphan running batch scan left in project.json after server restart
+        orphan_scan = {
+            'id': 'a1b2c3d4e5f60718293a4b5c6d7e8f90',
+            'project_id': self.project['id'],
+            'type': 'batch',
+            'command': 'nuclei batch (2 targets)',
+            'status': 'running',
+            'hosts': [
+                {'url': 'https://s1.example.com', 'status': 'running', 'detail': ''},
+                {'url': 'https://s2.example.com', 'status': 'pending', 'detail': ''},
+            ],
+            'output': 'Initial logs...',
+        }
+        self.store.save_scan(self.project['id'], orphan_scan, 'nuclei')
+        
+        # Verify it was saved as running
+        proj = self.store.get(self.project['id'])
+        self.assertEqual(proj['tool_history']['nuclei'][0]['status'], 'running')
+        
+        # Now call cancel while runner is NOT actively running in memory
+        self.assertFalse(self.runner.running)
+        res = self.runner.cancel(self.project['id'])
+        self.assertTrue(any(w in res['message'].lower() for w in ('stopped', 'cancelled')))
+        
+        # Verify the orphan scan and its hosts are now marked cancelled
+        proj_after = self.store.get(self.project['id'])
+        history_run = proj_after['tool_history']['nuclei'][0]
+        self.assertEqual(history_run['status'], 'cancelled')
+        for h in history_run['hosts']:
+            self.assertEqual(h['status'], 'cancelled')
+            self.assertEqual(h['detail'], 'cancelled by user')
+
+    def test_cancel_via_api_routes(self):
+        import json
+        import threading
+        import urllib.request
+        from http.server import ThreadingHTTPServer
+        from unittest.mock import patch
+        import run
+        
+        class QuietHandler(run.Handler):
+            def log_message(self, *args):
+                pass
+                
+        with patch.object(run, 'PROJECTS', self.store), patch.object(run, 'NUCLEI_BATCH', self.runner):
+            server = ThreadingHTTPServer(('127.0.0.1', 0), QuietHandler)
+            worker = threading.Thread(target=server.serve_forever, daemon=True)
+            worker.start()
+            base = f'http://127.0.0.1:{server.server_port}'
+            
+            def call(path, data=None):
+                req = urllib.request.Request(
+                    base + path,
+                    data=b'{}' if data is None else json.dumps(data).encode(),
+                    headers={'Content-Type': 'application/json', 'X-App-Token': run.TOKEN}
+                )
+                with urllib.request.urlopen(req, timeout=4) as response:
+                    return json.load(response)
+                    
+            try:
+                # 1. Test nuclei_batch/cancel when not running
+                res1 = call(f"/api/projects/{self.project['id']}/nuclei_batch/cancel", {})
+                self.assertIn('message', res1)
+                
+                # 2. Test nuclei/cancel when not running
+                res2 = call(f"/api/projects/{self.project['id']}/nuclei/cancel", {})
+                self.assertIn('message', res2)
+            finally:
+                server.shutdown()
+                server.server_close()
+                worker.join(timeout=3)
 if __name__ == '__main__':
     unittest.main()

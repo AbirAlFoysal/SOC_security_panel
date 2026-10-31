@@ -324,6 +324,26 @@ class Handler(BaseHTTPRequestHandler):
                                         h_list[idx] = cur
                                     else:
                                         h_list.insert(0, cur)
+                            elif not NUCLEI_BATCH.running and not WEB_SCANS['nuclei'].running:
+                                h_list = result.get('history', [])
+                                changed = False
+                                for r in h_list:
+                                    if r.get('status') == 'running':
+                                        r['status'] = 'cancelled'
+                                        for h in r.get('hosts', []):
+                                            if h.get('status') in ('pending', 'running'):
+                                                h['status'] = 'cancelled'
+                                                h['detail'] = 'cancelled by user'
+                                        changed = True
+                                if changed:
+                                    try:
+                                        p_data = PROJECTS.get(parts[2])
+                                        p_data['tool_history']['nuclei'] = h_list
+                                        p_data.pop('notes', None)
+                                        p_data.pop('saved_notes', None)
+                                        PROJECTS._write(PROJECTS._directory(parts[2]) / 'project.json', p_data)
+                                    except Exception:
+                                        pass
                     result['busy'] = JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy() or result.get('busy', False)
                     return self.send(200, result)
                 if len(parts) == 4 and parts[3] == 'nuclei_batch':
@@ -466,13 +486,16 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(201, PROJECTS.create(data))
             parts = self.path.strip('/').split('/')
             if len(parts) >= 4 and parts[3] == 'nuclei_batch':
-                with LOCK:
-                    if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
-                        return self.send(409, {'error': 'An operation is already running.'})
                 try:
                     if len(parts) == 4:
+                        with LOCK:
+                            if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
+                                return self.send(409, {'error': 'An operation is already running.'})
                         return self.send(202, NUCLEI_BATCH.start(parts[2], data))
                     if len(parts) == 5 and parts[4] == 'resume':
+                        with LOCK:
+                            if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
+                                return self.send(409, {'error': 'An operation is already running.'})
                         return self.send(202, NUCLEI_BATCH.resume(parts[2], data))
                     if len(parts) == 5 and parts[4] == 'cancel':
                         return self.send(200, NUCLEI_BATCH.cancel(parts[2]))
@@ -485,10 +508,20 @@ class Handler(BaseHTTPRequestHandler):
                     with LOCK:
                         if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
                             return self.send(409, {'error': 'An operation is already running.'})
-                        return self.send(202, runner.start(parts[2], data))
+                    return self.send(202, runner.start(parts[2], data))
                 if len(parts) == 5 and parts[4] == 'cancel':
-                    if parts[3] == 'nuclei' and NUCLEI_BATCH.running:
-                        return self.send(200, NUCLEI_BATCH.cancel(parts[2]))
+                    if parts[3] == 'nuclei':
+                        res = None
+                        if NUCLEI_BATCH.running:
+                            res = NUCLEI_BATCH.cancel(parts[2])
+                        elif runner.running:
+                            res = runner.cancel(parts[2])
+                        else:
+                            try:
+                                res = NUCLEI_BATCH.cancel(parts[2])
+                            except Exception:
+                                res = runner.cancel(parts[2])
+                        return self.send(200, res or {'message': 'Scan stopped.'})
                     return self.send(200, runner.cancel(parts[2]))
                 if len(parts) == 5 and parts[4] == 'files':
                     return self.send(201, runner.upload(parts[2], data))

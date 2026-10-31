@@ -3552,5 +3552,553 @@
       "group": "Scan options",
       "repeat": false
     }
+  ],
+  "nuclei": [
+    {
+      "flag": "-u",
+      "aliases": [
+        "-u",
+        "-target"
+      ],
+      "name": "Target URL/host",
+      "description": "Target URL or host to scan",
+      "kind": "value",
+      "hint": "URL",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-l",
+      "aliases": [
+        "-l",
+        "-list"
+      ],
+      "name": "Target list file",
+      "description": "Path to file containing list of targets",
+      "kind": "file",
+      "hint": "FILE",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-resume",
+      "aliases": [
+        "-resume"
+      ],
+      "name": "Resume scan",
+      "description": "Resume scan using resume.cfg",
+      "kind": "file",
+      "hint": "FILE",
+      "group": "Target",
+      "repeat": false
+    },
+    {
+      "flag": "-t",
+      "aliases": [
+        "-t",
+        "-templates"
+      ],
+      "name": "Templates",
+      "description": "List of template or template directory to run (comma-separated)",
+      "kind": "value",
+      "hint": "TEMPLATE",
+      "group": "Templates",
+      "repeat": true
+    },
+    {
+      "flag": "-w",
+      "aliases": [
+        "-w",
+        "-workflows"
+      ],
+      "name": "Workflows",
+      "description": "List of workflow or workflow directory to run (comma-separated)",
+      "kind": "value",
+      "hint": "WORKFLOW",
+      "group": "Templates",
+      "repeat": true
+    },
+    {
+      "flag": "-validate",
+      "aliases": [
+        "-validate"
+      ],
+      "name": "Validate templates",
+      "description": "Validate the passed templates to nuclei",
+      "kind": "flag",
+      "hint": "VALIDATE",
+      "group": "Templates",
+      "repeat": false
+    },
+    {
+      "flag": "-tl",
+      "aliases": [
+        "-tl"
+      ],
+      "name": "List templates",
+      "description": "List all templates matching current filters",
+      "kind": "flag",
+      "hint": "TL",
+      "group": "Templates",
+      "repeat": false
+    },
+    {
+      "flag": "-tags",
+      "aliases": [
+        "-tags"
+      ],
+      "name": "Filter by tags",
+      "description": "Templates to run based on tags (comma-separated)",
+      "kind": "value",
+      "hint": "TAGS",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-etags",
+      "aliases": [
+        "-etags",
+        "-exclude-tags"
+      ],
+      "name": "Exclude tags",
+      "description": "Templates to exclude based on tags (comma-separated)",
+      "kind": "value",
+      "hint": "TAGS",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-itags",
+      "aliases": [
+        "-itags",
+        "-include-tags"
+      ],
+      "name": "Include tags",
+      "description": "Tags to be executed even if excluded by default",
+      "kind": "value",
+      "hint": "TAGS",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-id",
+      "aliases": [
+        "-id",
+        "-template-id"
+      ],
+      "name": "Filter by template ID",
+      "description": "Templates to run based on template ids (comma-separated, allow-wildcard)",
+      "kind": "value",
+      "hint": "ID",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-eid",
+      "aliases": [
+        "-eid",
+        "-exclude-id"
+      ],
+      "name": "Exclude template IDs",
+      "description": "Templates to exclude based on template ids (comma-separated)",
+      "kind": "value",
+      "hint": "ID",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-et",
+      "aliases": [
+        "-et",
+        "-exclude-templates"
+      ],
+      "name": "Exclude templates",
+      "description": "Path to template file or directory to exclude (comma-separated)",
+      "kind": "value",
+      "hint": "TEMPLATE",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-s",
+      "aliases": [
+        "-s",
+        "-severity"
+      ],
+      "name": "Filter by severity",
+      "description": "Templates to run based on severity: info,low,medium,high,critical,unknown",
+      "kind": "value",
+      "hint": "SEVERITY",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-es",
+      "aliases": [
+        "-es",
+        "-exclude-severity"
+      ],
+      "name": "Exclude by severity",
+      "description": "Templates to exclude based on severity: info,low,medium,high,critical,unknown",
+      "kind": "value",
+      "hint": "SEVERITY",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-pt",
+      "aliases": [
+        "-pt",
+        "-type"
+      ],
+      "name": "Filter by protocol type",
+      "description": "Templates to run based on protocol type: dns,file,http,headless,tcp,workflow,ssl,websocket,whois,code,javascript",
+      "kind": "value",
+      "hint": "TYPE",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-a",
+      "aliases": [
+        "-a",
+        "-author"
+      ],
+      "name": "Filter by author",
+      "description": "Templates to run based on authors (comma-separated)",
+      "kind": "value",
+      "hint": "AUTHOR",
+      "group": "Filtering",
+      "repeat": false
+    },
+    {
+      "flag": "-o",
+      "aliases": [
+        "-o",
+        "-output"
+      ],
+      "name": "Output file",
+      "description": "Output file to write found issues/vulnerabilities",
+      "kind": "output",
+      "hint": "FILE",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-silent",
+      "aliases": [
+        "-silent"
+      ],
+      "name": "Silent mode",
+      "description": "Display findings only",
+      "kind": "flag",
+      "hint": "SILENT",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-nc",
+      "aliases": [
+        "-nc",
+        "-no-color"
+      ],
+      "name": "No color",
+      "description": "Disable output content coloring (ANSI escape codes)",
+      "kind": "flag",
+      "hint": "NC",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-j",
+      "aliases": [
+        "-j",
+        "-jsonl"
+      ],
+      "name": "JSONL output",
+      "description": "Write output in JSONL format",
+      "kind": "flag",
+      "hint": "J",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-nm",
+      "aliases": [
+        "-nm",
+        "-no-meta"
+      ],
+      "name": "No metadata",
+      "description": "Disable printing result metadata in CLI output",
+      "kind": "flag",
+      "hint": "NM",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-ts",
+      "aliases": [
+        "-ts",
+        "-timestamp"
+      ],
+      "name": "Show timestamps",
+      "description": "Enable printing timestamp in CLI output",
+      "kind": "flag",
+      "hint": "TS",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-me",
+      "aliases": [
+        "-me",
+        "-markdown-export"
+      ],
+      "name": "Markdown export",
+      "description": "Directory to export results in Markdown format",
+      "kind": "output-directory",
+      "hint": "DIR",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-je",
+      "aliases": [
+        "-je",
+        "-json-export"
+      ],
+      "name": "JSON export",
+      "description": "File to export results in JSON format",
+      "kind": "output",
+      "hint": "FILE",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-se",
+      "aliases": [
+        "-se",
+        "-sarif-export"
+      ],
+      "name": "SARIF export",
+      "description": "File to export results in SARIF format",
+      "kind": "output",
+      "hint": "FILE",
+      "group": "Output",
+      "repeat": false
+    },
+    {
+      "flag": "-fr",
+      "aliases": [
+        "-fr",
+        "-follow-redirects"
+      ],
+      "name": "Follow redirects",
+      "description": "Enable following redirects for HTTP templates",
+      "kind": "flag",
+      "hint": "FR",
+      "group": "Configuration",
+      "repeat": false
+    },
+    {
+      "flag": "-H",
+      "aliases": [
+        "-H",
+        "-header"
+      ],
+      "name": "Custom headers",
+      "description": "Custom header/cookie in header:value format",
+      "kind": "value",
+      "hint": "HEADER",
+      "group": "Configuration",
+      "repeat": true
+    },
+    {
+      "flag": "-r",
+      "aliases": [
+        "-r",
+        "-resolvers"
+      ],
+      "name": "Resolvers file",
+      "description": "File containing resolver list for nuclei",
+      "kind": "file",
+      "hint": "FILE",
+      "group": "Configuration",
+      "repeat": false
+    },
+    {
+      "flag": "-passive",
+      "aliases": [
+        "-passive"
+      ],
+      "name": "Passive mode",
+      "description": "Enable passive HTTP response processing mode",
+      "kind": "flag",
+      "hint": "PASSIVE",
+      "group": "Configuration",
+      "repeat": false
+    },
+    {
+      "flag": "-config",
+      "aliases": [
+        "-config"
+      ],
+      "name": "Config file",
+      "description": "Path to the nuclei configuration file",
+      "kind": "file",
+      "hint": "FILE",
+      "group": "Configuration",
+      "repeat": false
+    },
+    {
+      "flag": "-proxy",
+      "aliases": [
+        "-proxy"
+      ],
+      "name": "Proxy",
+      "description": "List of HTTP(s)/SOCKS5 proxy to use (comma separated or file input)",
+      "kind": "value",
+      "hint": "URL",
+      "group": "Configuration",
+      "repeat": false
+    },
+    {
+      "flag": "-rl",
+      "aliases": [
+        "-rl",
+        "-rate-limit"
+      ],
+      "name": "Rate limit",
+      "description": "Maximum number of requests to send per second (default 150)",
+      "kind": "value",
+      "hint": "INT",
+      "group": "Rate limits",
+      "repeat": false
+    },
+    {
+      "flag": "-c",
+      "aliases": [
+        "-c",
+        "-concurrency"
+      ],
+      "name": "Concurrency",
+      "description": "Maximum number of templates to be executed in parallel (default 25)",
+      "kind": "value",
+      "hint": "INT",
+      "group": "Rate limits",
+      "repeat": false
+    },
+    {
+      "flag": "-timeout",
+      "aliases": [
+        "-timeout"
+      ],
+      "name": "Timeout",
+      "description": "Time to wait in seconds before timeout (default 10)",
+      "kind": "value",
+      "hint": "INT",
+      "group": "Rate limits",
+      "repeat": false
+    },
+    {
+      "flag": "-retries",
+      "aliases": [
+        "-retries"
+      ],
+      "name": "Retries",
+      "description": "Number of times to retry a failed request (default 1)",
+      "kind": "value",
+      "hint": "INT",
+      "group": "Rate limits",
+      "repeat": false
+    },
+    {
+      "flag": "-v",
+      "aliases": [
+        "-v",
+        "-verbose"
+      ],
+      "name": "Verbose",
+      "description": "Show verbose output",
+      "kind": "flag",
+      "hint": "V",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-version",
+      "aliases": [
+        "-version"
+      ],
+      "name": "Version",
+      "description": "Show nuclei version",
+      "kind": "flag",
+      "hint": "VERSION",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-update",
+      "aliases": [
+        "-update"
+      ],
+      "name": "Update nuclei",
+      "description": "Update nuclei engine to the latest released version",
+      "kind": "flag",
+      "hint": "UPDATE",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-ut",
+      "aliases": [
+        "-ut",
+        "-update-templates"
+      ],
+      "name": "Update templates",
+      "description": "Update nuclei-templates to latest released version",
+      "kind": "flag",
+      "hint": "UT",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-up",
+      "aliases": [
+        "-up",
+        "-update-path"
+      ],
+      "name": "Update path",
+      "description": "Override the default directory to install nuclei-templates",
+      "kind": "value",
+      "hint": "PATH",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-duc",
+      "aliases": [
+        "-duc",
+        "-disable-update-check"
+      ],
+      "name": "Disable update check",
+      "description": "Disable automatic nuclei/templates update check",
+      "kind": "flag",
+      "hint": "DUC",
+      "group": "Miscellaneous",
+      "repeat": false
+    },
+    {
+      "flag": "-stats",
+      "aliases": [
+        "-stats"
+      ],
+      "name": "Statistics",
+      "description": "Display statistics about the running scan",
+      "kind": "flag",
+      "hint": "STATS",
+      "group": "Miscellaneous",
+      "repeat": false
+    }
   ]
 }

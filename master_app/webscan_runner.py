@@ -1,7 +1,8 @@
-"""SQLmap and Nikto workspaces, using argument arrays rather than a shell.
+"""SQLmap, Nikto, and Nuclei workspaces, using argument arrays rather than a shell.
 
-Catalog sources: sqlmapproject/sqlmap lib/parse/cmdline.py and
-sullo/nikto wiki/Annotated-Option-List, retrieved 2026-10-23.
+Catalog sources: sqlmapproject/sqlmap lib/parse/cmdline.py,
+sullo/nikto wiki/Annotated-Option-List, and projectdiscovery/nuclei -h,
+retrieved 2026-10-23 / 2026-10-31.
 """
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -32,6 +33,14 @@ PROFILES = {
         'configuration': {'name': 'Configuration checks', 'args': ['-nointeractive', '-nocheck', '-ask', 'no', '-Tuning', '2']},
         'identification': {'name': 'Software identification', 'args': ['-nointeractive', '-nocheck', '-ask', 'no', '-Tuning', 'b']},
     },
+    'nuclei': {
+        'regular': {'name': 'Default templates', 'args': ['-nc', '-duc']},
+        'cves': {'name': 'CVE templates', 'args': ['-nc', '-duc', '-tags', 'cve']},
+        'exposures': {'name': 'Exposure detection', 'args': ['-nc', '-duc', '-tags', 'exposure,config,file']},
+        'high_critical': {'name': 'High & Critical severity', 'args': ['-nc', '-duc', '-s', 'high,critical']},
+        'technologies': {'name': 'Technology detection', 'args': ['-nc', '-duc', '-tags', 'tech,detect,fingerprint']},
+        'misconfigurations': {'name': 'Misconfigurations', 'args': ['-nc', '-duc', '-tags', 'misconfiguration,misconfig']},
+    },
 }
 
 
@@ -41,12 +50,13 @@ def parse_command(tool, command):
     tokens = shlex.split(command)
     if not tokens or tokens.pop(0) not in (tool, tool + '.exe'):
         raise ValueError(f'The command must begin with {tool}.')
-    lookup = {alias.lower() if tool == 'nikto' else alias: o for o in CATALOG[tool] for alias in o['aliases']}
+    # Nuclei uses single-dash long flags (e.g. -no-color); match case-insensitively.
+    lookup = {alias.lower() if tool in ('nikto', 'nuclei') else alias: o for o in CATALOG[tool] for alias in o['aliases']}
     result = []
     i = 0
     while i < len(tokens):
         flag, separator, value = tokens[i].partition('=')
-        key = flag.lower() if tool == 'nikto' else flag
+        key = flag.lower() if tool in ('nikto', 'nuclei') else flag
         option = lookup.get(key)
         if not option:
             raise ValueError(f'Unknown {tool} option: {flag}. Use the parameter list for supported spelling.')
@@ -59,7 +69,7 @@ def parse_command(tool, command):
             optional = option['kind'] == 'optional-value'
             if not separator:
                 next_key = tokens[i + 1].split('=', 1)[0] if i + 1 < len(tokens) else ''
-                if tool == 'nikto':
+                if tool in ('nikto', 'nuclei'):
                     next_key = next_key.lower()
                 if not optional and next_key in lookup:
                     raise ValueError(f'{flag} requires a value, not another option.')
@@ -108,6 +118,22 @@ class WebScanRunner(NmapRunner):
         self.profiles = PROFILES[tool]
         self.options = CATALOG[tool]
         self.validate_command = lambda command: parse_command(tool, command)
+        if tool == 'nuclei':
+            self.success_codes = {0}
+
+    def status(self, ident):
+        res = super().status(ident)
+        if self.tool == 'nuclei':
+            res['workspace'] = {
+                'name': 'Nuclei',
+                'action': 'Scan',
+                'help': 'Enter the target URL or host to scan with Nuclei, or click Batch Scan to run a multi-target pool.',
+                'target_label': 'Target URL / Host',
+                'target_option': '-u',
+                'utility': ['-version', '-tl', '-tgl', '-validate', '-update', '-ut'],
+                'reference': 'https://docs.projectdiscovery.io/tools/nuclei/overview',
+            }
+        return res
 
     def _prepare(self, args, directory, scanid):
         """Keep generated reports, sessions and caches inside this project."""
@@ -147,23 +173,39 @@ class WebScanRunner(NmapRunner):
                 destination = directory / (scanid + '-tmp')
                 destination.mkdir(exist_ok=True)
                 actual += ['--tmp-dir', str(destination.resolve())]
-        else:
+        elif self.tool == 'nikto':
             for flag in ('-nointeractive', '-nocheck'):
                 if flag not in actual:
                     actual.append(flag)
             if '-ask' not in actual:
                 actual += ['-ask', 'no']
+        elif self.tool == 'nuclei':
+            if '-nc' not in actual:
+                actual.append('-nc')
+            if '-duc' not in actual:
+                actual.append('-duc')
+            if '-o' not in actual:
+                destination = directory / (scanid + '-output.txt')
+                actual += ['-o', str(destination.resolve())]
         return actual
 
     def start(self, ident, data):
         args = parse_command(self.tool, data.get('command', ''))
-        target_flag = '--url' if self.tool == 'sqlmap' else '-host'
-        if self.tool == 'nikto':
+        if self.tool == 'sqlmap':
+            target_flag = '--url'
+            sources = {'--url', '-r', '-m', '-l', '-d', '-g', '--dork', '-c', '--openapi'}
+            utility = {'-h', '-hh', '--hh', '--help', '--version', '--list-tampers'}
+        elif self.tool == 'nikto':
+            target_flag = '-host'
             # Nikto's URL alias has the same semantics as -host.
             args = [target_flag if a == '-url' else a for a in args]
-        sources = {'--url', '-r', '-m', '-l', '-d', '-g', '--dork', '-c', '--openapi'} if self.tool == 'sqlmap' else {'-host'}
+            sources = {'-host'}
+            utility = {'-Help', '-Version', '-list-plugins', '-dbcheck'}
+        else:  # nuclei
+            target_flag = '-u'
+            sources = {'-u', '-l'}
+            utility = {'-version', '-tl', '-tgl', '-validate', '-update', '-ut'}
         source_flags = sources.intersection(args)
-        utility = {'-h', '-hh', '--hh', '--help', '--version', '--list-tampers'} if self.tool == 'sqlmap' else {'-Help', '-Version', '-list-plugins', '-dbcheck'}
         if not source_flags and not utility.intersection(args):
             args += [target_flag, web_target(data.get('target', ''))]
         if args.count(target_flag) > 1:
@@ -171,7 +213,7 @@ class WebScanRunner(NmapRunner):
         if target_flag in args:
             position = args.index(target_flag) + 1
             value = args[position]
-            if not (self.tool == 'nikto' and Path(value).is_file()):
+            if not (self.tool in ('nikto', 'nuclei') and Path(value).is_file()):
                 args[position] = web_target(value)
             target = args[position]
         else:

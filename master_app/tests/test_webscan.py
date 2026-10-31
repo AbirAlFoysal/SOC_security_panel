@@ -40,6 +40,15 @@ class WebScanTests(unittest.TestCase):
         self.assertFalse(runner.running, 'Fixture scan did not finish')
         return runner.status(self.project['id'])['history'][0]
 
+    def test_nuclei_workspace_status(self):
+        runner = self.runner('nuclei')
+        status = runner.status(self.project['id'])
+        self.assertIn('workspace', status)
+        self.assertEqual(status['workspace']['name'], 'Nuclei')
+        self.assertEqual(status['workspace']['target_option'], '-u')
+        self.assertIsInstance(status['workspace']['utility'], list)
+        self.assertIn('-version', status['workspace']['utility'])
+
     def test_catalogs_and_command_validation(self):
         self.assertGreater(len(CATALOG['sqlmap']), 200)
         self.assertGreater(len(CATALOG['nikto']), 40)

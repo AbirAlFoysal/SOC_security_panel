@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import os
+from copy import deepcopy
 from pathlib import Path
 import platform
 import secrets
@@ -14,6 +15,7 @@ from gui_apps import GUI_TOOLS, DesktopLauncher, locate_gui
 from hakrawler_runner import HakrawlerRunner
 from nmap_runner import NmapRunner
 from webscan_runner import WebScanRunner
+from nuclei_batch_runner import NucleiBatchRunner
 from cli_runner import CliRunner, CONFIG as CLI_CONFIG
 import network_manager
 from project_store import ProjectStore, DuplicateProjectError
@@ -40,6 +42,7 @@ TOOLS = [
     ('gobuster', 'Gobuster', 'Content discovery', 'gobuster', None),
     ('ffuf', 'ffuf', 'Web fuzzing', 'ffuf', None),
     ('aircrack-ng', 'Aircrack-ng', 'Wireless assessment', 'aircrack-ng', None),
+    ('nuclei', 'Nuclei', 'Vulnerability scanning', 'nuclei', None),
 ]
 CATALOG = {t[0]: t for t in TOOLS}
 
@@ -90,6 +93,19 @@ def plan(tool, action, env):
     if action in ('update', 'remove') and not installed:
         raise ValueError('Tool is not installed.')
     manager = env['manager']
+    if tool == 'nuclei' and (manager != 'apt-get' or not capture(['dpkg-query', '-W', '-f=${Status}', 'nuclei']).endswith(' installed')):
+        if not shutil.which('go'):
+            raise ValueError('Install Go first to manage Nuclei from its official Go module.')
+        target = go_binary(tool)
+        if installed and Path(installed).resolve() != target.resolve():
+            local = Path.home() / '.local' / 'bin' / tool
+            if Path(installed) == local and local.is_file() and not local.is_symlink() and local.stat().st_uid == os.getuid():
+                target = local
+            else:
+                raise ValueError(f'Existing binary is outside the Go install directory ({target}). Manage its original installation manually.')
+        if action == 'remove':
+            return ('delete', str(target))
+        return ('go', (['go', 'install', '-v', 'github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest'], str(target.parent)))
     if tool == 'hakrawler' and (manager != 'apt-get' or not capture(['dpkg-query', '-W', '-f=${Status}', 'hakrawler']).endswith(' installed')):
         if not shutil.which('go'):
             raise ValueError('Install Go first to manage Hakrawler from its official Go module.')
@@ -131,11 +147,13 @@ def plan(tool, action, env):
 
 NMAP = NmapRunner(PROJECTS, locate)
 HAKRAWLER = HakrawlerRunner(PROJECTS, locate)
-WEB_SCANS = {tool: WebScanRunner(PROJECTS, locate, tool) for tool in ('sqlmap', 'nikto')}
+WEB_SCANS = {tool: WebScanRunner(PROJECTS, locate, tool) for tool in ('sqlmap', 'nikto', 'nuclei')}
 WEB_SCANS.update({tool: CliRunner(PROJECTS, locate, tool) for tool in CLI_CONFIG})
 
+NUCLEI_BATCH = NucleiBatchRunner(PROJECTS, locate)
+
 def web_scans_busy():
-    return any(r.running for r in WEB_SCANS.values())
+    return any(r.running for r in WEB_SCANS.values()) or NUCLEI_BATCH.running
 DESKTOP = DesktopLauncher(ROOT.parent / '.runtime' / 'desktop-tools')
 
 def snapshot():
@@ -145,10 +163,24 @@ def snapshot():
         if tool in ('anonsurf', 'macchanger'):
             continue
         path = locate(tool)
-        rows.append({'id': tool, 'name': name, 'category': category, 'installed': bool(path), 'path': path, 'gui': tool in GUI_TOOLS})
+        is_running = (
+            (tool in WEB_SCANS and WEB_SCANS[tool].running) or
+            (tool == 'nuclei' and NUCLEI_BATCH.running) or
+            (tool == 'nmap' and NMAP.running) or
+            (tool == 'hakrawler' and HAKRAWLER.running)
+        )
+        rows.append({'id': tool, 'name': name, 'category': category, 'installed': bool(path), 'path': path, 'gui': tool in GUI_TOOLS, 'running': is_running})
     with LOCK:
         job = {**JOB, 'log': list(JOB['log']), 'results': list(JOB['results'])}
-    return {'environment': env, 'tools': rows, 'job': job, 'token': TOKEN}
+    active_scan = None
+    if NUCLEI_BATCH.running and NUCLEI_BATCH.current:
+        active_scan = {'tool': 'nuclei', 'type': 'batch', 'project_id': NUCLEI_BATCH.current.get('project_id'), 'target': NUCLEI_BATCH.current.get('target')}
+    elif any(r.running for r in WEB_SCANS.values()):
+        for t, r in WEB_SCANS.items():
+            if r.running and r.current:
+                active_scan = {'tool': t, 'type': 'scan', 'project_id': r.current.get('project_id'), 'target': r.current.get('target')}
+                break
+    return {'environment': env, 'tools': rows, 'job': job, 'token': TOKEN, 'active_scan': active_scan}
 
 
 def log(line):
@@ -278,8 +310,35 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(200, NMAP.status(parts[2]))
                 if len(parts) == 4 and parts[3] in WEB_SCANS:
                     result = WEB_SCANS[parts[3]].status(parts[2])
-                    result['busy'] = JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy()
+                    if parts[3] == 'nuclei':
+                        with NUCLEI_BATCH.lock:
+                            if NUCLEI_BATCH.current and NUCLEI_BATCH.current.get('project_id') == parts[2]:
+                                if NUCLEI_BATCH.running:
+                                    result['current'] = deepcopy(NUCLEI_BATCH.current)
+                                    result['busy'] = True
+                                else:
+                                    cur = deepcopy(NUCLEI_BATCH.current)
+                                    h_list = result.setdefault('history', [])
+                                    idx = next((i for i, r in enumerate(h_list) if r.get('id') == cur.get('id')), None)
+                                    if idx is not None:
+                                        h_list[idx] = cur
+                                    else:
+                                        h_list.insert(0, cur)
+                    result['busy'] = JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy() or result.get('busy', False)
                     return self.send(200, result)
+                if len(parts) == 4 and parts[3] == 'nuclei_batch':
+                    return self.send(200, NUCLEI_BATCH.status(parts[2]))
+                clean_path = self.path.split('?')[0]
+                cparts = clean_path.strip('/').split('/')
+                if len(cparts) == 6 and cparts[3] == 'nuclei_batch' and cparts[4] == 'hostlog':
+                    try:
+                        qs = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query)
+                        idx = int(qs.get('idx', [0])[0])
+                        return self.send(200, {'log': NUCLEI_BATCH.get_host_log(cparts[2], cparts[5], idx)})
+                    except Exception as exc:
+                        return self.send(400, {'error': str(exc)})
+                if len(parts) == 5 and parts[3] == 'nuclei_batch' and parts[4] == 'sessions':
+                    return self.send(200, {'sessions': NUCLEI_BATCH.list_sessions(parts[2])})
                 if len(parts) == 4 and parts[3] == 'hakrawler':
                     return self.send(200, HAKRAWLER.status(parts[2]))
                 if len(parts)>=7 and parts[3] in WEB_SCANS and parts[4]=='history' and parts[6]=='files':
@@ -406,6 +465,20 @@ class Handler(BaseHTTPRequestHandler):
             if self.path == '/api/projects':
                 return self.send(201, PROJECTS.create(data))
             parts = self.path.strip('/').split('/')
+            if len(parts) >= 4 and parts[3] == 'nuclei_batch':
+                with LOCK:
+                    if JOB['running'] or NMAP.running or HAKRAWLER.running or web_scans_busy():
+                        return self.send(409, {'error': 'An operation is already running.'})
+                try:
+                    if len(parts) == 4:
+                        return self.send(202, NUCLEI_BATCH.start(parts[2], data))
+                    if len(parts) == 5 and parts[4] == 'resume':
+                        return self.send(202, NUCLEI_BATCH.resume(parts[2], data))
+                    if len(parts) == 5 and parts[4] == 'cancel':
+                        return self.send(200, NUCLEI_BATCH.cancel(parts[2]))
+                except (ValueError, TypeError) as exc:
+                    return self.send(400, {'error': str(exc)})
+                return self.send(404, {'error': 'Not found'})
             if len(parts) >= 4 and parts[3] in WEB_SCANS:
                 runner = WEB_SCANS[parts[3]]
                 if len(parts) == 4:
@@ -414,6 +487,8 @@ class Handler(BaseHTTPRequestHandler):
                             return self.send(409, {'error': 'An operation is already running.'})
                         return self.send(202, runner.start(parts[2], data))
                 if len(parts) == 5 and parts[4] == 'cancel':
+                    if parts[3] == 'nuclei' and NUCLEI_BATCH.running:
+                        return self.send(200, NUCLEI_BATCH.cancel(parts[2]))
                     return self.send(200, runner.cancel(parts[2]))
                 if len(parts) == 5 and parts[4] == 'files':
                     return self.send(201, runner.upload(parts[2], data))

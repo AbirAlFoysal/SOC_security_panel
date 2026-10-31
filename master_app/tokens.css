@@ -1,0 +1,141 @@
+/* Primitive palette extracted from Counterfoil globals.css. Semantic layer adapted for School OS. */
+:root {
+  --color-brand-50: #fff5ee;
+  --color-brand-100: #ffe6d5;
+  --color-brand-200: #ffc9a8;
+  --color-brand-300: #ffa572;
+  --color-brand-400: #ff7a3d;
+  --color-brand-500: #f94a00;
+  --color-brand-600: #d63d00;
+  --color-brand-700: #aa3000;
+  --color-brand-800: #802500;
+  --color-brand-900: #541900;
+  --color-brand-950: #2d0d00;
+  --color-neutral-50: #f5f2eb;
+  --color-neutral-100: #efece5;
+  --color-neutral-200: #e2ded5;
+  --color-neutral-300: #d1cdc3;
+  --color-neutral-400: #b8b3a8;
+  --color-neutral-500: #969188;
+  --color-neutral-600: #706c65;
+  --color-neutral-700: #514e48;
+  --color-neutral-800: #383632;
+  --color-neutral-900: #22211f;
+  --color-neutral-950: #141413;
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #052e16;
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+  --color-amber-950: #451a03;
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+  --color-blue-950: #172554;
+
+  --color-surface: var(--color-neutral-50);
+  --color-card: #ffffff;
+  --color-fg: var(--color-neutral-900);
+  --color-muted: var(--color-neutral-600);
+  --color-line: var(--color-neutral-200);
+  --color-subtle: var(--color-neutral-100);
+  --color-ember: var(--color-brand-500);
+  --color-ember-hover: var(--color-brand-600);
+  --color-brand-text: var(--color-brand-700);
+  --color-success: var(--color-green-800);
+  --color-danger: var(--color-red-700);
+  --color-on-solid: #ffffff;
+  --color-lesson-0-bg: #edf6f2;
+  --color-lesson-0-line: #5a8d80;
+  --color-lesson-1-bg: #eef2fb;
+  --color-lesson-1-line: #7d8bc3;
+  --color-lesson-2-bg: #faf2e6;
+  --color-lesson-2-line: #c29b63;
+  --color-lesson-3-bg: #f4eff9;
+  --color-lesson-3-line: #a58abc;
+  --color-lesson-4-bg: #eaf4fa;
+  --color-lesson-4-line: #72a6bf;
+  --radius-control: 6px;
+  --radius-card: 12px;
+  --space-inline: 4px;
+  --space-tight: 8px;
+  --space-comfortable: 12px;
+  --space-section: 16px;
+  --space-card: 20px;
+  --space-major: 24px;
+  --space-page: 32px;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --shadow-card: 0 1px 3px rgb(20 20 19 / 0.03);
+  --duration-quick: 140ms;
+}
+
+/* Dark mode semantic layer (adapted from Counterfoil design token specification) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-surface: var(--color-neutral-950);
+    --color-card: var(--color-neutral-900);
+    --color-fg: var(--color-neutral-100);
+    --color-muted: var(--color-neutral-500);
+    --color-line: var(--color-neutral-800);
+    --color-subtle: var(--color-neutral-900);
+    --color-ember: var(--color-brand-400);
+    --color-ember-hover: var(--color-brand-500);
+    --color-brand-text: var(--color-brand-300);
+    --color-success: var(--color-green-400);
+    --color-danger: var(--color-red-400);
+    --shadow-card: 0 1px 3px rgb(0 0 0 / 0.35);
+  }
+}
+
+:root[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+  --color-surface: var(--color-neutral-950);
+  --color-card: var(--color-neutral-900);
+  --color-fg: var(--color-neutral-100);
+  --color-muted: var(--color-neutral-500);
+  --color-line: var(--color-neutral-800);
+  --color-subtle: var(--color-neutral-900);
+  --color-ember: var(--color-brand-400);
+  --color-ember-hover: var(--color-brand-500);
+  --color-brand-text: var(--color-brand-300);
+  --color-success: var(--color-green-400);
+  --color-danger: var(--color-red-400);
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.35);
+}

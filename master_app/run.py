@@ -401,7 +401,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200, {'revision': digest.hexdigest(), 'busy': running})
         if self.path == '/api/status':
             return self.send(200, snapshot())
-        files = {'/webscan.js': ('webscan.js', 'text/javascript'), '/webscan.css': ('webscan.css', 'text/css'), '/': ('index.html', 'text/html; charset=utf-8'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/projects.js': ('projects.js', 'text/javascript'), '/projects.css': ('projects.css', 'text/css'), '/network.js': ('network.js', 'text/javascript'), '/network.css': ('network.css', 'text/css'), '/nmap.js': ('nmap.js', 'text/javascript'), '/nmap.css': ('nmap.css', 'text/css'), '/hakrawler.js': ('hakrawler.js', 'text/javascript'), '/hakrawler.css': ('hakrawler.css', 'text/css')}
+        files = {'/webscan.js': ('webscan.js', 'text/javascript'), '/webscan.css': ('webscan.css', 'text/css'), '/': ('index.html', 'text/html; charset=utf-8'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/projects.js': ('projects.js', 'text/javascript'), '/projects.css': ('projects.css', 'text/css'), '/network.js': ('network.js', 'text/javascript'), '/network.css': ('network.css', 'text/css'), '/nmap.js': ('nmap.js', 'text/javascript'), '/nmap.css': ('nmap.css', 'text/css'), '/hakrawler.js': ('hakrawler.js', 'text/javascript'), '/hakrawler.css': ('hakrawler.css', 'text/css'), '/tokens.css': ('tokens.css', 'text/css')}
         if self.path not in files:
             return self.send(404, {'error': 'Not found'})
         file, mime = files[self.path]

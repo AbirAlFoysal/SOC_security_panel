@@ -1,2 +1,146 @@
-.network-nav{display:flex;align-items:center;flex-wrap:wrap;gap:16px 32px;padding:14px 24px;background:#161b1d;border-bottom:1px solid var(--line)}.network-control{display:flex;align-items:center;gap:13px;min-width:0}.network-control button{font-size:11px;white-space:nowrap;background:#222c25;border-color:#3b4c36;color:var(--accent);padding:9px 13px}.network-control button:disabled{color:var(--muted);border-color:var(--line);background:transparent;opacity:.65}.network-info{display:flex;flex-direction:column;gap:3px;min-width:0}.network-state{font-size:11px;color:var(--muted)}.network-state::before{content:'●';font-size:8px;margin-right:6px;color:#76817a}.network-state.active{color:var(--accent)}.network-state.active::before{color:var(--accent)}.network-info small{font:9px/1.5 monospace;color:#85978d;overflow-wrap:anywhere}.network-updated{margin-left:auto;color:#6e8275;font:9px monospace;white-space:nowrap}#network-message{width:100%;font-size:11px;color:var(--accent);overflow-wrap:anywhere}#network-output{width:100%;font-size:11px;color:var(--muted)}#network-output summary{cursor:pointer;width:fit-content}#network-log{padding-top:10px;max-height:160px}#startscreen{min-height:calc(100dvh - 76px)}#startscreen .tools{max-height:calc(100dvh - 251px)}#workspace{min-height:calc(100dvh - 76px)}@media(max-width:760px){.network-nav{padding:12px 16px;gap:12px}.network-control{width:100%;gap:12px}.network-control button{width:147px}.network-updated{margin-left:0;width:100%}#startscreen .tools{max-height:calc(100dvh - 310px)}}
-.network-nav{position:sticky;top:0;z-index:40;max-height:45dvh;overflow:auto}.project-sidebar{top:var(--network-nav-height,76px);height:calc(100dvh - var(--network-nav-height,76px))}#startscreen,#workspace{min-height:calc(100dvh - var(--network-nav-height,76px))}
+.network-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  padding: 14px 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  max-height: 45dvh;
+  overflow: auto;
+}
+
+.network-control {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.network-control button {
+  font-size: 11px;
+  font-weight: 550;
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel));
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  color: var(--accent);
+  padding: 9px 13px;
+  border-radius: var(--radius-control);
+}
+
+.network-control button:disabled {
+  color: var(--muted);
+  border-color: var(--line);
+  background: transparent;
+  opacity: .65;
+}
+
+.network-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.network-state {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.network-state::before {
+  content: '●';
+  font-size: 8px;
+  margin-right: 6px;
+  color: var(--muted);
+}
+
+.network-state.active {
+  color: var(--accent);
+}
+
+.network-state.active::before {
+  color: var(--accent);
+}
+
+.network-info small {
+  font: 10px/1.5 var(--font-mono);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.network-updated {
+  margin-left: auto;
+  color: var(--muted);
+  font: 10px var(--font-mono);
+  white-space: nowrap;
+}
+
+#network-message {
+  width: 100%;
+  font-size: 11px;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+#network-output {
+  width: 100%;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+#network-output summary {
+  cursor: pointer;
+  width: fit-content;
+}
+
+#network-log {
+  padding-top: 10px;
+  max-height: 160px;
+  font-family: var(--font-mono);
+}
+
+#startscreen {
+  min-height: calc(100dvh - 76px);
+}
+
+#startscreen .tools {
+  max-height: calc(100dvh - 251px);
+}
+
+#workspace {
+  min-height: calc(100dvh - 76px);
+}
+
+.project-sidebar {
+  top: var(--network-nav-height, 76px);
+  height: calc(100dvh - var(--network-nav-height, 76px));
+}
+
+#startscreen,
+#workspace {
+  min-height: calc(100dvh - var(--network-nav-height, 76px));
+}
+
+@media (max-width: 760px) {
+  .network-nav {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .network-control {
+    width: 100%;
+    gap: 12px;
+  }
+  .network-control button {
+    width: 147px;
+  }
+  .network-updated {
+    margin-left: 0;
+    width: 100%;
+  }
+  #startscreen .tools {
+    max-height: calc(100dvh - 310px);
+  }
+}

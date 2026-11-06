@@ -347,7 +347,7 @@ class ProjectStore:
                 if not directory.resolve().is_relative_to(self._directory(ident).resolve()):
                     raise ValueError('Invalid scan directory')
                 for file in directory.iterdir():
-                    if file.name.startswith((scanid + '.', scanid + '-')):
+                    if file.name == scanid or file.name.startswith((scanid + '.', scanid + '-')):
                         if file.is_symlink() or file.is_file():
                             file.unlink()
                         elif file.is_dir():

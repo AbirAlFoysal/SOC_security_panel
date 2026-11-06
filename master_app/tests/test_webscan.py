@@ -138,6 +138,56 @@ class WebScanTests(unittest.TestCase):
         for flag in ('-output', '-Save'):
             self.assertTrue(Path(args[args.index(flag)+1]).is_relative_to(self.store._directory(self.project['id'])))
 
+    def test_archive_files_zips_run_output(self):
+        import zipfile
+        runner = self.runner('nuclei')
+        runner.start(self.project['id'], {'command': 'nuclei', 'target': 'http://127.0.0.1:8080'})
+        record = self.wait(runner)
+        destination = self.root / 'output.zip'
+        count = runner.archive_files(self.project['id'], record['id'], destination)
+        self.assertGreaterEqual(count, 1)
+        with zipfile.ZipFile(destination) as archive:
+            names = archive.namelist()
+        self.assertEqual(len(names), count)
+        self.assertTrue(all(name.strip() for name in names))
+        with self.assertRaises(FileNotFoundError):
+            runner.archive_files(self.project['id'], 'f' * 32, self.root / 'missing.zip')
+
+    def test_api_download_all_files_zip(self):
+        import io
+        import threading
+        import urllib.request
+        import zipfile
+        from http.server import ThreadingHTTPServer
+        from unittest.mock import patch
+        import run
+        runner = self.runner('nuclei')
+        runner.start(self.project['id'], {'command': 'nuclei', 'target': 'http://127.0.0.1:8080'})
+        record = self.wait(runner)
+
+        class QuietHandler(run.Handler):
+            def log_message(self, *args):
+                pass
+
+        with patch.object(run, 'PROJECTS', self.store), patch.object(run, 'WEB_SCANS', {'nuclei': runner}):
+            server = ThreadingHTTPServer(('127.0.0.1', 0), QuietHandler)
+            worker = threading.Thread(target=server.serve_forever, daemon=True)
+            worker.start()
+            base = f'http://127.0.0.1:{server.server_port}'
+            try:
+                url = f"{base}/api/projects/{self.project['id']}/nuclei/history/{record['id']}/files.zip"
+                with urllib.request.urlopen(url, timeout=8) as response:
+                    self.assertEqual(response.headers['Content-Type'], 'application/zip')
+                    self.assertIn('attachment', response.headers['Content-Disposition'])
+                    blob = response.read()
+                with zipfile.ZipFile(io.BytesIO(blob)) as archive:
+                    self.assertTrue(archive.namelist())
+                    self.assertIsNone(archive.testzip())
+            finally:
+                server.shutdown()
+                server.server_close()
+                worker.join(timeout=3)
+
     def test_api_status_presets_upload_start_stop_and_delete(self):
         import threading
         import urllib.request

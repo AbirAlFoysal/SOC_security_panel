@@ -143,6 +143,94 @@ def classify(jsonl_path, log_path, timed_out, timeout, rc, cfg):
     return status, detail, pct
 
 
+def load_findings(jsonl_path):
+    """Parse a nuclei JSONL export into small display records."""
+    if not jsonl_path or not Path(jsonl_path).is_file() or Path(jsonl_path).stat().st_size == 0:
+        return []
+    findings = []
+    try:
+        with open(jsonl_path, 'r', encoding='utf-8', errors='replace') as jf:
+            for line in jf:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except Exception:
+                    continue
+                if not isinstance(obj, dict):
+                    continue
+                info = obj.get('info') if isinstance(obj.get('info'), dict) else {}
+                template_id = str(obj.get('template-id') or obj.get('templateID') or '').strip()
+                findings.append({
+                    'template_id': template_id,
+                    'name': str(info.get('name') or template_id or 'finding'),
+                    'severity': str(info.get('severity') or 'info').upper(),
+                    'matched_at': str(obj.get('matched-at') or obj.get('matched_at') or obj.get('url') or ''),
+                })
+    except Exception:
+        pass
+    return findings
+
+
+def _format_findings(findings):
+    lines = [f'[+] {len(findings)} Finding(s) Detected:']
+    for finding in findings:
+        where = f' ({finding["matched_at"]})' if finding['matched_at'] else ''
+        lines.append(f'  • [{finding["severity"]}] {finding["name"]}{where}')
+    return '\n'.join(lines)
+
+
+def _missing_findings(findings, log_text):
+    """Return findings that are not already printed in the streamed log."""
+    shown = (log_text or '').lower()
+    missing = []
+    for finding in findings:
+        template_id = finding['template_id'].lower()
+        matched_at = finding['matched_at'].lower()
+        streamed = bool(template_id) and (f'[{template_id}]' in shown or f'[{template_id}:' in shown) and (not matched_at or matched_at in shown)
+        summarised = f'• [{finding["severity"]}] {finding["name"]}'.lower() in shown and (not matched_at or matched_at in shown)
+        if not (streamed or summarised):
+            missing.append(finding)
+    return missing
+
+
+def findings_block(jsonl_path, log_text=''):
+    """Build the findings summary to append to a host log, avoiding duplicates."""
+    findings = load_findings(jsonl_path)
+    missing = _missing_findings(findings, log_text)
+    if not missing:
+        return ''
+    block = _format_findings(missing)
+    if len(missing) < len(findings):
+        already = len(findings) - len(missing)
+        block = block.replace('Detected:', f'Detected (JSONL export; {already} already in log):', 1)
+    return '\n\n' + block + '\n'
+
+
+def append_findings_to_log(jsonl_path, log_path):
+    """Persist JSONL-only findings into the host log so downloads show them too."""
+    if not log_path:
+        return
+    log_text = ''
+    path = Path(log_path)
+    if path.is_file():
+        try:
+            log_text = path.read_text(encoding='utf-8', errors='replace')
+        except Exception:
+            log_text = ''
+    block = findings_block(jsonl_path, log_text)
+    if not block:
+        return
+    if not log_text:
+        block = block.lstrip('\n')
+    try:
+        with open(log_path, 'a', encoding='utf-8') as lf:
+            lf.write(block)
+    except Exception:
+        pass
+
+
 def run_one(nuclei_bin, url, jsonl_path, log_path, cfg, runner=None):
     """Run nuclei on a single URL. Returns (status, detail, pct)."""
     if runner and runner.cancelled:
@@ -212,9 +300,14 @@ def run_one(nuclei_bin, url, jsonl_path, log_path, cfg, runner=None):
         return 'ERROR', f'{type(e).__name__}: {e}', 0
 
     if runner and runner.cancelled:
+        append_findings_to_log(jsonl_path, log_path)
         return 'ERROR', 'cancelled by user', 0
 
-    return classify(jsonl_path, log_path, timed_out, timeout, rc, cfg)
+    result = classify(jsonl_path, log_path, timed_out, timeout, rc, cfg)
+    # Nuclei may buffer stdout, so a killed/timeout scan can leave a finding in
+    # the JSONL export while the .log stayed empty. Keep both files consistent.
+    append_findings_to_log(jsonl_path, log_path)
+    return result
 
 
 # ── NucleiBatchRunner ────────────────────────────────────────────────────────────
@@ -663,6 +756,21 @@ class NucleiBatchRunner:
                     pass
             self._finishing = False
 
+    @staticmethod
+    def _read_host_files(log_path, jsonl_path):
+        """Read a host log and append any findings that only exist in the JSONL."""
+        log_text = ''
+        if log_path and Path(log_path).is_file():
+            try:
+                log_text = Path(log_path).read_text(encoding='utf-8', errors='replace')[-65536:]
+            except Exception:
+                log_text = ''
+        if jsonl_path and 'Finding(s) Detected:' not in log_text:
+            block = findings_block(jsonl_path, log_text)
+            if block:
+                log_text = (log_text + block)[-65536:]
+        return log_text
+
     def get_host_log(self, ident, batch_id, url_index):
         """Return live or saved log for a specific host."""
         with self.lock:
@@ -670,42 +778,44 @@ class NucleiBatchRunner:
                 hosts = self.current.get('hosts', [])
                 if 0 <= url_index < len(hosts):
                     log_path = hosts[url_index].get('log_path', '')
-                    if log_path and Path(log_path).exists():
-                        try:
-                            return Path(log_path).read_text(encoding='utf-8', errors='replace')[-65536:]
-                        except Exception:
-                            return ''
+                    jsonl_path = hosts[url_index].get('jsonl_path', '')
+                    log_text = self._read_host_files(log_path, jsonl_path)
+                    if log_text:
+                        return log_text
                     if hosts[url_index].get('status') == 'running':
                         return '[*] Scanning host...\n'
                     return f'[*] Status: {hosts[url_index].get("status", "pending")}\n'
 
         scan_dir = self.store._directory(ident) / 'scans' / 'nuclei' / batch_id
         if scan_dir.exists():
+            log_path = ''
+            jsonl_path = ''
             try:
                 project = self.store.get(ident)
                 entries = project.get('tool_history', {}).get(self.TOOL, [])
                 scan_rec = next((e for e in entries if e.get('id') == batch_id), None)
                 if scan_rec and 'hosts' in scan_rec and 0 <= url_index < len(scan_rec['hosts']):
-                    lp = scan_rec['hosts'][url_index].get('log_path', '')
-                    if lp and Path(lp).exists():
-                        return Path(lp).read_text(encoding='utf-8', errors='replace')[-65536:]
+                    log_path = scan_rec['hosts'][url_index].get('log_path', '')
+                    jsonl_path = scan_rec['hosts'][url_index].get('jsonl_path', '')
             except Exception:
                 pass
-            sf = scan_dir / '.progress.json'
-            if sf.exists():
-                try:
-                    state = json.loads(sf.read_text(encoding='utf-8'))
-                    hosts = state.get('hosts', [])
-                    if 0 <= url_index < len(hosts):
-                        lp = hosts[url_index].get('log_path', '')
-                        if lp and Path(lp).exists():
-                            return Path(lp).read_text(encoding='utf-8', errors='replace')[-65536:]
-                except Exception:
-                    pass
-            log_files = sorted(scan_dir.glob('*.log'))
-            if 0 <= url_index < len(log_files):
-                try:
-                    return log_files[url_index].read_text(encoding='utf-8', errors='replace')[-65536:]
-                except Exception:
-                    pass
+            if not log_path:
+                sf = scan_dir / '.progress.json'
+                if sf.exists():
+                    try:
+                        state = json.loads(sf.read_text(encoding='utf-8'))
+                        hosts = state.get('hosts', [])
+                        if 0 <= url_index < len(hosts):
+                            log_path = hosts[url_index].get('log_path', '')
+                            jsonl_path = hosts[url_index].get('jsonl_path', '')
+                    except Exception:
+                        pass
+            if not log_path:
+                log_files = sorted(scan_dir.glob('*.log'))
+                if 0 <= url_index < len(log_files):
+                    log_path = str(log_files[url_index])
+                    jp = log_files[url_index].with_suffix('.jsonl')
+                    if jp.exists():
+                        jsonl_path = str(jp)
+            return self._read_host_files(log_path, jsonl_path)
         return ''

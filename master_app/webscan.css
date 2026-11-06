@@ -273,10 +273,48 @@ body:has(#webscan-workspace) .project-content{max-width:none;padding:20px 22px}#
   width: 100%;
   box-sizing: border-box;
 }
+.batch-sidebar-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #8b949e;
+  padding-top: 2px;
+}
+.batch-scanned-top-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+  color: #c9d1d9;
+  font-size: 11px;
+  font-weight: 500;
+}
+.batch-scanned-top-label:hover {
+  color: #f0f6fc;
+}
+.batch-scanned-top-label input[type="checkbox"] {
+  accent-color: #1f6feb;
+  cursor: pointer;
+  margin: 0;
+  width: 13px;
+  height: 13px;
+}
+.badge-running-count {
+  background: rgba(56, 139, 253, 0.15);
+  color: #58a6ff;
+  border: 1px solid rgba(56, 139, 253, 0.3);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
 .batch-sidebar-stats {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  gap: 6px;
   font-size: 10px;
   color: #8b949e;
 }
@@ -311,6 +349,14 @@ body:has(#webscan-workspace) .project-content{max-width:none;padding:20px 22px}#
 }
 .batch-host-row.active {
   background: rgba(56,139,253,0.15);
+  border-left: 3px solid #58a6ff;
+}
+.batch-host-row.batch-host-running {
+  background: rgba(56, 139, 253, 0.08);
+  border-left: 3px solid #1f6feb;
+}
+.batch-host-row.batch-host-running.active {
+  background: rgba(56, 139, 253, 0.2);
   border-left: 3px solid #58a6ff;
 }
 .batch-host-row-main {
@@ -555,5 +601,36 @@ body:has(#webscan-workspace) .project-content{max-width:none;padding:20px 22px}#
 }
 .batch-stop-header-btn:disabled {
   opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Download-all output files */
+.files-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 10px;
+}
+.download-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid rgba(56, 239, 125, 0.35);
+  border-radius: 6px;
+  background: rgba(56, 239, 125, 0.1);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.download-all-btn:hover:not(:disabled) {
+  background: rgba(56, 239, 125, 0.2);
+  border-color: var(--accent);
+  color: #fff;
+}
+.download-all-btn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }

@@ -9,7 +9,9 @@ import platform
 import secrets
 import shutil
 import subprocess
+import tempfile
 import threading
+import urllib.parse
 import webbrowser
 from gui_apps import GUI_TOOLS, DesktopLauncher, locate_gui
 from hakrawler_runner import HakrawlerRunner
@@ -361,6 +363,28 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(200, {'sessions': NUCLEI_BATCH.list_sessions(parts[2])})
                 if len(parts) == 4 and parts[3] == 'hakrawler':
                     return self.send(200, HAKRAWLER.status(parts[2]))
+                if len(parts)==7 and parts[3] in WEB_SCANS and parts[4]=='history' and parts[6]=='files.zip':
+                    runner=WEB_SCANS[parts[3]]
+                    archive=tempfile.NamedTemporaryFile(prefix='soc-scan-',suffix='.zip',delete=False)
+                    archive.close()
+                    try:
+                        runner.archive_files(parts[2],parts[5],archive.name)
+                        safe_id=''.join(c if c.isascii() and (c.isalnum() or c in '._-') else '_' for c in parts[5][:8])
+                        name=f'{parts[3]}-{safe_id}-files.zip'
+                        self.send_response(200)
+                        self.send_header('Content-Type','application/zip')
+                        self.send_header('Content-Disposition','attachment; filename="'+name+'"')
+                        self.send_header('Cache-Control','no-store')
+                        self.send_header('X-Content-Type-Options','nosniff')
+                        self.send_header('Content-Length',str(os.path.getsize(archive.name)))
+                        self.end_headers()
+                        with open(archive.name,'rb') as stream:
+                            return shutil.copyfileobj(stream,self.wfile)
+                    finally:
+                        try:
+                            os.unlink(archive.name)
+                        except OSError:
+                            pass
                 if len(parts)>=7 and parts[3] in WEB_SCANS and parts[4]=='history' and parts[6]=='files':
                     runner=WEB_SCANS[parts[3]]
                     if len(parts)==7:

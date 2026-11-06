@@ -20,3 +20,6 @@ venv/
 /sql_injectable/
 *.zip
 /new_tools.md
+
+
+extras/

@@ -16,6 +16,7 @@ import shutil
 import subprocess
 import threading
 import uuid
+import zipfile
 from urllib.parse import urlsplit
 from nmap_runner import NmapRunner
 
@@ -242,19 +243,21 @@ class WebScanRunner(NmapRunner):
 
     def scan_files(self,ident,scanid):
         project=self.store.get(ident)
-        if not any(r['id']==scanid for r in project.get('tool_history',{}).get(self.tool,[])):
-            raise FileNotFoundError('Run not found in this project.')
+        runs=project.get('tool_history',{}).get(self.tool,[])
         directory=self.store._directory(ident)/'scans'/self.tool
+        if not any(r['id']==scanid for r in runs) and not (directory/scanid).exists():
+            raise FileNotFoundError('Run not found in this project.')
         if not directory.resolve().is_relative_to(self.store._directory(ident).resolve()):
             raise ValueError('Invalid scan directory.')
         result=[]
         if not directory.exists():return result
         for root in directory.iterdir():
-            if root.is_symlink() or not root.name.startswith((scanid+'.',scanid+'-')):continue
+            if root.is_symlink() or not (root.name == scanid or root.name.startswith((scanid+'.',scanid+'-'))):continue
             candidates=root.rglob('*') if root.is_dir() else [root]
             for file in candidates:
-                if len(result)>=1000:break
-                if not file.is_file() or file.is_symlink() or not file.resolve().is_relative_to(directory.resolve()) or file.suffix=='.stop':continue
+                if len(result)>=5000:break
+                if not file.is_file() or file.is_symlink() or not file.resolve().is_relative_to(directory.resolve()) or file.suffix=='.stop' or file.name.startswith('.'):continue
+                if file.suffix == '.jsonl' and file.stat().st_size == 0:continue
                 relative=file.relative_to(directory).as_posix()
                 result.append({'name':relative,'token':relative.encode().hex(),'size':file.stat().st_size})
         return result
@@ -264,6 +267,24 @@ class WebScanRunner(NmapRunner):
         selected=next((f for f in files if f['token']==token),None)
         if not selected:raise FileNotFoundError('Output file not found.')
         return self.store._directory(ident)/'scans'/self.tool/selected['name']
+
+    def archive_files(self,ident,scanid,destination):
+        """Write every output file of a run into one ZIP archive."""
+        files=self.scan_files(ident,scanid)
+        if not files:raise FileNotFoundError('No output files to download.')
+        directory=(self.store._directory(ident)/'scans'/self.tool).resolve()
+        prefix=scanid+'/'
+        written=0
+        with zipfile.ZipFile(destination,'w',zipfile.ZIP_DEFLATED) as archive:
+            for item in files:
+                source=(directory/item['name'])
+                if source.is_symlink() or not source.is_file() or not source.resolve().is_relative_to(directory):
+                    continue
+                name=item['name'][len(prefix):] if item['name'].startswith(prefix) else item['name']
+                archive.write(source,name)
+                written+=1
+        if not written:raise FileNotFoundError('No output files to download.')
+        return written
 
     def _signal(self, kill=False):
         proc = self.process

@@ -23,7 +23,15 @@ const WebScanWorkspace = (() => {
     const result=await response.json();if(!response.ok)throw Error(result.error||'Request failed');return result;
   }
   
-  let selectedHostIdx = -1, batchSearchQuery = '', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start', savedHostsListScroll = 0, lastBatchRunId = null;
+  let selectedHostIdx = -1, batchSearchQuery = '', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start', savedHostsListScroll = 0, lastBatchRunId = null, batchFilesAvailable = false;
+  let batchScannedOnTop = (() => {
+    try {
+      const v = typeof localStorage !== 'undefined' ? localStorage.getItem('batchScannedOnTop') : null;
+      return v === null ? true : v !== '0';
+    } catch (_) {
+      return true;
+    }
+  })();
 
   function batchStatusBadge(status) {
     const s = String(status || 'pending').toLowerCase();
@@ -296,7 +304,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
     else if(run)el('notice').textContent=run.status==='running'?'⟳ Scan running. Results are saved automatically.':run.status==='cancelled'?'Scan stopped. Partial results saved.':'Run '+run.status+(run.outcome==='exhausted'?' (candidate list exhausted)':'')+'. Results saved in this project.';
     if(currentTab!=='files')delete el('result').dataset.filesKey;
     if(isBatch && ['output','details','files'].includes(currentTab)){renderBatchWorkspace(run);return;}
-    if(currentTab==='files'){const gen=generation,key=run?`${gen}/${run.id}/${run.status}/${run.status==='running'?Math.floor(Date.now()/5000):''}`:'empty';if(el('result').dataset.filesKey===key)return;el('result').dataset.filesKey=key;el('result').innerHTML='<p class="muted">Loading output files…</p>';if(!run){el('result').innerHTML='<p class="muted">No run selected.</p>';return;}request(path()+`/history/${run.id}/files`).then(value=>{if(gen!==generation||currentTab!=='files'||selected()?.id!==run.id)return;el('result').innerHTML=value.files.map(f=>`<a class="output-file" href="${path()}/history/${run.id}/files/${f.token}" download><span>${esc(f.name)}<small>${Math.ceil(f.size/1024)} KB</small></span><span>↓</span></a>`).join('')||'<p class="muted">No output files saved yet.</p>';}).catch(e=>{if(gen===generation&&currentTab==='files'&&selected()?.id===run.id){el('result').textContent=e.message;delete el('result').dataset.filesKey;}});}
+    if(currentTab==='files'){const gen=generation,key=run?`${gen}/${run.id}/${run.status}/${run.status==='running'?Math.floor(Date.now()/5000):''}`:'empty';if(el('result').dataset.filesKey===key)return;el('result').dataset.filesKey=key;el('result').innerHTML='<p class="muted">Loading output files…</p>';if(!run){el('result').innerHTML='<p class="muted">No run selected.</p>';return;}request(path()+`/history/${run.id}/files`).then(value=>{if(gen!==generation||currentTab!=='files'||selected()?.id!==run.id)return;const allFiles=value.files||[],list=allFiles.map(f=>`<a class="output-file" href="${path()}/history/${run.id}/files/${f.token}" download><span>${esc(f.name)}<small>${Math.ceil(f.size/1024)} KB</small></span><span>↓</span></a>`).join(''),toolbar=allFiles.length?`<div class="files-toolbar"><a class="download-all-btn" href="${path()}/history/${run.id}/files.zip" download>Download all files (.zip)</a></div>`:'';el('result').innerHTML=toolbar+(list||'<p class="muted">No output files saved yet.</p>');}).catch(e=>{if(gen===generation&&currentTab==='files'&&selected()?.id===run.id){el('result').textContent=e.message;delete el('result').dataset.filesKey;}});}
     else if(currentTab==='output'){const previous=el('result').querySelector('pre');const scroll=previous?.scrollTop||0;const atBottom=!previous||previous.scrollHeight-previous.clientHeight-previous.scrollTop<40;el('result').innerHTML=`<pre class="web-terminal">${esc(run?.output||'Prepare a command and click '+(config?.action||'Scan')+' to start.')}</pre>`;const terminal=el('result').querySelector('pre');terminal.scrollTop=atBottom?terminal.scrollHeight:scroll;}
     else if(currentTab==='details')el('result').innerHTML=run?`<dl><dt>Target</dt><dd>${esc(run.target)}</dd><dt>Status</dt><dd>${esc(run.status)}</dd><dt>Started</dt><dd>${esc(new Date(run.created_at).toLocaleString())}</dd><dt>Command</dt><dd><code>${esc(run.command)}</code></dd><dt>Executed command</dt><dd><code>${esc(run.executed_command||run.command)}</code></dd></dl><p class="muted">Reports, session data, and output stay inside projects/${esc(project.id)}/scans/${tool}/.</p>`:'<p class="muted">No scan selected.</p>';
     else el('result').innerHTML=(data.history||[]).map(r=>`<button class="saved-scan" type="button" data-web-run="${r.id}"><strong>${esc(r.title||r.command)}</strong><span>${esc(r.status)} · ${esc(new Date(r.created_at).toLocaleString())}</span></button>`).join('')||'<p class="muted">No saved scans yet.</p>';
@@ -304,15 +312,37 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
   
   function renderBatchWorkspace(run) {
     const isRunning = isScanRunning(run);
+    if (lastBatchRunId !== run.id) {
+      lastBatchRunId = run.id;
+      savedHostsListScroll = 0;
+      batchFilesAvailable = false;
+    }
     const hosts = run.hosts || [];
     const query = batchSearchQuery.toLowerCase().trim();
     const completed = hosts.filter(h => !['pending', 'running'].includes(h.status)).length;
+    const runningCount = hosts.filter(h => h.status === 'running').length;
     const findings = hosts.filter(h => ['findings', 'findings_partial'].includes(h.status)).length;
 
-    const hostItems = hosts.map((h, idx) => ({ h, idx }))
-      .filter(({ h }) => !query || (h.label || '').toLowerCase().includes(query) || (h.url || '').toLowerCase().includes(query))
-      .map(({ h, idx }) => `
-        <button type="button" class="batch-host-row ${selectedHostIdx === idx ? 'active' : ''}" data-batch-host="${idx}">
+    let items = hosts.map((h, idx) => ({ h, idx }))
+      .filter(({ h }) => !query || (h.label || '').toLowerCase().includes(query) || (h.url || '').toLowerCase().includes(query));
+
+    if (batchScannedOnTop) {
+      items.sort((a, b) => {
+        const getRank = status => {
+          const s = String(status || 'pending').toLowerCase();
+          if (s === 'running') return 0; // 1st: Currently being scanned
+          if (s !== 'pending') return 1; // 2nd: Already scanned / completed
+          return 2;                      // 3rd: Pending in queue
+        };
+        const rankA = getRank(a.h.status);
+        const rankB = getRank(b.h.status);
+        if (rankA !== rankB) return rankA - rankB;
+        return a.idx - b.idx;
+      });
+    }
+
+    const hostItems = items.map(({ h, idx }) => `
+        <button type="button" class="batch-host-row ${selectedHostIdx === idx ? 'active' : ''} ${h.status === 'running' ? 'batch-host-running' : ''}" data-batch-host="${idx}">
           <div class="batch-host-row-main">
             <strong class="batch-host-title">${esc(h.label || h.url)}</strong>
             ${batchStatusBadge(h.status)}
@@ -325,9 +355,16 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
       <div class="batch-sidebar">
         <div class="batch-sidebar-header">
           <input type="search" id="batch-host-search" class="batch-host-search" placeholder="Filter host names…" value="${esc(batchSearchQuery)}">
-          <div class="batch-sidebar-stats">
-            <span>${completed}/${hosts.length} completed</span>
-            ${findings ? `<span class="badge-findings-count">${findings} findings</span>` : ''}
+          <div class="batch-sidebar-toolbar">
+            <label class="batch-scanned-top-label" title="Show currently running and scanned targets at top of list">
+              <input type="checkbox" id="batch-scanned-on-top" ${batchScannedOnTop ? 'checked' : ''}>
+              <span>Scanned on top</span>
+            </label>
+            <div class="batch-sidebar-stats">
+              ${runningCount ? `<span class="badge-running-count">${runningCount} active</span>` : ''}
+              <span>${completed}/${hosts.length}</span>
+              ${findings ? `<span class="badge-findings-count">${findings} findings</span>` : ''}
+            </div>
           </div>
         </div>
         <div class="batch-hosts-list" id="batch-hosts-list" role="tablist">
@@ -365,6 +402,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
         const key = `${run.id}/${selectedHostIdx}/${run.status === 'running' ? Math.floor(Date.now() / 2500) : 'done'}`;
         if (activeBatchHostLogKey !== key) {
           activeBatchHostLogKey = key;
+          activeBatchHostLog = 'Loading host log…';
           request(`/api/projects/${project.id}/nuclei_batch/hostlog/${run.id}?idx=${selectedHostIdx}`)
             .then(res => {
               activeBatchHostLog = res.log || (currentHost.status === 'pending' ? 'Target pending in scan queue…' : 'No output recorded for this target.');
@@ -375,7 +413,11 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
                 if (atBottom) term.scrollTop = term.scrollHeight;
               }
             })
-            .catch(() => { activeBatchHostLog = 'Unable to fetch host log.'; });
+            .catch(err => {
+              activeBatchHostLog = 'Unable to fetch host log: ' + (err.message || err);
+              const term = document.getElementById('batch-host-term');
+              if (term) term.textContent = activeBatchHostLog;
+            });
         }
         mainHtml = `
           <div class="batch-host-header">
@@ -463,17 +505,36 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
         if (!elContainer) return;
         let files = value.files || [];
         if (selectedHostIdx >= 0 && currentHost) {
-          const safePrefix = currentHost.log_path ? currentHost.log_path.split('/').pop().replace(/\.log$/, '') : '';
+          let safePrefix = '';
+          if (currentHost.log_path) {
+            safePrefix = currentHost.log_path.split('/').pop().replace(/\.log$/, '');
+          } else if (currentHost.jsonl_path) {
+            safePrefix = currentHost.jsonl_path.split('/').pop().replace(/\.jsonl$/, '');
+          }
           if (safePrefix) {
-            files = files.filter(f => f.name.startsWith(safePrefix));
+            files = files.filter(f => {
+              const base = f.name.split('/').pop() || f.name;
+              return base.startsWith(safePrefix);
+            });
           }
         }
-        elContainer.innerHTML = files.map(f => `
-          <a class="output-file" href="${path()}/history/${run.id}/files/${f.token}" download>
-            <span>${esc(f.name)}<small>${Math.ceil(f.size / 1024)} KB</small></span>
+        const allFiles = value.files || [];
+        batchFilesAvailable = allFiles.length > 0;
+        const dlButton = document.getElementById('batch-download-all');
+        if (dlButton) {
+          dlButton.disabled = !batchFilesAvailable;
+          dlButton.onclick = () => {
+            if (batchFilesAvailable) window.location.href = `${path()}/history/${run.id}/files.zip`;
+          };
+        }
+        elContainer.innerHTML = files.map(f => {
+          const displayName = f.name.split('/').pop() || f.name;
+          return `
+          <a class="output-file" href="${path()}/history/${run.id}/files/${f.token}" download="${esc(displayName)}">
+            <span>${esc(displayName)}<small>${Math.ceil(f.size / 1024)} KB</small></span>
             <span>↓</span>
           </a>
-        `).join('') || '<p class="muted" style="padding:14px;">No files generated yet for this target.</p>';
+        `;}).join('') || '<p class="muted" style="padding:14px;">No files generated yet for this target.</p>';
       }).catch(e => {
         const elContainer = document.getElementById('batch-files-container');
         if (elContainer) elContainer.textContent = e.message;
@@ -485,16 +546,14 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
             <h3 class="batch-host-heading">${selectedHostIdx === -1 || !currentHost ? 'Batch Output Files' : esc(currentHost.label || currentHost.url) + ' Files'}</h3>
             <span class="batch-host-sub">Downloadable findings & logs</span>
           </div>
+          <div class="batch-host-header-right">
+            <button type="button" class="download-all-btn" id="batch-download-all" ${batchFilesAvailable ? '' : 'disabled'} title="ZIP of every output file in this batch run">Download all files (.zip)</button>
+          </div>
         </div>
         <div id="batch-files-container" style="padding:14px;overflow-y:auto;max-height:60vh;">
           <p class="muted">Loading files…</p>
         </div>
       `;
-    }
-
-    if (lastBatchRunId !== run.id) {
-      lastBatchRunId = run.id;
-      savedHostsListScroll = 0;
     }
 
     const prevTerm = document.getElementById('batch-terminal') || document.getElementById('batch-host-term');
@@ -567,6 +626,17 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
           refocused.focus();
           refocused.setSelectionRange(refocused.value.length, refocused.value.length);
         }
+      };
+    }
+
+    const nextScannedTop = document.getElementById('batch-scanned-on-top');
+    if (nextScannedTop) {
+      nextScannedTop.onchange = () => {
+        batchScannedOnTop = nextScannedTop.checked;
+        try { localStorage.setItem('batchScannedOnTop', batchScannedOnTop ? '1' : '0'); } catch (_) {}
+        savedHostsListScroll = 0;
+        const curRun = selected();
+        if (curRun) renderBatchWorkspace(curRun);
       };
     }
 

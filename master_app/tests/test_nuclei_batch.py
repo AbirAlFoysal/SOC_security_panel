@@ -8,8 +8,9 @@ sys.path.insert(0, str(Path(__file__).parents[1]))
 from project_store import ProjectStore
 from nuclei_batch_runner import (
     NucleiBatchRunner, normalize_url, safe_name, host_label,
-    classify, DEFAULT_CONFIG
+    classify, DEFAULT_CONFIG, findings_block
 )
+from webscan_runner import WebScanRunner
 
 
 class NucleiBatchTests(unittest.TestCase):
@@ -65,6 +66,20 @@ class NucleiBatchTests(unittest.TestCase):
         status, detail, pct = classify(str(jf), str(lf), False, 900, 0, cfg)
         self.assertEqual(status, 'NO_FINDINGS')
 
+    def test_findings_block_dedupes_streamed_lines(self):
+        jf = self.root / 'finding.jsonl'
+        jf.write_text(json.dumps({
+            'template-id': 'tech-detect',
+            'info': {'name': 'Tech', 'severity': 'info'},
+            'matched-at': 'https://example.com',
+        }) + '\n', encoding='utf-8')
+
+        # Nuclei prints matcher suffixes (template:matcher); that is still the same finding.
+        streamed = '[tech-detect:cloudflare] [http] [info] https://example.com\n'
+        self.assertEqual(findings_block(str(jf), streamed), '')
+        self.assertIn('Tech', findings_block(str(jf), ''))
+
+
     def test_cancel_batch(self):
         # Create a slow fake nuclei
         slow_bin = self.root / 'slow-nuclei'
@@ -111,6 +126,84 @@ class NucleiBatchTests(unittest.TestCase):
         self.assertEqual(len(sessions), 1)
         self.assertEqual(sessions[0]['id'], res['id'])
         self.assertEqual(sessions[0]['done'], 2)
+
+
+    def _jsonl_only_runner(self):
+        """Nuclei that writes a finding only to JSONL and never flushes stdout."""
+        binary = self.root / 'jsonl-only-nuclei'
+        binary.write_text(
+            '#!' + sys.executable + '\n'
+            'import sys, time\n'
+            'for i, arg in enumerate(sys.argv):\n'
+            '    if arg == "-jsonl-export" and i + 1 < len(sys.argv):\n'
+            '        with open(sys.argv[i+1], "w") as jf:\n'
+            '            jf.write(\'{"template-id":"tech-detect","info":{"name":"Tech","severity":"info"},"matched-at":"https://example.com","url":"https://example.com"}\\n\')\n'
+            'time.sleep(60)\n'
+        )
+        binary.chmod(0o755)
+        return NucleiBatchRunner(self.store, lambda t: str(binary)), binary
+
+    def test_jsonl_only_findings_are_logged_and_listed(self):
+        runner, binary = self._jsonl_only_runner()
+        res = runner.start(self.project['id'], {
+            'targets': 'https://example.com',
+            'max_workers': 1,
+            'nuclei_timeout': 1,
+            'sigterm_grace': 1,
+        })
+        deadline = time.time() + 20
+        while runner.running and time.time() < deadline:
+            time.sleep(0.05)
+        self.assertFalse(runner.running)
+
+        host = runner.current['hosts'][0]
+        self.assertEqual(host['status'], 'findings_partial')
+
+        # The finding must be visible in the log tab...
+        log_text = runner.get_host_log(self.project['id'], res['id'], 0)
+        self.assertIn('Tech', log_text)
+        # ...persisted for downloads, and not duplicated on every read.
+        self.assertIn('Tech', Path(host['log_path']).read_text(encoding='utf-8'))
+        self.assertEqual(runner.get_host_log(self.project['id'], res['id'], 0).count('Finding(s) Detected'), 1)
+
+        # ...and the batch run must expose its .log and .jsonl files.
+        files = WebScanRunner(self.store, lambda t: str(binary), 'nuclei').scan_files(self.project['id'], res['id'])
+        names = [f['name'].split('/')[-1] for f in files]
+        self.assertIn('0001_example.com.log', names)
+        self.assertIn('0001_example.com.jsonl', names)
+
+    def test_saved_batch_log_falls_back_to_jsonl(self):
+        runner, binary = self._jsonl_only_runner()
+        res = runner.start(self.project['id'], {
+            'targets': 'https://example.com',
+            'max_workers': 1,
+            'nuclei_timeout': 1,
+            'sigterm_grace': 1,
+        })
+        deadline = time.time() + 20
+        while runner.running and time.time() < deadline:
+            time.sleep(0.05)
+        host = runner.current['hosts'][0]
+        Path(host['log_path']).unlink()
+
+        # Simulate a server restart: no in-memory batch, paths only in project.json.
+        runner.current = None
+        log_text = runner.get_host_log(self.project['id'], res['id'], 0)
+        self.assertIn('Tech', log_text)
+
+    def test_delete_batch_removes_scan_directory(self):
+        res = self.runner.start(self.project['id'], {
+            'targets': 'https://example.com',
+            'max_workers': 1,
+            'nuclei_timeout': 30,
+        })
+        deadline = time.time() + 20
+        while self.runner.running and time.time() < deadline:
+            time.sleep(0.05)
+        scan_dir = self.store._directory(self.project['id']) / 'scans' / 'nuclei' / res['id']
+        self.assertTrue(scan_dir.is_dir())
+        self.store.delete_scan(self.project['id'], res['id'], 'nuclei')
+        self.assertFalse(scan_dir.exists())
 
 
     def test_cancel_orphan_running_scan_cleans_history(self):

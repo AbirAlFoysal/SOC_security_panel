@@ -273,6 +273,23 @@ body:has(#webscan-workspace) .project-content{max-width:none;padding:20px 22px}#
   width: 100%;
   box-sizing: border-box;
 }
+.batch-status-filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #8b949e;
+  font-size: 10px;
+}
+.batch-status-filter {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+  padding: 6px 8px;
+  font-size: 11px;
+}
 .batch-sidebar-toolbar {
   display: flex;
   align-items: center;

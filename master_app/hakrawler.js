@@ -121,7 +121,19 @@ const HakrawlerWorkspace = (() => {
       return 'http://'+candidate+'/';
     }catch(_){return 'https://'+value;}
   }
+  function renderResult(pane,html,pageScroll){
+    const changed=pane.innerHTML!==html;
+    const innerScroll=changed?[...pane.querySelectorAll('.port-scroll,.hakrawler-terminal')].map((element,index)=>({index,left:element.scrollLeft,top:element.scrollTop})):[];
+    if(changed)pane.innerHTML=html;
+    document.scrollingElement.scrollLeft=pageScroll.x;
+    document.scrollingElement.scrollTop=pageScroll.y;
+    innerScroll.forEach(({index,left,top})=>{
+      const element=pane.querySelectorAll('.port-scroll,.hakrawler-terminal')[index];
+      if(element){element.scrollLeft=left;element.scrollTop=top;}
+    });
+  }
   function results(){
+    const pageScroll={x:window.scrollX,y:window.scrollY};
     const run=selected(), urls=run?.urls||[];
     if(run?.status==='completed')$('hakrawler-notice').textContent=run.warning||(urls.length?`Crawl completed. ${urls.length} unique URLs saved.`:'No links discovered. Check HTTP/HTTPS, the web port, path, redirects, or whether the site needs its domain name.');
     else if(run?.status==='failed')$('hakrawler-notice').textContent=run.error||'Crawl failed. See output.';
@@ -131,14 +143,14 @@ const HakrawlerWorkspace = (() => {
     $('hakrawler-stop').disabled=!(data?.current?.status==='running');
     $('hakrawler-hosts').innerHTML=`<p><strong>${urls.length}</strong><br>unique URLs</p><p>${run?run.target.split('\n').length:0} seed URLs</p>`;
     const pane=$('hakrawler-result');
-    if(tabName==='output')pane.innerHTML=`<pre class="hakrawler-terminal">${esc(run?.output||'Enter target URLs and choose a preset, then click Crawl.')}</pre>${run?.error?`<p class="scan-error">${esc(run.error)}</p>`:''}`;
-    else if(tabName==='urls')pane.innerHTML=urls.length?`<div class="port-scroll"><table><thead><tr><th>URL</th><th>Source</th><th>Found on</th></tr></thead><tbody>${urls.map(row=>`<tr><td>${esc(row.url)}</td><td>${esc(row.source||'—')}</td><td>${esc(row.where||'—')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="scan-empty muted">No URLs discovered yet. JSON output gives the most detailed results.</p>';
+    if(tabName==='output')renderResult(pane,`<pre class="hakrawler-terminal">${esc(run?.output||'Enter target URLs and choose a preset, then click Crawl.')}</pre>${run?.error?`<p class="scan-error">${esc(run.error)}</p>`:''}`,pageScroll);
+    else if(tabName==='urls')renderResult(pane,urls.length?`<div class="port-scroll"><table><thead><tr><th>URL</th><th>Source</th><th>Found on</th></tr></thead><tbody>${urls.map(row=>`<tr><td>${esc(row.url)}</td><td>${esc(row.source||'—')}</td><td>${esc(row.where||'—')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="scan-empty muted">No URLs discovered yet. JSON output gives the most detailed results.</p>',pageScroll);
     else if(tabName==='sources'){
       const counts={};urls.forEach(row=>{const key=row.source||'Unspecified';counts[key]=(counts[key]||0)+1;});
-      pane.innerHTML=urls.length?`<table><thead><tr><th>Source</th><th>URLs</th></tr></thead><tbody>${Object.entries(counts).map(([source,count])=>`<tr><td>${esc(source)}</td><td>${count}</td></tr>`).join('')}</tbody></table>`:'<p class="scan-empty muted">No source information yet.</p>';
+      renderResult(pane,urls.length?`<table><thead><tr><th>Source</th><th>URLs</th></tr></thead><tbody>${Object.entries(counts).map(([source,count])=>`<tr><td>${esc(source)}</td><td>${count}</td></tr>`).join('')}</tbody></table>`:'<p class="scan-empty muted">No source information yet.</p>',pageScroll);
     }else{
       const scans=[...(data?.current&&!(data?.history||[]).some(r=>r.id===data.current.id)?[data.current]:[]),...(data?.history||[])];
-      pane.innerHTML=scans.length?scans.map(r=>`<button class="saved-scan" data-hakrawler-run="${r.id}"><strong>${esc(r.title||r.command)}</strong><span>${esc(r.status)} · ${esc(new Date(r.created_at).toLocaleString())}</span></button>`).join(''):'<p class="scan-empty muted">No saved crawls in this project.</p>';
+      renderResult(pane,scans.length?scans.map(r=>`<button class="saved-scan" data-hakrawler-run="${r.id}"><strong>${esc(r.title||r.command)}</strong><span>${esc(r.status)} · ${esc(new Date(r.created_at).toLocaleString())}</span></button>`).join(''):'<p class="scan-empty muted">No saved crawls in this project.</p>',pageScroll);
     }
   }
   async function poll(){

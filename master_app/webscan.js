@@ -23,7 +23,7 @@ const WebScanWorkspace = (() => {
     const result=await response.json();if(!response.ok)throw Error(result.error||'Request failed');return result;
   }
   
-  let selectedHostIdx = -1, batchSearchQuery = '', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start', savedHostsListScroll = 0, lastBatchRunId = null, batchFilesAvailable = false;
+  let selectedHostIdx = -1, batchSearchQuery = '', batchStatusFilter = 'all', activeBatchHostLog = '', activeBatchHostLogKey = '', batchUploadedTargetsText = '', batchUploadedFileName = '', batchDialogMode = 'start', savedHostsListScroll = 0, lastBatchRunId = null, batchFilesAvailable = false;
   let batchScannedOnTop = (() => {
     try {
       const v = typeof localStorage !== 'undefined' ? localStorage.getItem('batchScannedOnTop') : null;
@@ -33,7 +33,7 @@ const WebScanWorkspace = (() => {
     }
   })();
 
-  function batchStatusBadge(status) {
+  function batchStatusInfo(status) {
     const s = String(status || 'pending').toLowerCase();
     const map = {
       findings: { cls: 'status-findings', label: '⚠ Findings' },
@@ -49,7 +49,10 @@ const WebScanWorkspace = (() => {
       cancelled: { cls: 'status-cancelled', label: '— Cancelled' },
       completed: { cls: 'status-clean', label: '✓ Done' },
     };
-    const item = map[s] || { cls: 'status-pending', label: s };
+    return map[s] || { cls: 'status-pending', label: s.replace(/_/g, ' ') };
+  }
+  function batchStatusBadge(status) {
+    const item = batchStatusInfo(status);
     return '<span class="batch-badge ' + item.cls + '">' + esc(item.label) + '</span>';
   }
 const path=()=>`/api/projects/${project.id}/${tool}`;
@@ -303,7 +306,10 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
     }
     else if(run)el('notice').textContent=run.status==='running'?'⟳ Scan running. Results are saved automatically.':run.status==='cancelled'?'Scan stopped. Partial results saved.':'Run '+run.status+(run.outcome==='exhausted'?' (candidate list exhausted)':'')+'. Results saved in this project.';
     if(currentTab!=='files')delete el('result').dataset.filesKey;
-    if(isBatch && ['output','details','files'].includes(currentTab)){renderBatchWorkspace(run);return;}
+    if(isBatch && ['output','details','files'].includes(currentTab)){
+      if(document.activeElement?.id === 'batch-status-filter')return;
+      renderBatchWorkspace(run);return;
+    }
     if(currentTab==='files'){const gen=generation,key=run?`${gen}/${run.id}/${run.status}/${run.status==='running'?Math.floor(Date.now()/5000):''}`:'empty';if(el('result').dataset.filesKey===key)return;el('result').dataset.filesKey=key;el('result').innerHTML='<p class="muted">Loading output files…</p>';if(!run){el('result').innerHTML='<p class="muted">No run selected.</p>';return;}request(path()+`/history/${run.id}/files`).then(value=>{if(gen!==generation||currentTab!=='files'||selected()?.id!==run.id)return;const allFiles=value.files||[],list=allFiles.map(f=>`<a class="output-file" href="${path()}/history/${run.id}/files/${f.token}" download><span>${esc(f.name)}<small>${Math.ceil(f.size/1024)} KB</small></span><span>↓</span></a>`).join(''),toolbar=allFiles.length?`<div class="files-toolbar"><a class="download-all-btn" href="${path()}/history/${run.id}/files.zip" download>Download all files (.zip)</a></div>`:'';el('result').innerHTML=toolbar+(list||'<p class="muted">No output files saved yet.</p>');}).catch(e=>{if(gen===generation&&currentTab==='files'&&selected()?.id===run.id){el('result').textContent=e.message;delete el('result').dataset.filesKey;}});}
     else if(currentTab==='output'){const previous=el('result').querySelector('pre');const scroll=previous?.scrollTop||0;const atBottom=!previous||previous.scrollHeight-previous.clientHeight-previous.scrollTop<40;el('result').innerHTML=`<pre class="web-terminal">${esc(run?.output||'Prepare a command and click '+(config?.action||'Scan')+' to start.')}</pre>`;const terminal=el('result').querySelector('pre');terminal.scrollTop=atBottom?terminal.scrollHeight:scroll;}
     else if(currentTab==='details')el('result').innerHTML=run?`<dl><dt>Target</dt><dd>${esc(run.target)}</dd><dt>Status</dt><dd>${esc(run.status)}</dd><dt>Started</dt><dd>${esc(new Date(run.created_at).toLocaleString())}</dd><dt>Command</dt><dd><code>${esc(run.command)}</code></dd><dt>Executed command</dt><dd><code>${esc(run.executed_command||run.command)}</code></dd></dl><p class="muted">Reports, session data, and output stay inside projects/${esc(project.id)}/scans/${tool}/.</p>`:'<p class="muted">No scan selected.</p>';
@@ -319,12 +325,24 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
     }
     const hosts = run.hosts || [];
     const query = batchSearchQuery.toLowerCase().trim();
+    const availableStatuses = new Set(hosts.map(h => String(h.status || 'pending').toLowerCase()));
+    if (batchStatusFilter !== 'all') availableStatuses.add(batchStatusFilter);
+    const statusOptions = [...availableStatuses]
+      .sort()
+      .map(status => {
+        const count = hosts.filter(h => String(h.status || 'pending').toLowerCase() === status).length;
+        return `<option value="${esc(status)}" ${batchStatusFilter === status ? 'selected' : ''}>${esc(batchStatusInfo(status).label)} (${count})</option>`;
+      }).join('');
     const completed = hosts.filter(h => !['pending', 'running'].includes(h.status)).length;
     const runningCount = hosts.filter(h => h.status === 'running').length;
     const findings = hosts.filter(h => ['findings', 'findings_partial'].includes(h.status)).length;
 
     let items = hosts.map((h, idx) => ({ h, idx }))
-      .filter(({ h }) => !query || (h.label || '').toLowerCase().includes(query) || (h.url || '').toLowerCase().includes(query));
+      .filter(({ h }) => {
+        const status = String(h.status || 'pending').toLowerCase();
+        const matchesQuery = !query || (h.label || '').toLowerCase().includes(query) || (h.url || '').toLowerCase().includes(query);
+        return matchesQuery && (batchStatusFilter === 'all' || status === batchStatusFilter);
+      });
 
     if (batchScannedOnTop) {
       items.sort((a, b) => {
@@ -349,12 +367,18 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
           </div>
           <small class="batch-host-sub">${esc(h.url)}</small>
         </button>
-      `).join('') || '<p class="muted" style="padding:14px;font-size:11px;">No targets match filter.</p>';
+      `).join('') || '<p class="muted" style="padding:14px;font-size:11px;">No targets match the selected filters.</p>';
 
     const sidebarHtml = `
       <div class="batch-sidebar">
         <div class="batch-sidebar-header">
           <input type="search" id="batch-host-search" class="batch-host-search" placeholder="Filter host names…" value="${esc(batchSearchQuery)}">
+          <label class="batch-status-filter-label" for="batch-status-filter">Filter by status
+            <select id="batch-status-filter" class="batch-status-filter">
+              <option value="all" ${batchStatusFilter === 'all' ? 'selected' : ''}>All statuses (${hosts.length})</option>
+              ${statusOptions}
+            </select>
+          </label>
           <div class="batch-sidebar-toolbar">
             <label class="batch-scanned-top-label" title="Show currently running and scanned targets at top of list">
               <input type="checkbox" id="batch-scanned-on-top" ${batchScannedOnTop ? 'checked' : ''}>
@@ -575,6 +599,7 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
     const searchWasFocused = document.activeElement && document.activeElement.id === 'batch-host-search';
     const searchSelStart = searchWasFocused ? searchInput.selectionStart : null;
     const searchSelEnd = searchWasFocused ? searchInput.selectionEnd : null;
+    const statusFilterWasFocused = document.activeElement && document.activeElement.id === 'batch-status-filter';
 
     el('result').innerHTML = `
       <div class="batch-layout">
@@ -626,6 +651,21 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
           refocused.focus();
           refocused.setSelectionRange(refocused.value.length, refocused.value.length);
         }
+      };
+    }
+
+    const nextStatusFilter = document.getElementById('batch-status-filter');
+    if (nextStatusFilter) {
+      if (statusFilterWasFocused) nextStatusFilter.focus();
+      nextStatusFilter.onblur = () => {
+        requestAnimationFrame(() => {
+          const curRun = selected();
+          if (project && curRun) results();
+        });
+      };
+      nextStatusFilter.onchange = () => {
+        batchStatusFilter = nextStatusFilter.value;
+        savedHostsListScroll = 0;
       };
     }
 

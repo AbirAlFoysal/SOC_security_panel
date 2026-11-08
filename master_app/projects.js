@@ -252,7 +252,7 @@ const projectUI = (() => {
     catch(e){$('delete-scan-error').textContent=e.message;}finally{button.disabled=false;}
   };
   const refreshHome=()=>{if(!$('startscreen').hidden&&!document.hidden&&!$('project-dialog').open)history();};
-  setInterval(refreshHome,5000);
+  if(!window.CONTINUM_MODE)setInterval(refreshHome,5000);
   window.addEventListener('focus',refreshHome);
   document.addEventListener('visibilitychange',refreshHome);
   window.addEventListener('hashchange',route);route();

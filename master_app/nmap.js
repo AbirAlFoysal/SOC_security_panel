@@ -127,13 +127,22 @@ const NmapWorkspace = (() => {
   }
   async function poll(){
     if(!activeProject||polling)return;polling=true;const id=activeProject.id;
-    try{const next=await request(`/api/projects/${id}/nmap`);if(activeProject?.id!==id)return;data=next;presetOptions();const counter=document.querySelector('[data-toggle-tool="nmap"]')?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(counter)counter.textContent=data.history.length;results();}
+    try{const next=await request(`/api/projects/${id}/nmap`);if(activeProject?.id!==id)return;data=next;presetOptions();const counter=document.querySelector('[data-toggle-tool="nmap"]')?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(counter)counter.textContent=data.history.length;results();syncPollTimer();}
     catch(e){if(activeProject?.id===id)$('nmap-notice').textContent=e.message;}
     finally{polling=false;}
+  }
+  function syncPollTimer(){
+    const shouldPoll=!window.CONTINUM_MODE;
+    if(shouldPoll&&!timer)timer=setInterval(poll,1500);
+    else if(!shouldPoll&&timer){clearInterval(timer);timer=null;}
   }
   async function mount(project,runId){
     activeProject=project;selectedId=runId||null;tabName='output';data=null;hostIndex=0;
     $('nmap-workspace').innerHTML=builderMarkup(project);
+    if(window.CONTINUM_MODE){
+      const refresh=document.createElement('button');refresh.type='button';refresh.dataset.nmapRefresh='';refresh.textContent='Refresh';refresh.setAttribute('aria-label','Refresh Nmap results');
+      $('nmap-workspace').querySelector('.nmap-tabs')?.append(refresh);
+    }
     previousTarget=project.host||project.ip;tokens=['nmap','-sT','--reason','-v',previousTarget];
     $('nmap-target').oninput=()=>{try{tokens=commandTokens();const index=tokens.lastIndexOf(previousTarget);if(index>0)tokens.splice(index,1,...($('nmap-target').value.trim()?[$('nmap-target').value.trim()]:[]));else if($('nmap-target').value.trim())tokens.push($('nmap-target').value.trim());previousTarget=$('nmap-target').value.trim();syncCommand();}catch(e){$('nmap-notice').textContent=e.message;}};
     $('nmap-command').oninput=()=>{try{tokens=commandTokens();$('nmap-profile').value='custom';markOptions();}catch(_){}};
@@ -146,8 +155,8 @@ const NmapWorkspace = (() => {
     $('preset-form').onsubmit=async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;try{const target=$('nmap-target').value.trim();const parts=commandTokens();const index=parts.lastIndexOf(target);if(target&&index>0)parts[index]='{target}';const saved=await request('/api/nmap/presets',{name:$('preset-name').value,command:parts.map(quote).join(' ')});await poll();presetOptions('preset:'+saved.id);$('preset-dialog').close();$('nmap-notice').textContent='Preset saved and available in the Preset dropdown.';}catch(error){$('preset-error').textContent=error.message;}finally{button.disabled=false;}};
     $('nmap-form').onsubmit=async e=>{e.preventDefault();$('nmap-scan').disabled=true;try{const run=await request(`/api/projects/${project.id}/nmap`,{command:$('nmap-command').value,profile:$('nmap-profile').value});selectedId=run.id;tabName='output';setTab();$('nmap-notice').textContent=run.admin?'Scan requested. Approve the system authentication dialog.':'Scan running. Results will be saved automatically.';await poll();}catch(e){$('nmap-notice').textContent=e.message;$('nmap-scan').disabled=false;}};
     $('nmap-stop').onclick=async()=>{try{await request(`/api/projects/${project.id}/nmap/cancel`,{});$('nmap-notice').textContent='Stopping scan…';await poll();}catch(e){$('nmap-notice').textContent=e.message;}};
-    $('nmap-workspace').onclick=e=>{const t=e.target.closest('[data-nmap-tab]');if(t){tabName=t.dataset.nmapTab;setTab();results();}const h=e.target.closest('[data-nmap-host]');if(h){hostIndex=Number(h.dataset.nmapHost);results();}const run=e.target.closest('[data-nmap-run]');if(run){selectedId=run.dataset.nmapRun;tabName='output';setTab();results();}};
-    await poll();if(activeProject?.id===project.id){presetOptions('regular');applyPreset();renderParameters();$('parameter-count').textContent=data?.options?.length||'';timer=setInterval(poll,1500);}
+    $('nmap-workspace').onclick=e=>{if(e.target.closest('[data-nmap-refresh]')){poll();return;}const t=e.target.closest('[data-nmap-tab]');if(t){tabName=t.dataset.nmapTab;setTab();results();}const h=e.target.closest('[data-nmap-host]');if(h){hostIndex=Number(h.dataset.nmapHost);results();}const run=e.target.closest('[data-nmap-run]');if(run){selectedId=run.dataset.nmapRun;tabName='output';setTab();results();}};
+    await poll();if(activeProject?.id===project.id){presetOptions('regular');applyPreset();renderParameters();$('parameter-count').textContent=data?.options?.length||'';syncPollTimer();}
   }
   function setTab(){document.querySelectorAll('[data-nmap-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.nmapTab===tabName));}
   function unmount(){if(timer)clearInterval(timer);timer=null;activeProject=null;polling=false;}

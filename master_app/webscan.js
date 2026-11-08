@@ -689,9 +689,14 @@ const path=()=>`/api/projects/${project.id}/${tool}`;
   }
 
   function setTab(){document.querySelectorAll('[data-web-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.webTab===currentTab));}
-  async function poll(){if(!project||polling)return;polling=true;const gen=generation;try{const next=await request(path());if(gen!==generation)return;data=next;presetOptions();const count=document.querySelector(`[data-toggle-tool="${tool}"]`)?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(count)count.textContent=data.history.length;results();}catch(e){if(gen===generation)el('notice').textContent=e.message;}finally{if(gen===generation)polling=false;}}
+  function syncPollTimer(){
+    const shouldPoll=!window.CONTINUM_MODE;
+    if(shouldPoll&&!timer)timer=setInterval(poll,1500);
+    else if(!shouldPoll&&timer){clearInterval(timer);timer=null;}
+  }
+  async function poll(){if(!project||polling)return;polling=true;const gen=generation;try{const next=await request(path());if(gen!==generation)return;data=next;presetOptions();const count=document.querySelector(`[data-toggle-tool="${tool}"]`)?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(count)count.textContent=data.history.length;results();syncPollTimer();}catch(e){if(gen===generation)el('notice').textContent=e.message;}finally{if(gen===generation)polling=false;}}
   async function mount(p,selectedTool,runId){unmount();project=p;tool=selectedTool;selectedId=runId||null;currentTab='output';data=null;const gen=generation;document.getElementById('webscan-workspace').innerHTML='<p class="muted">Loading tool workspace…</p>';
-    try{data=await request(path());if(gen!==generation)return;config=data.workspace||null;document.getElementById('webscan-workspace').innerHTML=markup(p);presetOptions('regular');const saved=selected();if(runId&&saved){el('command').value=saved.command;el('target').value=saved.target;el('preset').value='custom';targetFromCommand();}else applyPreset();renderParameters();el('count').textContent=data.options.length;results();}catch(e){if(gen===generation){document.getElementById('webscan-workspace').innerHTML=`<p class="scan-error" role="alert">${esc(e.message)}</p><button type="button" id="web-retry">Retry loading workspace</button>`;el('retry').onclick=()=>mount(p,selectedTool,runId);}return;}
+    try{data=await request(path());if(gen!==generation)return;config=data.workspace||null;document.getElementById('webscan-workspace').innerHTML=markup(p);if(window.CONTINUM_MODE){const refresh=document.createElement('button');refresh.type='button';refresh.id='web-refresh-results';refresh.textContent='Refresh';refresh.setAttribute('aria-label','Refresh scan results');document.querySelector('.web-results .hakrawler-tabs')?.append(refresh);}presetOptions('regular');const saved=selected();if(runId&&saved){el('command').value=saved.command;el('target').value=saved.target;el('preset').value='custom';targetFromCommand();}else applyPreset();renderParameters();el('count').textContent=data.options.length;results();}catch(e){if(gen===generation){document.getElementById('webscan-workspace').innerHTML=`<p class="scan-error" role="alert">${esc(e.message)}</p><button type="button" id="web-retry">Retry loading workspace</button>`;el('retry').onclick=()=>mount(p,selectedTool,runId);}return;}
     el('target').oninput=syncTarget;
     if(el('mode'))el('mode').onchange=()=>{try{const tokens=commandTokens();const old=pieces(tokens).filter(r=>r.option&&!['--url','--domain','--server'].includes(r.option.flag)).flatMap(r=>r.tokens);const next=[tool,modeValue(),...old];appendTarget(next,el('target').value);setCommand(next);el('target').disabled=['s3','gcs'].includes(modeValue());el('preset').value='custom';renderParameters();}catch(e){el('notice').textContent=e.message;}};
     if(el('interface'))el('interface').onchange=()=>{syncInterface();el('preset').value='custom';};
@@ -723,6 +728,7 @@ el('command').oninput=()=>{el('preset').value='custom';targetFromCommand();};el(
     };
     el('stop').onclick = handleStop;
     document.getElementById('webscan-workspace').onclick = e => {
+    if(e.target.closest('#web-refresh-results')){poll();return;}
     const bStop = e.target.closest('#batch-header-stop-btn, .batch-stop-header-btn');
     if (bStop) { handleStop(); return; }
     const bHost = e.target.closest('[data-batch-host]');
@@ -914,7 +920,7 @@ el('command').oninput=()=>{el('preset').value='custom';targetFromCommand();};el(
       });
     }
 
-    timer=setInterval(poll,1500);
+    syncPollTimer();
   }
   function unmount(){generation++;if(timer)clearInterval(timer);timer=null;project=null;polling=false;savedHostsListScroll=0;lastBatchRunId=null;}
   return {mount,unmount};

@@ -54,7 +54,8 @@
   }
   $('anonsurf-control').onclick=()=>action('anonsurf',current.anonsurf.state==='active'?'stop':'start');
   $('mac-control').onclick=()=>action('macchanger',current.macchanger.managed?'stop':'start');
+  if($('network-refresh'))$('network-refresh').onclick=checkNetwork;
   const nav=document.querySelector('.network-nav');
   new ResizeObserver(()=>document.documentElement.style.setProperty('--network-nav-height',nav.getBoundingClientRect().height+'px')).observe(nav);
-  checkNetwork();setInterval(checkNetwork,2000);
+  checkNetwork();if(!window.CONTINUM_MODE)setInterval(checkNetwork,2000);
 })();

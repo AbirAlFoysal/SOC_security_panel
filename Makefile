@@ -31,12 +31,19 @@ install:
 status:
 	@sudo /usr/bin/anonsurf status
 
-# Cybersecurity web app with development auto reload.
-.PHONY: run
+# Django workspace is the default; the original server remains available.
+.PHONY: run run-legacy
 PYTHON ?= python3
 HOST ?= 127.0.0.1
 PORT ?= 8000
-APP_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))master_app
+ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+APP_DIR := $(ROOT_DIR)master_app
+CONTINUM_DIR := $(ROOT_DIR)continum
+VENV_PYTHON ?= $(ROOT_DIR).venv/bin/python
 
 run:
+	@if [ ! -x "$(VENV_PYTHON)" ]; then printf '%s\n' 'Shared .venv not found. Create it and install Continum dependencies: python3 -m venv .venv && .venv/bin/python -m pip install -r continum/requirements.txt'; exit 1; fi
+	@cd "$(CONTINUM_DIR)" && "$(VENV_PYTHON)" manage.py runserver "$(HOST):$(PORT)"
+
+run-legacy:
 	@$(PYTHON) "$(APP_DIR)/dev.py" --host "$(HOST)" --port "$(PORT)"

@@ -8,7 +8,9 @@ Local cybersecurity workspace built with Python 3 and a browser interface.
 make run
 ```
 
-Opens http://127.0.0.1:8000 with automatic reload during development. Use `make run PORT=8080` for a different port.
+Runs the Django-based Continum workspace at http://127.0.0.1:8000. Use
+`make run PORT=8080` for a different port. Run `make run-legacy` to start the
+original application with its development auto-reload.
 
 ## Features
 
@@ -36,3 +38,10 @@ node master_app/tests/workspace_builder.test.js
 ```
 
 See [application documentation](master_app/README.md) for platform support and detailed usage.
+
+## Django alternative
+
+The parallel Django-served workspace lives in [continum/](continum/). It uses
+the repository-root `.venv`, keeps its data under `continum/projects/`, and
+reuses the existing UI and tool runners without moving the original app. See
+[Continum setup instructions](continum/README.md) for startup and tests.

@@ -155,13 +155,22 @@ const HakrawlerWorkspace = (() => {
   }
   async function poll(){
     if(!activeProject||polling)return;polling=true;const id=activeProject.id;
-    try{const next=await request(`/api/projects/${id}/hakrawler`);if(activeProject?.id!==id)return;data=next;presetOptions();const counter=document.querySelector('[data-toggle-tool="hakrawler"]')?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(counter)counter.textContent=data.history.length;results();}
+    try{const next=await request(`/api/projects/${id}/hakrawler`);if(activeProject?.id!==id)return;data=next;presetOptions();const counter=document.querySelector('[data-toggle-tool="hakrawler"]')?.closest('.tool-nav')?.querySelector('.tool-submenu span');if(counter)counter.textContent=data.history.length;results();syncPollTimer();}
     catch(e){if(activeProject?.id===id)$('hakrawler-notice').textContent=e.message;}
     finally{polling=false;}
+  }
+  function syncPollTimer(){
+    const shouldPoll=!window.CONTINUM_MODE;
+    if(shouldPoll&&!timer)timer=setInterval(poll,1500);
+    else if(!shouldPoll&&timer){clearInterval(timer);timer=null;}
   }
   async function mount(project,runId){
     activeProject=project;selectedId=runId||null;tabName='output';data=null;hostIndex=0;
     $('hakrawler-workspace').innerHTML=builderMarkup(project);
+    if(window.CONTINUM_MODE){
+      const refresh=document.createElement('button');refresh.type='button';refresh.dataset.hakrawlerRefresh='';refresh.textContent='Refresh';refresh.setAttribute('aria-label','Refresh Hakrawler results');
+      $('hakrawler-workspace').querySelector('.hakrawler-tabs')?.append(refresh);
+    }
     previousTarget=initialTarget(project);tokens=['hakrawler','-d','2','-u','-json'];
     $('hakrawler-load-urls').onclick=()=>$('hakrawler-url-file').click();
     $('hakrawler-url-file').onchange=async()=>{const file=$('hakrawler-url-file').files[0];if(!file)return;if(file.size>262144){$('hakrawler-notice').textContent='URL lists must be 256 KB or smaller.';return;}$('hakrawler-target').value=await file.text();$('hakrawler-notice').textContent='Loaded URL list. URLs will be passed to Hakrawler through stdin.';};
@@ -175,8 +184,8 @@ const HakrawlerWorkspace = (() => {
     $('preset-form').onsubmit=async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;try{const parts=commandTokens();const saved=await request('/api/hakrawler/presets',{name:$('preset-name').value,command:parts.map(quote).join(' ')});await poll();presetOptions('preset:'+saved.id);$('preset-dialog').close();$('hakrawler-notice').textContent='Preset saved and available in the Preset dropdown.';}catch(error){$('preset-error').textContent=error.message;}finally{button.disabled=false;}};
     $('hakrawler-form').onsubmit=async e=>{e.preventDefault();$('hakrawler-scan').disabled=true;try{const run=await request(`/api/projects/${project.id}/hakrawler`,{command:$('hakrawler-command').value,target:$('hakrawler-target').value,profile:$('hakrawler-profile').value});selectedId=run.id;tabName='output';setTab();$('hakrawler-notice').textContent=run.admin?'Scan requested. Approve the system authentication dialog.':'Crawl running. Results will be saved automatically.';await poll();}catch(e){$('hakrawler-notice').textContent=e.message;$('hakrawler-scan').disabled=false;}};
     $('hakrawler-stop').onclick=async()=>{try{await request(`/api/projects/${project.id}/hakrawler/cancel`,{});$('hakrawler-notice').textContent='Stopping crawl…';await poll();}catch(e){$('hakrawler-notice').textContent=e.message;}};
-    $('hakrawler-workspace').onclick=e=>{const t=e.target.closest('[data-hakrawler-tab]');if(t){tabName=t.dataset.hakrawlerTab;setTab();results();}const h=e.target.closest('[data-hakrawler-host]');if(h){hostIndex=Number(h.dataset.hakrawlerHost);results();}const run=e.target.closest('[data-hakrawler-run]');if(run){selectedId=run.dataset.hakrawlerRun;tabName='output';setTab();results();}};
-    await poll();if(activeProject?.id===project.id){presetOptions('regular');applyPreset();renderParameters();$('parameter-count').textContent=data?.options?.length||'';timer=setInterval(poll,1500);}
+    $('hakrawler-workspace').onclick=e=>{if(e.target.closest('[data-hakrawler-refresh]')){poll();return;}const t=e.target.closest('[data-hakrawler-tab]');if(t){tabName=t.dataset.hakrawlerTab;setTab();results();}const h=e.target.closest('[data-hakrawler-host]');if(h){hostIndex=Number(h.dataset.hakrawlerHost);results();}const run=e.target.closest('[data-hakrawler-run]');if(run){selectedId=run.dataset.hakrawlerRun;tabName='output';setTab();results();}};
+    await poll();if(activeProject?.id===project.id){presetOptions('regular');applyPreset();renderParameters();$('parameter-count').textContent=data?.options?.length||'';syncPollTimer();}
   }
   function setTab(){document.querySelectorAll('[data-hakrawler-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.hakrawlerTab===tabName));}
   function unmount(){if(timer)clearInterval(timer);timer=null;activeProject=null;polling=false;}

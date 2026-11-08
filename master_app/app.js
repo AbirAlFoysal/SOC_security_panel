@@ -20,7 +20,6 @@ async function refresh() {
     const r = await fetch('/api/status');
     if(!r.ok) throw Error('Could not check local tools.');
     state = await r.json(); render();
-
   } catch(e) { $('activity').hidden=false; $('notice').textContent = `${e.message} Start or restart the app with make run.`; }
   finally {polling = false;}
 }
@@ -53,10 +52,11 @@ document.addEventListener('keydown', e => {if(e.key === 'Escape' && openMenu) {o
 $('cancel').onclick = () => $('confirm').close();
 $('confirm-action').onclick = () => { $('confirm').close(); if(pending) act(pending.tool,pending.action); pending=null; };
 $('search').addEventListener('input', () => { if(state) render(); });
+$('tool-refresh')?.addEventListener('click', refresh);
 $('install-all').onclick = () => act('all','install');
 $('update-all').onclick = () => act('all','update');
 refresh();
-setInterval(()=> { if(!openMenu) refresh(); }, 2500);
+if(!window.CONTINUM_MODE)setInterval(()=> { if(!openMenu) refresh(); }, 2500);
 
 // Check separately so open menus never pause development reloads.
 let codeRevision = null, checkingRevision = false;
@@ -76,5 +76,7 @@ async function checkRevision() {
     // The server may be restarting. The next poll reconnects automatically.
   } finally { checkingRevision = false; }
 }
-checkRevision();
-setInterval(checkRevision, 1000);
+if(!window.CONTINUM_MODE){
+  checkRevision();
+  setInterval(checkRevision, 1000);
+}
